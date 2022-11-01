@@ -1,4 +1,3 @@
-import random
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -10,10 +9,10 @@ class network:
         self.nPlayers = len(self.players)
     def couples(self,player):
         players = [i for i in range(self.nPlayers) if i != player and self.players[i] > 0]
-        second = random.choice(players)
+        second = np.random.choice(players)
         return [player,second]
     def gamble(self,first,second):
-        r = random.random()
+        r = np.random.random()
         if r > 0.5:
             self.players[first] += 1  
             self.players[second] -= 1  
@@ -23,7 +22,7 @@ class network:
     def evolve(self,nCouples):
         players = [i for i in range(self.nPlayers) if self.players[i] > 0]
         for i in range(nCouples):
-            first = random.choice(players)
+            first = np.random.choice(players)
             couple = self.couples(first)
             self.gamble(couple[0],couple[1])
     def graph(self):
@@ -37,8 +36,12 @@ class network:
         plt.hist(self.players)
         plt.show()
 
-n = network(10,10,50)
+n = network(15,15,50)
 for i in range(10**4):
-    n.evolve(10)
-n.graph()
+    n.evolve(25)
+# n.graph()
 n.plot()
+
+#testing part
+# print(n.couples)
+#end of testing part
