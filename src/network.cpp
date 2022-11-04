@@ -1,7 +1,12 @@
 #include "network.hpp"
 #include <algorithm>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <random>
+
+std::random_device globalRndDev;
+std::mt19937 globalRNG(globalRndDev());
 
 network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols) {
   _rows = rows;
@@ -12,49 +17,28 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols) {
 
 std::vector<uint16_t> const network::getPlayers() { return _players; }
 
-std::vector<Couple> network::couples(uint8_t n) {
-  // rnd numbers init
-  std::random_device rnd_dev;
-  std::mt19937 rng(rnd_dev());
-
-  std::vector<uint8_t> couples(_rows * _cols);
-  std::iota(couples.begin(), couples.end(), 1);
-  std::shuffle(couples.begin(), couples.end(), rng);
-
-  Couple tempCouple;
-  std::vector<Couple> couplesVector(n);
-  for (int i = 0; i < n; ++i) {
-    tempCouple.first = couples[i] - 1;
-    tempCouple.second = couples[i + n] - 1;
-    couplesVector[i] = tempCouple;
+uint16_t network::couples(uint8_t first) {
+  uint16_t second = std::uniform_int_distribution<uint16_t>(
+      0, _rows * _cols - 2)(globalRNG); // second player is chosen randomly
+  if (second == first) {
+    ++second;
   }
-  return couplesVector;
-}
-
-void network::gamble(Couple cop) {
-  // rnd numbers init
-  std::random_device rnd_dev;
-  std::mt19937 rng(rnd_dev());
-  std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
-
-  uint8_t first = cop.first;
-  uint8_t second = cop.second;
-
-  if (_players[first] > 0 && _players[second] > 0) {
-    if (coin(rng)) {
-      _players[first] += 1;
-      _players[second] -= 1;
-    } else {
-      _players[first] -= 1;
-      _players[second] += 1;
-    }
-  }
+  return second;
 }
 
 void network::evolve() {
-  std::vector<Couple> couples = this->couples(10);
-  for (uint8_t i = 0; i < couples.size(); ++i) {
-    gamble(couples[i]);
+  uint16_t first =
+      std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
+  uint8_t second = this->couples(first);
+
+  std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
+
+  if (coin(globalRNG) && _players[second] > 0) {
+    ++_players[first];
+    --_players[second];
+  } else if (_players[first] > 0) {
+    --_players[first];
+    ++_players[second];
   }
 }
 
@@ -68,4 +52,25 @@ void network::print() const noexcept {
       i = 0;
     }
   }
+}
+
+void network::fprintHist(uint8_t nBins) const noexcept {
+  double maxValue = *std::max_element(_players.begin(), _players.end());
+  nBins = maxValue + 1;
+  // double dBin = maxValue / nBins;
+  auto playerSum = std::accumulate(_players.begin(), _players.end(), 0);
+  int n;
+  std::ofstream fOut;
+  fOut.open("histogram.dat");
+  for (int i = 0; i < nBins + 1; ++i) {
+    n = std::count_if(_players.begin(), _players.end(),
+                      [i, nBins, maxValue](uint8_t const &player) {
+                        return player / maxValue >= i * (1. / nBins) &&
+                               player / maxValue < (i + 1) * (1. / nBins);
+                      });
+    std::cout << n << '\n';
+    fOut << std::setprecision(3) << i * (1. / nBins) << '\t'
+         << static_cast<double>(n) / playerSum << '\n';
+  }
+  fOut.close();
 }
