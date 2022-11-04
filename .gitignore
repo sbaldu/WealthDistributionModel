@@ -1,0 +1,5 @@
+macro.cpp
+*.dat
+*.pdf
+.vscode/*
+*.out
