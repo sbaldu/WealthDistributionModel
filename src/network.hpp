@@ -12,7 +12,8 @@ public:
 	std::vector<uint16_t> const getPlayers();
 	uint16_t couples(uint8_t); // the couples are chosen
 	
-	void evolve(); // the couples play
+	void evolveUniform(); // the couples play
+	void evolvePrefAtach(); // the couples play
     void print() const noexcept;
 	void fprintHist(uint8_t) const noexcept;
 };

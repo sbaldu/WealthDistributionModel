@@ -14,7 +14,8 @@ int main() {
   int n = 1e5;
   for (int i = 0; i < n; ++i) {
     printLoadingBar(i, n);
-    net.evolve();
+    net.evolveUniform();
+    // net.evolvePrefAtach();
   }
   int sum = 0;
   for (auto i : net.getPlayers()) {
