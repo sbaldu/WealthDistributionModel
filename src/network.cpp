@@ -26,7 +26,7 @@ uint16_t network::couples(uint8_t first) {
   return second;
 }
 
-void network::evolve() {
+void network::evolveUniform() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
   uint8_t second = this->couples(first);
@@ -34,6 +34,24 @@ void network::evolve() {
   std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
 
   if (coin(globalRNG) && _players[second] > 0) {
+    ++_players[first];
+    --_players[second];
+  } else if (_players[first] > 0) {
+    --_players[first];
+    ++_players[second];
+  }
+}
+
+void network::evolvePrefAtach() {
+  uint16_t first =
+      std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
+  uint8_t second = this->couples(first);
+
+  auto prob = static_cast<double>(_players[first]) /
+              (_players[first] + _players[second]);
+  std::bernoulli_distribution binomial(prob);
+
+  if (binomial(globalRNG) && _players[second] > 0) {
     ++_players[first];
     --_players[second];
   } else if (_players[first] > 0) {
