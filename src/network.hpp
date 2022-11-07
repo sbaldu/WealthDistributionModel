@@ -41,7 +41,7 @@ class network {
 public:
 	network(uint16_t ,uint16_t ,uint16_t);
 	std::vector<Player> const getPlayers();
-	uint16_t couples(uint16_t); // the couples are chosen
+	std::vector<uint16_t> couples(uint16_t, uint8_t); // the couples are chosen
 	
 	void evolveUniform(); // the couples play
 	void evolvePrefAtach(); // the couples play

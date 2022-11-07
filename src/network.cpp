@@ -24,19 +24,26 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols) {
 
 std::vector<Player> const network::getPlayers() { return _players; }
 
-uint16_t network::couples(uint16_t first) {
-  uint16_t second = std::uniform_int_distribution<uint16_t>(
-      0, _rows * _cols - 2)(globalRNG); // second player is chosen randomly
-  if (second == first) {
-    ++second;
+std::vector<uint16_t> network::couples(uint16_t first, uint8_t n) {
+  auto dist = std::uniform_int_distribution<uint16_t>(
+      0, _rows * _cols - 1); // second player is chosen randomly
+  std::vector<uint16_t> couples;
+  while (couples.size() < n) {
+    uint16_t rnd = dist(globalRNG);
+    if (rnd != first ||
+        (couples.size() > 0 &&
+         !(*std::find_if(couples.begin(), couples.end(),
+                         [rnd](uint16_t const &i) { return i == rnd; })))) {
+      couples.push_back(rnd);
+    }
   }
-  return second;
+  return couples;
 }
 
 void network::evolveUniform() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
-  uint8_t second = this->couples(first);
+  uint8_t second = this->couples(first, _players[first].nLink)[0];
 
   std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
 
@@ -52,7 +59,7 @@ void network::evolveUniform() {
 void network::evolvePrefAtach() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
-  uint8_t second = this->couples(first);
+  uint8_t second = this->couples(first, _players[first].nLink)[0];
 
   auto prob = static_cast<double>(_players[first].capital) /
               (_players[first].capital + _players[second].capital);
