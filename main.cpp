@@ -19,7 +19,12 @@ int main() {
   for (int i = 0; i < n; ++i) {
     printLoadingBar(i, n);
     net.evolveUniform();
-    // net.evolvePrefAtach();
+
+    // Prefential attachment
+    net.evolvePrefAtt();
+    if (i % 500 == 0) {
+      net.flatTax(7);
+    }
   }
   int sum = 0;
   for (auto i : net.getPlayers()) {

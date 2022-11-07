@@ -44,7 +44,8 @@ public:
 	std::vector<uint16_t> couples(uint16_t, uint8_t); // the couples are chosen
 	
 	void evolveUniform(); // the couples play
-	void evolvePrefAtach(); // the couples play
+	void evolvePrefAtt(); // the couples play
+	void flatTax(uint16_t); // the tax is applied to all the players
     void print() const noexcept;
 	void fprintHist() const noexcept;
 	void fprintHist(uint8_t) const noexcept;
