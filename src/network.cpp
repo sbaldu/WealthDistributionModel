@@ -56,7 +56,7 @@ void network::evolveUniform() {
   }
 }
 
-void network::evolvePrefAtach() {
+void network::evolvePrefAtt() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
   // uint8_t second = this->couples(first, _players[first].nLink)[0];
@@ -72,6 +72,15 @@ void network::evolvePrefAtach() {
     } else if (_players[first].capital > 0) {
       --_players[first];
       ++_players[other];
+    }
+  }
+}
+
+void network::flatTax(uint16_t percentage) {
+  for (auto &i : _players) {
+    int tax = i.capital * percentage / 100;
+    if (!(i.capital < tax)) {
+      i.capital -= tax;
     }
   }
 }

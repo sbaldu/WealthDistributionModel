@@ -18,5 +18,5 @@ plt.hist(df["x"],weights=df["y"],bins=1+len(df["x"]), density=True, color='yello
 # plt.hist(x, density=True, color='yellow', edgecolor='black', rwidth=0.85)
 
 plt.yscale("log")
-# plt.xscale("log")
+plt.xscale("log")
 plt.show()
