@@ -9,6 +9,10 @@ void printLoadingBar(int const i, int const n) {
   std::cout.flush();
 }
 
+// uniform parameters
+// net(1, 100, 100)
+// n = 1e5
+
 int main() {
   network net(1, 100, 100);
   int n = 1e5;
@@ -19,10 +23,10 @@ int main() {
   }
   int sum = 0;
   for (auto i : net.getPlayers()) {
-    sum += i;
+    sum += i.capital;
   }
   std::cout << '\n' << '\n';
   // net.print();
-  net.fprintHist(8);
+  net.fprintHist();
   // std::cout << sum;
 }
