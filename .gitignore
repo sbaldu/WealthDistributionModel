@@ -3,3 +3,6 @@ macro.cpp
 *.pdf
 .vscode/*
 *.out
+*.aux
+*.toc
+*.log
