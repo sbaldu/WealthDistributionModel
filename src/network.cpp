@@ -43,34 +43,36 @@ std::vector<uint16_t> network::couples(uint16_t first, uint8_t n) {
 void network::evolveUniform() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
-  uint8_t second = this->couples(first, _players[first].nLink)[0];
-
   std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
 
-  if (coin(globalRNG) && _players[second].capital > 0) {
-    ++_players[first];
-    --_players[second];
-  } else if (_players[first].capital > 0) {
-    --_players[first];
-    ++_players[second];
+  for (auto const &other : couples(first, _players[first].nLink)) {
+    if (coin(globalRNG) && _players[other].capital > 0) {
+      ++_players[first];
+      --_players[other];
+    } else if (_players[first].capital > 0) {
+      --_players[first];
+      ++_players[other];
+    }
   }
 }
 
 void network::evolvePrefAtach() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
-  uint8_t second = this->couples(first, _players[first].nLink)[0];
+  // uint8_t second = this->couples(first, _players[first].nLink)[0];
+  double prob;
 
-  auto prob = static_cast<double>(_players[first].capital) /
-              (_players[first].capital + _players[second].capital);
-  std::bernoulli_distribution binomial(prob);
-
-  if (binomial(globalRNG) && _players[second].capital > 0) {
-    ++_players[first];
-    --_players[second];
-  } else if (_players[first].capital > 0) {
-    --_players[first];
-    ++_players[second];
+  for (auto const &other : couples(first, _players[first].nLink)) {
+    prob = static_cast<double>(_players[first].capital) /
+           (_players[first].capital + _players[other].capital);
+    if (std::bernoulli_distribution(prob)(globalRNG) &&
+        _players[other].capital > 0) {
+      ++_players[first];
+      --_players[other];
+    } else if (_players[first].capital > 0) {
+      --_players[first];
+      ++_players[other];
+    }
   }
 }
 
