@@ -1,4 +1,4 @@
-#include "network.hpp"
+#include "network.h"
 #include <algorithm>
 #include <fstream>
 #include <iomanip>
@@ -63,7 +63,7 @@ void network::evolvePrefAtt() {
   double prob;
 
   for (auto const &other : couples(first, _players[first].nLink)) {
-    prob = static_cast<double>(_players[first].capital) /
+    prob = (double)(_players[first].capital) /
            (_players[first].capital + _players[other].capital);
     if (std::bernoulli_distribution(prob)(globalRNG) &&
         _players[other].capital > 0) {
@@ -99,7 +99,7 @@ void network::print() const noexcept {
 
 void network::fprintHist() const noexcept {
   double maxValue = (*std::max_element(_players.begin(), _players.end(),
-                                       [](auto const &a, auto const &b) {
+                                       [](Player const &a, Player const &b) {
                                          return a.capital < b.capital;
                                        }))
                         .capital;
@@ -127,7 +127,7 @@ void network::fprintHist() const noexcept {
 
 void network::fprintHist(uint8_t nBins) const noexcept {
   double maxValue = (*std::max_element(_players.begin(), _players.end(),
-                                       [](auto const &a, auto const &b) {
+                                       [](Player const &a, Player const &b) {
                                          return a.capital < b.capital;
                                        }))
                         .capital;

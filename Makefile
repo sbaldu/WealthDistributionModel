@@ -1,5 +1,7 @@
 all:
-	clang-format -i ./main.cpp
-	clang-format -i ./src/*.cpp
+	clang-format -i ./main.cc
+	clang-format -i ./src/*.cc
 	clear
-	g++ -Wall -Wextra -fsanitize=address ./main.cpp ./src/network.cpp -o test.out
+	./compile.sh
+	g++ -Wall -Wextra -fsanitize=address ./main.cc ./src/network.cc -o test.out
+

@@ -36,7 +36,7 @@ struct Player {
 };
 
 class network {
-    uint16_t _rows, _cols;
+	uint16_t _rows, _cols;
 	std::vector<Player> _players; // array that contains all the players in the network
 public:
 	network(uint16_t ,uint16_t ,uint16_t);
@@ -44,9 +44,9 @@ public:
 	std::vector<uint16_t> couples(uint16_t, uint8_t); // the couples are chosen
 	
 	void evolveUniform(); // the couples play
-	void evolvePrefAtt(); // the couples play
+	void evolvePrefAtt(); // the couples play but there is preferential attatchment
 	void flatTax(uint16_t); // the tax is applied to all the players
-    void print() const noexcept;
+	void print() const noexcept;
 	void fprintHist() const noexcept;
 	void fprintHist(uint8_t) const noexcept;
 };
