@@ -1,4 +1,4 @@
-#include "./src/network.hpp"
+#include "./src/network.h"
 #include <chrono>
 #include <iomanip>
 #include <iostream>
