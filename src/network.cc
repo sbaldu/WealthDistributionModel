@@ -1,5 +1,6 @@
 #include "network.h"
 #include <algorithm>
+#include <cstdint>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -23,6 +24,14 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols) {
 }
 
 std::vector<Player> const network::getPlayers() { return _players; }
+
+std::vector<uint16_t> const network::playersMoney() {
+  std::vector<uint16_t> money;
+  for (auto const &p : _players) {
+    money.push_back(p.capital);
+  }
+  return money;
+}
 
 std::vector<uint16_t> network::couples(uint16_t first, uint8_t n) {
   auto dist = std::uniform_int_distribution<uint16_t>(
