@@ -1,5 +1,6 @@
-#include "src/network.cc"
-#include "src/network.h"
+#include "network.cc"
+#include "network.h"
+#include <functional>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <stdint.h>
@@ -10,6 +11,7 @@ PYBIND11_MODULE(network, m) {
   pybind11::class_<network>(m, "network")
       .def(pybind11::init<uint16_t, uint16_t, uint16_t>())
       .def("getPlayers", &network::getPlayers)
+      .def("playersMoney", &network::playersMoney)
       .def("couples", &network::couples)
       .def("evolveUniform", &network::evolveUniform)
       .def("evolvePrefAtt", &network::evolvePrefAtt)
