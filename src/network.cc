@@ -25,6 +25,16 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols) {
 
 std::vector<Player> const network::getPlayers() { return _players; }
 
+std::vector<Player> const network::filterByLinks(uint8_t n) {
+  std::vector<Player> vec;
+  for (auto &i : _players) {
+    if (i.nLink == n) {
+      vec.push_back(i);
+    }
+  }
+  return vec;
+}
+
 std::vector<uint16_t> const network::playersMoney() {
   std::vector<uint16_t> money;
   for (auto const &p : _players) {
@@ -49,6 +59,30 @@ std::vector<uint16_t> network::couples(uint16_t first, uint8_t n) {
   return couples;
 }
 
+void network::createBusinessMen(uint8_t nLink, uint8_t total) {
+  auto dist = std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1);
+  while (total > 0) {
+    uint16_t rnd = dist(globalRNG);
+    if (_players[rnd].nLink == 1) {
+      _players[rnd].capital *= nLink;
+      _players[rnd].nLink = nLink;
+      --total;
+    }
+  }
+}
+
+void network::distributeBusinessMen(uint8_t mean) {
+  auto dist = std::poisson_distribution<uint8_t>(mean);
+  int value;
+  for (auto &player : _players) {
+    value = dist(globalRNG);
+    if (value > 1) {
+      player.capital *= value;
+      player.nLink = value;
+    }
+  }
+}
+
 void network::evolveUniform() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
@@ -68,7 +102,6 @@ void network::evolveUniform() {
 void network::evolvePrefAtt() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
-  // uint8_t second = this->couples(first, _players[first].nLink)[0];
   double prob;
 
   for (auto const &other : couples(first, _players[first].nLink)) {
