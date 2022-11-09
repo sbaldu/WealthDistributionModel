@@ -21,6 +21,8 @@ plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
 # plt.show(hist,best_fit_line)
 plt.yscale("log")
 plt.show()
+plt.savefig("prova_0.png")
+plt.clear()
 
 net = network.network(1,100,100)
 n = 10**6
@@ -33,6 +35,8 @@ plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
 # plt.show(hist,best_fit_line)
 plt.yscale("log")
 plt.show()
+plt.savefig("prova_1.png")
+plt.clear()
 
 net = network.network(1,100,100)
 n = 10**7
@@ -45,6 +49,8 @@ plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
 # plt.show(hist,best_fit_line)
 plt.yscale("log")
 plt.show()
+plt.savefig("prova_2.png")
+plt.clear()
 
 net = network.network(1,100,100)
 n = 10**6
@@ -60,6 +66,8 @@ plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
 plt.yscale("log")
 plt.xscale("log")
 plt.show()
+plt.savefig("prova_3.png")
+plt.clear()
 
 net = network.network(1,100,100)
 for i in range(n):
@@ -74,6 +82,8 @@ plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
 plt.yscale("log")
 plt.xscale("log")
 plt.show()
+plt.savefig("prova_4.png")
+plt.clear()
 
 net = network.network(1,100,100)
 for i in range(n):
@@ -88,6 +98,8 @@ plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
 plt.yscale("log")
 plt.xscale("log")
 plt.show()
+plt.savefig("prova_5.png")
+plt.clear()
 
 net = network.network(1,100,100)
 for i in range(n):
@@ -102,3 +114,5 @@ plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
 plt.yscale("log")
 plt.xscale("log")
 plt.show()
+plt.savefig("prova_6.png")
+plt.clear()
