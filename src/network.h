@@ -43,6 +43,7 @@ public:
 	std::vector<Player> const getPlayers();
 	std::vector<Player> const filterByLinks(uint8_t);
 	std::vector<uint16_t> const playersMoney();
+	std::vector<uint16_t> const playersMoney(std::vector<Player> const&);
 	std::vector<uint16_t> couples(uint16_t, uint8_t); // the couples are chosen
 	
 	void createBusinessMen(uint8_t, uint8_t);
