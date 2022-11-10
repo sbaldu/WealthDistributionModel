@@ -43,6 +43,15 @@ std::vector<uint16_t> const network::playersMoney() {
   return money;
 }
 
+std::vector<uint16_t> const
+network::playersMoney(std::vector<Player> const &vec) {
+  std::vector<uint16_t> money;
+  for (auto const &p : vec) {
+    money.push_back(p.capital);
+  }
+  return money;
+}
+
 std::vector<uint16_t> network::couples(uint16_t first, uint8_t n) {
   auto dist = std::uniform_int_distribution<uint16_t>(
       0, _rows * _cols - 1); // second player is chosen randomly
