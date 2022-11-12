@@ -5,7 +5,8 @@
 #include <stdexcept>
 #include <iostream>
 
-template <typename T> class SparseMatrix {
+template <typename T> 
+class SparseMatrix {
   std::map<int, T> _matrix;
   int _rows, _cols;
 
@@ -14,7 +15,7 @@ public:
     this->_rows = rows;
     this->_cols = cols;
   };
-  SparseMatrix(const SparseMatrix &other) {
+  SparseMatrix(SparseMatrix const& other) {
     this->_rows = other._rows;
     this->_cols = other._cols;
     this->_matrix = other._matrix;
@@ -25,6 +26,12 @@ public:
       throw std::out_of_range("Index out of range");
     }
     _matrix.insert(std::make_pair(i * _cols + j, value));
+  };
+  void insert(int i, T value) {
+    if(i >= _rows*_cols) {
+      throw std::out_of_range("Index out of range");
+    }
+    _matrix.insert(std::make_pair(i, value));
   };
   void erase(int i, int j) { _matrix.erase(i * _cols + j); };
   void clear() { _matrix.clear(); };

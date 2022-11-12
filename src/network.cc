@@ -1,4 +1,5 @@
 #include "network.h"
+#include "SparseMatrix.hpp"
 #include <algorithm>
 #include <cstdint>
 #include <fstream>
@@ -9,139 +10,95 @@
 std::random_device globalRndDev;
 std::mt19937 globalRNG(globalRndDev());
 
-Player::Player() : capital(0), nLink(0){};
-Player::Player(uint16_t c, uint8_t n) : capital(c), nLink(n){};
-
-network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols) {
-  _rows = rows;
-  _cols = cols;
-  std::vector<Player> vec(_rows * _cols);
+network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols)
+    : adjacencyMatrix_(rows, cols) {
+  rows_ = rows;
+  cols_ = cols;
+  std::vector<uint16_t> vec(rows_ * cols_);
   for (auto &i : vec) {
-    i.capital = initialCapital;
-    i.nLink = 1;
+    i = initialCapital;
   }
-  _players = vec;
+  players_ = vec;
 }
 
-std::vector<Player> const network::getPlayers() { return _players; }
-
-std::vector<Player> const network::filterByLinks(uint8_t n) {
-  std::vector<Player> vec;
-  for (auto &i : _players) {
-    if (i.nLink == n) {
-      vec.push_back(i);
-    }
-  }
-  return vec;
-}
-
-std::vector<uint16_t> const network::playersMoney() {
-  std::vector<uint16_t> money;
-  for (auto const &p : _players) {
-    money.push_back(p.capital);
-  }
-  return money;
-}
+std::vector<uint16_t> const network::getPlayers() { return players_; }
 
 std::vector<uint16_t> const
-network::playersMoney(std::vector<Player> const &vec) {
+network::playersMoney(std::vector<uint16_t> const &vec) {
   std::vector<uint16_t> money;
   for (auto const &p : vec) {
-    money.push_back(p.capital);
+    money.push_back(p);
   }
   return money;
 }
 
-std::vector<uint16_t> network::couples(uint16_t first, uint8_t n) {
+uint16_t network::couples(uint16_t first) {
   auto dist = std::uniform_int_distribution<uint16_t>(
-      0, _rows * _cols - 1); // second player is chosen randomly
-  std::vector<uint16_t> couples;
-  while (couples.size() < n) {
-    uint16_t rnd = dist(globalRNG);
-    if (rnd != first ||
-        (couples.size() > 0 &&
-         !(*std::find_if(couples.begin(), couples.end(),
-                         [rnd](uint16_t const &i) { return i == rnd; })))) {
-      couples.push_back(rnd);
-    }
+      0, rows_ * cols_ - 1); // second player is chosen randomly
+  uint16_t second;
+  uint16_t rnd = dist(globalRNG);
+  if (rnd != first) {
+    second = rnd;
   }
-  return couples;
+  return second;
 }
 
-void network::createBusinessMen(uint8_t nLink, uint8_t total) {
-  auto dist = std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1);
-  while (total > 0) {
-    uint16_t rnd = dist(globalRNG);
-    if (_players[rnd].nLink == 1) {
-      _players[rnd].capital *= nLink;
-      _players[rnd].nLink = nLink;
-      --total;
-    }
-  }
-}
-
-void network::distributeBusinessMen(uint8_t mean) {
-  auto dist = std::poisson_distribution<uint8_t>(mean);
-  int value;
-  for (auto &player : _players) {
-    value = dist(globalRNG);
-    if (value > 1) {
-      player.capital *= value;
-      player.nLink = value;
+void network::createLinks() {
+  std::uniform_int_distribution<std::mt19937::result_type> link(0, 1);
+  for (int i = 0; i < rows_ * cols_; ++i) {
+    if (link(globalRNG)) {
+      adjacencyMatrix_.insert(i, true);
+    } else {
+      adjacencyMatrix_.insert(i, true);
     }
   }
 }
 
 void network::evolveUniform() {
   uint16_t first =
-      std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
+      std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
   std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
-
-  for (auto const &other : couples(first, _players[first].nLink)) {
-    if (coin(globalRNG) && _players[other].capital > 0) {
-      ++_players[first];
-      --_players[other];
-    } else if (_players[first].capital > 0) {
-      --_players[first];
-      ++_players[other];
-    }
+  uint16_t other = couples(first);
+  if (coin(globalRNG) && players_[other] > 0) {
+    ++players_[first];
+    --players_[other];
+  } else if (players_[first] > 0) {
+    --players_[first];
+    ++players_[other];
   }
 }
 
 void network::evolvePrefAtt() {
   uint16_t first =
-      std::uniform_int_distribution<uint16_t>(0, _rows * _cols - 1)(globalRNG);
-  double prob;
+      std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
 
-  for (auto const &other : couples(first, _players[first].nLink)) {
-    prob = (double)(_players[first].capital) /
-           (_players[first].capital + _players[other].capital);
-    if (std::bernoulli_distribution(prob)(globalRNG) &&
-        _players[other].capital > 0) {
-      ++_players[first];
-      --_players[other];
-    } else if (_players[first].capital > 0) {
-      --_players[first];
-      ++_players[other];
-    }
+  uint16_t other = couples(first);
+  double prob =
+      (double)((players_[first] + 1) / (players_[first] + players_[other] + 1));
+  if (std::bernoulli_distribution(prob)(globalRNG) && players_[other] > 0) {
+    ++players_[first];
+    --players_[other];
+  } else if (players_[first] > 0) {
+    --players_[first];
+    --players_[other];
   }
 }
 
-void network::flatTax(uint16_t percentage) {
-  for (auto &i : _players) {
-    int tax = i.capital * percentage / 100;
-    if (!(i.capital < tax)) {
-      i.capital -= tax;
+void network::flatTax(uint8_t percentage) {
+  for (auto &i : players_) {
+    int tax = i * percentage / 100;
+    if (!(i < tax)) {
+      i -= tax;
     }
   }
 }
 
 void network::print() const noexcept {
   int i = 0;
-  for (auto const &player : _players) {
-    std::cout << player.capital << '\t';
+  for (auto const &player : players_) {
+    std::cout << player << '\t';
     ++i;
-    if (i % _cols == 0) {
+    if (i % cols_ == 0) {
       std::cout << '\n';
       i = 0;
     }
@@ -149,25 +106,22 @@ void network::print() const noexcept {
 }
 
 void network::fprintHist() const noexcept {
-  double maxValue = (*std::max_element(_players.begin(), _players.end(),
-                                       [](Player const &a, Player const &b) {
-                                         return a.capital < b.capital;
-                                       }))
-                        .capital;
+  double maxValue = *std::max_element(
+      players_.begin(), players_.end(),
+      [](uint16_t const &a, uint16_t const &b) { return a < b; });
   uint8_t nBins = maxValue + 1;
   // double dBin = maxValue / nBins;
   auto playerSum = std::accumulate(
-      _players.begin(), _players.end(), 0,
-      [](int currentSum, Player const &a) { return currentSum + a.capital; });
+      players_.begin(), players_.end(), 0,
+      [](int currentSum, uint16_t const &a) { return currentSum + a; });
   int n;
   std::ofstream fOut;
   fOut.open("histogram.dat");
   for (int i = 0; i < nBins + 1; ++i) {
-    n = std::count_if(_players.begin(), _players.end(),
-                      [i, nBins, maxValue](Player const &player) {
-                        return player.capital / maxValue >= i * (1. / nBins) &&
-                               player.capital / maxValue <
-                                   (i + 1) * (1. / nBins);
+    n = std::count_if(players_.begin(), players_.end(),
+                      [i, nBins, maxValue](uint16_t const &player) {
+                        return player / maxValue >= i * (1. / nBins) &&
+                               player / maxValue < (i + 1) * (1. / nBins);
                       });
     std::cout << n << '\n';
     fOut << std::setprecision(3) << i * (1. / nBins) << '\t'
@@ -177,24 +131,21 @@ void network::fprintHist() const noexcept {
 }
 
 void network::fprintHist(uint8_t nBins) const noexcept {
-  double maxValue = (*std::max_element(_players.begin(), _players.end(),
-                                       [](Player const &a, Player const &b) {
-                                         return a.capital < b.capital;
-                                       }))
-                        .capital;
+  double maxValue = *std::max_element(
+      players_.begin(), players_.end(),
+      [](uint16_t const &a, uint16_t const &b) { return a < b; });
   // double dBin = maxValue / nBins;
   auto playerSum = std::accumulate(
-      _players.begin(), _players.end(), 0,
-      [](int currentSum, Player const &a) { return currentSum + a.capital; });
+      players_.begin(), players_.end(), 0,
+      [](int currentSum, uint16_t const &a) { return currentSum + a; });
   int n;
   std::ofstream fOut;
   fOut.open("histogram.dat");
   for (int i = 0; i < nBins + 1; ++i) {
-    n = std::count_if(_players.begin(), _players.end(),
-                      [i, nBins, maxValue](Player const &player) {
-                        return player.capital / maxValue >= i * (1. / nBins) &&
-                               player.capital / maxValue <
-                                   (i + 1) * (1. / nBins);
+    n = std::count_if(players_.begin(), players_.end(),
+                      [i, nBins, maxValue](uint16_t const &player) {
+                        return player / maxValue >= i * (1. / nBins) &&
+                               player / maxValue < (i + 1) * (1. / nBins);
                       });
     std::cout << n << '\n';
     fOut << std::setprecision(3) << i * (1. / nBins) << '\t'
