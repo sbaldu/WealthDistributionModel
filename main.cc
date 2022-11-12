@@ -26,12 +26,4 @@ int main() {
       net.flatTax(7);
     }
   }
-  int sum = 0;
-  for (auto i : net.getPlayers()) {
-    sum += i.capital;
-  }
-  std::cout << '\n' << '\n';
-  // net.print();
-  net.fprintHist();
-  // std::cout << sum;
 }
