@@ -1,22 +1,22 @@
 #ifndef SparseMatrix_hpp
 #define SparseMatrix_hpp
 
+#include <fstream>
+#include <iostream>
 #include <map>
 #include <stdexcept>
-#include <iostream>
-#include <fstream>
 
-template <typename T> 
-class SparseMatrix {
+template <typename T> class SparseMatrix {
   std::map<int, T> _matrix;
   int _rows, _cols;
 
 public:
+  SparseMatrix() = default;
   SparseMatrix(int rows, int cols) {
     this->_rows = rows;
     this->_cols = cols;
   };
-  SparseMatrix(SparseMatrix const& other) {
+  SparseMatrix(SparseMatrix const &other) {
     this->_rows = other._rows;
     this->_cols = other._cols;
     this->_matrix = other._matrix;
@@ -29,13 +29,13 @@ public:
     _matrix.insert(std::make_pair(i * _cols + j, value));
   };
   void insert(int i, T value) {
-    if(i >= _rows*_cols) {
+    if (i >= _rows * _cols) {
       throw std::out_of_range("Index out of range");
     }
     _matrix.insert(std::make_pair(i, value));
   };
   void erase(int i, int j) { _matrix.erase(i * _cols + j); };
-  void clear() { _matrix.clear(); };
+  void const clear() noexcept { _matrix.clear(); };
 
   std::map<int, T> getRow(int index) {
     std::map<int, T> row;
@@ -45,7 +45,7 @@ public:
       }
     }
     return row;
-  };
+  }
   std::map<int, T> getCol(int index) {
     std::map<int, T> col;
     for (auto &it : _matrix) {
@@ -54,17 +54,20 @@ public:
       }
     }
     return col;
-  };
+  }
+  int getRowDim() const noexcept { return this->_rows; };
+  int getColDim() const noexcept { return this->_cols; };
+  int getDim() const noexcept { return this->_rows * this->_cols; };
 
-  void print() {
+  void const print() noexcept {
     for (int i = 0; i < _rows; ++i) {
       for (int j = 0; j < _cols; ++j) {
         std::cout << _matrix[i * _cols + j] << '\t';
       }
       std::cout << '\n';
     }
-  };
-  void save(const char* fName) {
+  }
+  void save(const char *fName) {
     std::ofstream file(fName);
     for (int i = 0; i < _rows; ++i) {
       for (int j = 0; j < _cols; ++j) {
@@ -73,13 +76,19 @@ public:
       file << '\n';
     }
     file.close();
-  };
+  }
 
   T &operator()(int i, int j) {
     if (i >= _rows || j >= _cols) {
       throw std::out_of_range("Index out of range");
     }
     return this->_matrix[i * _cols + j];
+  }
+  SparseMatrix &operator=(const SparseMatrix &other) {
+    this->_rows = other._rows;
+    this->_cols = other._cols;
+    this->_matrix = other._matrix;
+    return *this;
   }
 };
 
