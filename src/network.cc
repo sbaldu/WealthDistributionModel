@@ -22,6 +22,7 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols)
 }
 
 std::vector<uint16_t> const network::getPlayers() { return players_; }
+Matrix const network::getAdjacency() { return adjacencyMatrix_; }
 
 std::vector<uint16_t> const
 network::playersMoney(std::vector<uint16_t> const &vec) {
@@ -44,13 +45,23 @@ uint16_t network::couples(uint16_t first) {
 }
 
 void network::createLinks() {
-  std::uniform_int_distribution<std::mt19937::result_type> link(0, 1);
-  for (int i = 0; i < rows_ * cols_; ++i) {
-    if (link(globalRNG)) {
-      adjacencyMatrix_.insert(i, true);
-    } else {
-      adjacencyMatrix_.insert(i, true);
+  float prob = 4. / (cols_ * rows_);
+  float r = (float)(std::rand()) / (float)(RAND_MAX);
+  /* std::uniform_int_distribution<std::mt19937::result_type> link(0, 1); */
+  for (int i = 0; i < rows_ * cols_ - 1; ++i) {
+    for (int j = i + 1; j < rows_ * cols_; ++j) {
+      if (r < prob) {
+        adjacencyMatrix_.insert(i, j, true);
+      }
     }
+  }
+}
+
+bool network::exists(int i, int j) {
+  if (j >= i) {
+    return adjacencyMatrix_.exists(i, j);
+  } else {
+    return adjacencyMatrix_.exists(j, i);
   }
 }
 
