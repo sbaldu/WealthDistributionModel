@@ -36,8 +36,12 @@ PYBIND11_MODULE(network, m) {
       .def("getPlayers", &network::getPlayers)
       .def("getAdjacency", &network::getAdjacency)
       .def("couples", &network::couples)
-		.def("playersMoney", static_cast<std::vector<uint16_t> const (network::*)()>(&network::playersMoney)
-		.def("playersMoney", static_cast<std::vector<uint16_t> const (network::*)(std::vector<uint16_t> const&)>(&network::playersMoney))
+      .def("playersMoney",
+           static_cast<std::vector<uint16_t> const (network::*)()>(
+               &network::playersMoney))
+      .def("playersMoney",
+           static_cast<std::vector<uint16_t> const (network::*)(
+               std::vector<uint16_t> const &)>(&network::playersMoney))
       .def("createLinks", &network::createLinks)
       .def("exists", &network::exists)
       .def("evolveUniform", &network::evolveUniform)
