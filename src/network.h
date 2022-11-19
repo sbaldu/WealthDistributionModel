@@ -17,7 +17,7 @@ public:
 	std::vector<uint16_t> const getPlayers();
 	Matrix const getAdjacency();
 	std::vector<uint16_t> const playersMoney();
-	std::vector<uint16_t> const playersMoney(std::vector<uint16_t> const&);
+	/* std::vector<uint16_t> const playersMoney(std::vector<uint16_t> const&); */
 	uint16_t couples(uint16_t); // the couples are chosen
 	
 	void createLinks();

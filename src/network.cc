@@ -24,14 +24,21 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols)
 std::vector<uint16_t> const network::getPlayers() { return players_; }
 Matrix const network::getAdjacency() { return adjacencyMatrix_; }
 
-std::vector<uint16_t> const
-network::playersMoney(std::vector<uint16_t> const &vec) {
+std::vector<uint16_t> const network::playersMoney() {
   std::vector<uint16_t> money;
-  for (auto const &p : vec) {
+  for (auto const &p : players_) {
     money.push_back(p);
   }
   return money;
 }
+/* std::vector<uint16_t> const */
+/* network::playersMoney(std::vector<uint16_t> const &vec) { */
+/*   std::vector<uint16_t> money; */
+/*   for (auto const &p : vec) { */
+/*     money.push_back(p); */
+/*   } */
+/*   return money; */
+/* } */
 
 uint16_t network::couples(uint16_t first) {
   auto dist = std::uniform_int_distribution<uint16_t>(
