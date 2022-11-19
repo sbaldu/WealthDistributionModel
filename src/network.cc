@@ -43,7 +43,7 @@ std::vector<uint16_t> const network::playersMoney() {
 uint16_t network::couples(uint16_t first) {
   auto dist = std::uniform_int_distribution<uint16_t>(
       0, rows_ * cols_ - 1); // second player is chosen randomly
-  uint16_t second;
+  uint16_t second = 0;
   uint16_t rnd = dist(globalRNG);
   if (rnd != first) {
     second = rnd;
@@ -89,16 +89,14 @@ void network::evolveUniform() {
 void network::evolvePrefAtt() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
-
   uint16_t other = couples(first);
-  double prob =
-      (double)((players_[first] + 1) / (players_[first] + players_[other] + 1));
+  float prob = (float)((players_[first])) / (players_[first] + players_[other]);
   if (std::bernoulli_distribution(prob)(globalRNG) && players_[other] > 0) {
     ++players_[first];
     --players_[other];
   } else if (players_[first] > 0) {
     --players_[first];
-    --players_[other];
+    ++players_[other];
   }
 }
 
