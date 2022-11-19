@@ -116,12 +116,14 @@ plt.title("10% flat tax every 500 iterations")
 # plt.savefig("./plots/500-10.png")
 plt.show()
 
-# net = network.network(1,100,100)
-# net.distributeBusinessMen(100)
-# for i in range(n):
-#     net.evolveUniform()
-# plt.hist(net.filterByLinks(2))
-# plt.title("Multiple links")
-# # plt.yscale("log")
-# # plt.xscale("log")
-# plt.show()
+####################################################################################################
+# UNFAIR GAME WITHOUT REDISTRIBUTION THROUGH FLAT TAX
+####################################################################################################
+
+net = network.network(1,100,100)
+for i in range(n):
+    net.evolvePrefAttNoTax()
+plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
+plt.yscale("log")
+plt.xscale("log")
+plt.show()
