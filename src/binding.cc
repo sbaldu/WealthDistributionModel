@@ -46,6 +46,7 @@ PYBIND11_MODULE(network, m) {
       .def("exists", &network::exists)
       .def("evolveUniform", &network::evolveUniform)
       .def("evolvePrefAtt", &network::evolvePrefAtt)
+      .def("evolvePrefAttNoTax", &network::evolvePrefAttNoTax)
       .def("flatTax", &network::flatTax)
       .def("print", &network::print);
 }

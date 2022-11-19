@@ -24,6 +24,7 @@ public:
 	bool exists(int, int);
 	void evolveUniform(); // the couples play
 	void evolvePrefAtt();
+	void evolvePrefAttNoTax();
 	void flatTax(uint8_t);
 	void print() const noexcept;
 	void fprintHist() const noexcept;

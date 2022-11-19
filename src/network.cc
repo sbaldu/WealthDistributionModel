@@ -100,6 +100,29 @@ void network::evolvePrefAtt() {
   }
 }
 
+void network::evolvePrefAttNoTax() {
+  uint16_t first =
+      std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
+  uint16_t other = couples(first);
+  uint16_t poor, rich;
+  if (players_[first] >= players_[other]) {
+    poor = other;
+    rich = first;
+  } else {
+    poor = first;
+    rich = other;
+  }
+  float prob =
+      (float)(players_[poor] + 1) / (players_[poor] + players_[rich] + 1);
+  if (std::bernoulli_distribution(prob)(globalRNG) && players_[rich] > 0) {
+    ++players_[poor];
+    --players_[rich];
+  } else if (players_[poor] > 0) {
+    --players_[poor];
+    ++players_[rich];
+  }
+}
+
 void network::flatTax(uint8_t percentage) {
   for (auto &i : players_) {
     int tax = i * percentage / 100;
