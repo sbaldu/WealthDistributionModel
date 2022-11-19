@@ -14,7 +14,8 @@ PYBIND11_MODULE(network, m) {
   pybind11::class_<SparseMatrix<bool>>(m, "SparseMatrix")
       .def(pybind11::init<>())
       .def(pybind11::init<int, int>())
-      .def(pybind11::init<SparseMatrix<bool>>())
+      .def(pybind11::init<const char *>())
+      .def(pybind11::init<SparseMatrix<bool> const &>())
       .def("insert", static_cast<void (SparseMatrix<bool>::*)(int, int, bool)>(
                          &SparseMatrix<bool>::insert))
       .def("insert", static_cast<void (SparseMatrix<bool>::*)(int, bool)>(
@@ -36,8 +37,11 @@ PYBIND11_MODULE(network, m) {
       .def("getPlayers", &network::getPlayers)
       .def("getAdjacency", &network::getAdjacency)
       .def("couples", &network::couples)
-		.def("playersMoney", static_cast<std::vector<uint16_t> const (network::*)()>(&network::playersMoney)
-		.def("playersMoney", static_cast<std::vector<uint16_t> const (network::*)(std::vector<uint16_t> const&)>(&network::playersMoney))
+      .def("playersMoney", &network::playersMoney)
+      //.def("playersMoney", static_cast<const std::vector<uint16_t>
+      //   (network::*)()>(&network::playersMoney)
+      //.def("playersMoney", static_cast<const std::vector<uint16_t>
+      //   (network::*)(std::vector<uint16_t> const&)>(&network::playersMoney))
       .def("createLinks", &network::createLinks)
       .def("exists", &network::exists)
       .def("evolveUniform", &network::evolveUniform)
