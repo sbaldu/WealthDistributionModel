@@ -1,4 +1,4 @@
-\documentclass[12pt]{book}
+\documentclass[12pt,a4paper]{article}
 \usepackage{hyperref}
 
 \title{} 
@@ -21,12 +21,12 @@
 \usepackage{relsize}
 \usepackage{calligra}
 \usepackage{siunitx}
-\usepackage{circuitikz}
 \usepackage[miktex]{gnuplottex}
 \usepackage{epstopdf}
 \usepackage[english]{babel}
 \usepackage{float}
 \usepackage{tikz}
+\usetikzlibrary{shapes.misc}
 
 \newcommand{\R}{\Re}
 \newcommand{\la}{\lambda}
@@ -42,5 +42,29 @@
 \maketitle
 \tableofcontents
 \pagebreak
+
+\begin{tikzpicture}
+    \tikzstyle{point}=[thick,draw=black,cross out,inner sep=0pt,minimum width=4pt,minimum height=4pt]
+
+    \node (a)[point,label={[label distance=0cm]180:$y$}] at (0,0) {};
+    \node (b)[point,label={[label distance=0cm]0:$y$}] at (2,0) {};
+    \node (c)[point,label={[label distance=0cm]0:$y$}] at (1,2.41) {};
+    \node (d)[point,label={[label distance=0cm]270:$O$}] at (1,1) {};
+    \node (e)[point,label={[label distance=0cm]180:$n$}] at (-2,-2) {};
+    \node (f)[point,label={[label distance=0cm]0:$n$}] at (4,-2) {};
+    \node (g)[point,label={[label distance=0cm]0:$y$}] at (1,5.23) {};
+    \draw[dashed] (a.center) -- (b.center) -- (c.center) -- cycle;
+    \draw (e.center) -- (f.center) -- (g.center) -- cycle;
+    \draw[dashed] (e.center) -- (a.center);
+    \draw[dashed] (b.center) -- (f.center);
+    \draw[dashed] (c.center) -- (g.center);
+    \draw[dashed] (a.center) -- (d.center) -- (b.center);
+    \draw[dashed] (d.center) -- (c.center);
+
+    \draw[thick, ->] (-2,-2) -- (-3,-3) node[anchor=east]{$e_i$};
+    \draw[thick, ->] (4,-2) -- (5,-3) node[anchor=west]{$e_j$};
+    \draw[thick, ->] (1,5.23) -- (1,6.64) node[anchor=south]{$e_k$};
+
+\end{tikzpicture}
 
 \end{document}
