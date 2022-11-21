@@ -8,3 +8,4 @@ macro.cpp
 *.toc
 *.log
 prova*
+*.gz
