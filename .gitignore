@@ -9,3 +9,5 @@ macro.cpp
 *.log
 prova*
 *.gz
+*.xml
+*.bcf
