@@ -22,7 +22,9 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols)
 }
 
 std::vector<uint16_t> const &network::getPlayers() { return players_; }
-Matrix const &network::getAdjacency() { return adjacencyMatrix_; }
+std::unordered_map<int, bool> const &network::getAdjacency() {
+  return adjacencyMatrix_.getMatrix();
+}
 
 std::vector<uint16_t> const network::playersMoney() {
   std::vector<uint16_t> money;
@@ -51,8 +53,9 @@ uint16_t network::couples(uint16_t first) {
   return second;
 }
 
-void network::createLinks() {
-  float prob = 4. / (cols_ * rows_);
+void network::createLinks(uint8_t avgLinks) {
+  float prob = (float)(avgLinks) / (cols_ * rows_);
+  std::cout << "prob " << prob << std::endl;
   std::uniform_real_distribution<float> dis(0, 1);
 
   for (int i = 0; i < rows_ * cols_ - 1; ++i) {
@@ -69,6 +72,15 @@ bool network::exists(int i, int j) {
     return adjacencyMatrix_.exists(i, j);
   } else {
     return adjacencyMatrix_.exists(j, i);
+  }
+}
+
+void network::printMatrix() {
+  for (int i = 0; i < rows_ * cols_; ++i) {
+    for (int j = 0; j < rows_ * cols_; ++j) {
+      std::cout << this->exists(i, j) << "  ";
+    }
+    std::cout << '\n';
   }
 }
 
