@@ -27,6 +27,8 @@
 \usepackage{float}
 \usepackage{tikz}
 \usetikzlibrary{shapes.misc}
+\usepackage[style=ieee]{biblatex}
+\addbibresource{./tex/biblio.bib}
 
 \newcommand{\R}{\Re}
 \newcommand{\la}{\lambda}
@@ -40,8 +42,23 @@
 \begin{document}
 
 \maketitle
+
+\begin{abstract}
+    
+\end{abstract}
+
 \tableofcontents
 \pagebreak
+
+\section{Introduction}
+
+\section{Fair Game hypothesis}
+
+\subsection{Class permanence with a random network}
+
+\section{Unfair Game hypothesis}
+
+\section{Conclusions}
 
 \begin{tikzpicture}
     \tikzstyle{point}=[thick,draw=black,cross out,inner sep=0pt,minimum width=4pt,minimum height=4pt]
@@ -53,7 +70,7 @@
     \node (e)[point,label={[label distance=0cm]180:$n$}] at (-2,-2) {};
     \node (f)[point,label={[label distance=0cm]0:$n$}] at (4,-2) {};
     \node (g)[point,label={[label distance=0cm]0:$y$}] at (1,5.23) {};
-    \draw[dashed] (a.center) -- (b.center) -- (c.center) -- cycle;
+    \draw[dashed, fill=blue, opacity=0.5] (a.center) -- (b.center) -- (c.center) -- cycle;
     \draw (e.center) -- (f.center) -- (g.center) -- cycle;
     \draw[dashed] (e.center) -- (a.center);
     \draw[dashed] (b.center) -- (f.center);
@@ -66,5 +83,7 @@
     \draw[thick, ->] (1,5.23) -- (1,6.64) node[anchor=south]{$e_k$};
 
 \end{tikzpicture}
+
+\printbibliography
 
 \end{document}
