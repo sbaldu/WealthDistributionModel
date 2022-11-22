@@ -44,6 +44,7 @@ PYBIND11_MODULE(network, m) {
       //   (network::*)(std::vector<uint16_t> const&)>(&network::playersMoney))
       .def("createLinks", &network::createLinks)
       .def("exists", &network::exists)
+      .def("printMatrix", &network::printMatrix)
       .def("evolveUniform", &network::evolveUniform)
       .def("evolvePrefAtt", &network::evolvePrefAtt)
       .def("evolvePrefAttNoTax", &network::evolvePrefAttNoTax)

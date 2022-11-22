@@ -7,8 +7,8 @@
 #include <unordered_map>
 
 template <typename T> class SparseMatrix {
-  std::unordered_map<int, T> _matrix = {};
-  int _rows = 0, _cols = 0;
+  std::unordered_map<int, T> ad_matrix = {};
+  int net_rows = 0, net_cols = 0;
   static T constexpr defaultReturn = 0;
 
 public:
@@ -16,91 +16,93 @@ public:
   SparseMatrix(int rows, int cols) {
     rows < 0 || cols < 0
         ? throw std::invalid_argument("SparseMatrix: rows and cols must be > 0")
-        : _rows = rows,
-          _cols = cols;
+        : net_rows = rows,
+          net_cols = cols;
   };
   SparseMatrix(const char *fName) {
     std::ifstream file(fName);
     if (!file.is_open())
       throw std::invalid_argument("SparseMatrix: file not found");
-    file >> _rows >> _cols;
+    file >> net_rows >> net_cols;
     int pos;
     T value;
     while (file >> pos >> value) {
-      if (pos < 0 || pos > (_rows * _cols) - 1)
+      if (pos < 0 || pos > (net_rows * net_cols) - 1)
         throw std::invalid_argument("SparseMatrix: index out of bounds");
-      _matrix.insert({pos, value});
+      ad_matrix.insert({pos, value});
     }
 
     file.close();
   }
   SparseMatrix(SparseMatrix const &other) {
-    this->_rows = other._rows;
-    this->_cols = other._cols;
-    this->_matrix = other._matrix;
+    this->net_rows = other.net_rows;
+    this->net_cols = other.net_cols;
+    this->ad_matrix = other.ad_matrix;
   };
 
+  std::unordered_map<int, T> const& getMatrix() { return ad_matrix; }
+
   void insert(int i, int j, T value) {
-    if (i >= _rows || j >= _cols || i < 0 || j < 0) {
+    if (i >= net_rows * net_cols || j >= net_rows * net_cols || i < 0 || j < 0) { // actually they should be contained in the triangule of the matrix
       throw std::out_of_range("Index out of range");
     }
-    _matrix.emplace(std::make_pair(i * _cols + j, value));
+    ad_matrix.emplace(std::make_pair(i * net_cols * net_rows + j, value));
   };
   void insert(int i, T value) {
-    if (i >= _rows * _cols || i < 0) {
+    if (i >= net_rows * net_cols * net_rows * net_cols || i < 0) { // again, it should be contained in the upper triangule
       throw std::out_of_range("Index out of range");
     }
-    _matrix.emplace(std::make_pair(i, value));
+    ad_matrix.emplace(std::make_pair(i, value));
   };
   void insert_or_assign(int i, int j, T value) {
-    if (i >= _rows || j >= _cols || i < 0 || j < 0) {
+    if (i >= net_rows || j >= net_cols || i < 0 || j < 0) {
       throw std::out_of_range("Index out of range");
     }
-    _matrix.insert_or_assign(i * _cols + j, value);
+    ad_matrix.insert_or_assign(i * net_cols + j, value);
   };
   void erase(int i, int j) {
-    _matrix.find(i * _cols + j) != _matrix.end()
-        ? _matrix.erase(i * _cols + j)
+    ad_matrix.find(i * net_cols + j) != ad_matrix.end()
+        ? ad_matrix.erase(i * net_cols + j)
         : throw std::out_of_range("Index out of range");
   };
-  void clear() noexcept { _matrix.clear(); };
+  void clear() noexcept { ad_matrix.clear(); };
   bool exists(int i, int j) const noexcept {
-    return _matrix.count(i * _cols + j);
+    return ad_matrix.count(i * net_cols * net_rows + j);
   };
 
   std::unordered_map<int, T> getRow(int index) const {
-    if (index >= _rows || index < 0) {
+    if (index >= net_rows || index < 0) {
       throw std::out_of_range("Index out of range");
     }
     std::unordered_map<int, T> row;
-    for (auto &it : _matrix) {
-      if (it.first / _cols == index) {
-        row.emplace(std::make_pair(it.first % _cols, it.second));
+    for (auto &it : ad_matrix) {
+      if (it.first / net_cols == index) {
+        row.emplace(std::make_pair(it.first % net_cols, it.second));
       }
     }
     return row;
   }
   std::unordered_map<int, T> getCol(int index) const {
-    if (index >= _cols || index < 0) {
+    if (index >= net_cols || index < 0) {
       throw std::out_of_range("Index out of range");
     }
     std::unordered_map<int, T> col;
-    for (auto &it : _matrix) {
-      if (it.first % _cols == index) {
-        col.emplace(std::make_pair(it.first / _cols, it.second));
+    for (auto &it : ad_matrix) {
+      if (it.first % net_cols == index) {
+        col.emplace(std::make_pair(it.first / net_cols, it.second));
       }
     }
     return col;
   }
-  int getRowDim() const noexcept { return this->_rows; };
-  int getColDim() const noexcept { return this->_cols; };
-  int size() const noexcept { return this->_rows * this->_cols; };
+  int getRowDim() const noexcept { return this->net_rows; };
+  int getColDim() const noexcept { return this->net_cols; };
+  int size() const noexcept { return this->net_rows * this->net_cols; };
 
   void print() const noexcept {
-    for (int i = 0; i < _rows; ++i) {
-      for (int j = 0; j < _cols; ++j) {
-        auto const &it = _matrix.find(i * _cols + j);
-        it != _matrix.end() ? std::cout << it->second : std::cout << 0;
+    for (int i = 0; i < net_rows; ++i) {
+      for (int j = 0; j < net_cols; ++j) {
+        auto const &it = ad_matrix.find(i * net_cols + j);
+        it != ad_matrix.end() ? std::cout << it->second : std::cout << 0;
         std::cout << '\t';
       }
       std::cout << '\n';
@@ -108,18 +110,18 @@ public:
   }
   void save(const char *fName) const {
     std::ofstream file(fName);
-    file << _rows << '\t' << _cols << '\n';
-    for (auto const &it : _matrix) {
+    file << net_rows << '\t' << net_cols << '\n';
+    for (auto const &it : ad_matrix) {
       file << it.first << '\t' << it.second << '\n';
     }
     file.close();
   }
   void saveAsMatrix(const char *fName) const {
     std::ofstream file(fName);
-    for (int i = 0; i < _rows; ++i) {
-      for (int j = 0; j < _cols; ++j) {
-        auto const &it = _matrix.find(i * _cols + j);
-        it != _matrix.end() ? file << it->second : file << 0;
+    for (int i = 0; i < net_rows; ++i) {
+      for (int j = 0; j < net_cols; ++j) {
+        auto const &it = ad_matrix.find(i * net_cols + j);
+        it != ad_matrix.end() ? file << it->second : file << 0;
         file << '\t';
       }
       file << '\n';
@@ -128,11 +130,11 @@ public:
   }
 
   T const &operator()(int i, int j) {
-    if (i >= _rows || j >= _cols || i < 0 || j < 0) {
+    if (i >= net_rows || j >= net_cols || i < 0 || j < 0) {
       throw std::out_of_range("Index out of range");
     }
-    auto const &it = _matrix.find(i * _cols + j);
-    return it != _matrix.end() ? it->second : defaultReturn;
+    auto const &it = ad_matrix.find(i * net_cols + j);
+    return it != ad_matrix.end() ? it->second : defaultReturn;
   }
   SparseMatrix &operator=(const SparseMatrix &other) {
     this->_rows = other._rows;
