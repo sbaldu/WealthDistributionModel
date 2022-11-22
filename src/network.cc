@@ -55,7 +55,6 @@ uint16_t network::couples(uint16_t first) {
 
 void network::createLinks(uint8_t avgLinks) {
   float prob = (float)(avgLinks) / (cols_ * rows_);
-  std::cout << "prob " << prob << std::endl;
   std::uniform_real_distribution<float> dis(0, 1);
 
   for (int i = 0; i < rows_ * cols_ - 1; ++i) {
