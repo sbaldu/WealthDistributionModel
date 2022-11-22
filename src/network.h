@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <sys/types.h>
+#include <unordered_map>
 #include <vector>
 #include "SparseMatrix.hpp"
 
@@ -15,13 +16,14 @@ class network {
 public:
 	network(uint16_t ,uint16_t ,uint16_t);
 	std::vector<uint16_t> const& getPlayers();
-	Matrix const& getAdjacency();
+	std::unordered_map<int, bool> const& getAdjacency();
 	std::vector<uint16_t> const playersMoney();
 	/* std::vector<uint16_t> const playersMoney(std::vector<uint16_t> const&); */
 	uint16_t couples(uint16_t); // the couples are chosen
 	
-	void createLinks();
+	void createLinks(uint8_t);
 	bool exists(int, int);
+	void printMatrix();
 	void evolveUniform(); // the couples play
 	void evolvePrefAtt();
 	void evolvePrefAttNoTax();
