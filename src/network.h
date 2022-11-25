@@ -22,6 +22,7 @@ public:
 	uint16_t couples(uint16_t); // the couples are chosen
 	
 	void createLinks(uint8_t);
+	void importMatrix(const char*);
 	bool exists(int, int);
 	void printMatrix();
 	void evolveUniform(); // the couples play
@@ -31,6 +32,7 @@ public:
 	void print() const noexcept;
 	void fprintHist() const noexcept;
 	void fprintHist(uint8_t) const noexcept;
+	void saveMatrix(const char*) const;
 };
 
 #endif
