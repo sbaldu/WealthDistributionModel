@@ -30,6 +30,7 @@ public:
       if (pos < 0 || pos > (net_rows * net_cols) - 1)
         throw std::invalid_argument("SparseMatrix: index out of bounds");
       ad_matrix.insert({pos, value});
+      std::cout << __LINE__ << '\t' << pos << '\t' << value << '\n';
     }
 
     file.close();
@@ -110,7 +111,7 @@ public:
   }
   void save(const char *fName) const {
     std::ofstream file(fName);
-    file << net_rows << '\t' << net_cols << '\n';
+    file << net_rows * net_cols << '\t' << net_rows * net_cols << '\n';
     for (auto const &it : ad_matrix) {
       file << it.first << '\t' << it.second << '\n';
     }
@@ -137,9 +138,9 @@ public:
     return it != ad_matrix.end() ? it->second : defaultReturn;
   }
   SparseMatrix &operator=(const SparseMatrix &other) {
-    this->_rows = other._rows;
-    this->_cols = other._cols;
-    this->_matrix = other._matrix;
+    this->net_rows = other.net_rows;
+    this->net_cols = other.net_cols;
+    this->ad_matrix = other.ad_matrix;
     return *this;
   }
 };

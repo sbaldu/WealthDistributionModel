@@ -66,6 +66,10 @@ void network::createLinks(uint8_t avgLinks) {
   }
 }
 
+void network::importMatrix(const char *filename) {
+ adjacencyMatrix_ = Matrix(filename);
+}
+
 bool network::exists(int i, int j) {
   if (j >= i) {
     return adjacencyMatrix_.exists(i, j);
@@ -75,6 +79,8 @@ bool network::exists(int i, int j) {
 }
 
 void network::printMatrix() {
+  adjacencyMatrix_.print();
+  std::cout << '\n';
   for (int i = 0; i < rows_ * cols_; ++i) {
     for (int j = 0; j < rows_ * cols_; ++j) {
       std::cout << this->exists(i, j) << "  ";
@@ -202,4 +208,8 @@ void network::fprintHist(uint8_t nBins) const noexcept {
          << static_cast<double>(n) / playerSum << '\n';
   }
   fOut.close();
+}
+
+void network::saveMatrix(const char* path) const {
+  adjacencyMatrix_.save(path);
 }
