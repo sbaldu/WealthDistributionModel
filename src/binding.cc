@@ -34,6 +34,8 @@ PYBIND11_MODULE(network, m) {
 
   pybind11::class_<network>(m, "network")
       .def(pybind11::init<uint16_t, uint16_t, uint16_t>())
+      .def("getRows", &network::getRows)
+      .def("getCols", &network::getCols)
       .def("getPlayers", &network::getPlayers)
       .def("getAdjacency", &network::getAdjacency)
       .def("couples", &network::couples)
@@ -48,6 +50,7 @@ PYBIND11_MODULE(network, m) {
       .def("evolveUniform", &network::evolveUniform)
       .def("evolvePrefAtt", &network::evolvePrefAtt)
       .def("evolvePrefAttNoTax", &network::evolvePrefAttNoTax)
+      .def("evolveFixed", &network::evolveFixed)
       .def("flatTax", &network::flatTax)
       .def("print", &network::print);
 }

@@ -15,6 +15,8 @@ class network {
 	Matrix adjacencyMatrix_;
 public:
 	network(uint16_t ,uint16_t ,uint16_t);
+	uint16_t const getRows();
+	uint16_t const getCols();
 	std::vector<uint16_t> const& getPlayers();
 	std::unordered_map<int, bool> const& getAdjacency();
 	std::vector<uint16_t> const playersMoney();
@@ -28,6 +30,7 @@ public:
 	void evolveUniform(); // the couples play
 	void evolvePrefAtt();
 	void evolvePrefAttNoTax();
+	void evolveFixed(int);
 	void flatTax(uint8_t);
 	void print() const noexcept;
 	void fprintHist() const noexcept;
