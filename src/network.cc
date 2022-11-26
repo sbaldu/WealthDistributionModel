@@ -11,7 +11,7 @@ std::random_device globalRndDev;
 std::mt19937 globalRNG(globalRndDev());
 
 network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols)
-    : adjacencyMatrix_(rows, cols) {
+    : adjacencyMatrix_(rows * cols, rows * cols) {
   rows_ = rows;
   cols_ = cols;
   std::vector<uint16_t> vec(rows_ * cols_);
@@ -25,9 +25,6 @@ uint16_t const network::getRows() { return rows_; }
 uint16_t const network::getCols() { return cols_; }
 
 std::vector<uint16_t> const &network::getPlayers() { return players_; }
-std::unordered_map<int, bool> const &network::getAdjacency() {
-  return adjacencyMatrix_.getMatrix();
-}
 
 std::vector<uint16_t> const network::playersMoney() {
   std::vector<uint16_t> money;

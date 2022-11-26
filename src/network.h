@@ -18,7 +18,6 @@ public:
 	uint16_t const getRows();
 	uint16_t const getCols();
 	std::vector<uint16_t> const& getPlayers();
-	std::unordered_map<int, bool> const& getAdjacency();
 	std::vector<uint16_t> const playersMoney();
 	/* std::vector<uint16_t> const playersMoney(std::vector<uint16_t> const&); */
 	uint16_t couples(uint16_t); // the couples are chosen
