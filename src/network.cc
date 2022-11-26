@@ -21,6 +21,9 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols)
   players_ = vec;
 }
 
+uint16_t const network::getRows() { return rows_; }
+uint16_t const network::getCols() { return cols_; }
+
 std::vector<uint16_t> const &network::getPlayers() { return players_; }
 std::unordered_map<int, bool> const &network::getAdjacency() {
   return adjacencyMatrix_.getMatrix();
@@ -67,7 +70,7 @@ void network::createLinks(uint8_t avgLinks) {
 }
 
 void network::importMatrix(const char *filename) {
- adjacencyMatrix_ = Matrix(filename);
+  adjacencyMatrix_ = Matrix(filename);
 }
 
 bool network::exists(int i, int j) {
@@ -79,8 +82,6 @@ bool network::exists(int i, int j) {
 }
 
 void network::printMatrix() {
-  adjacencyMatrix_.print();
-  std::cout << '\n';
   for (int i = 0; i < rows_ * cols_; ++i) {
     for (int j = 0; j < rows_ * cols_; ++j) {
       std::cout << this->exists(i, j) << "  ";
@@ -137,6 +138,20 @@ void network::evolvePrefAttNoTax() {
   } else if (players_[poor] > 0) {
     --players_[poor];
     ++players_[rich];
+  }
+}
+
+void network::evolveFixed(int matrix_el) {
+  uint16_t first = matrix_el / (rows_ * cols_);
+  uint16_t second = matrix_el % (rows_ * cols_);
+
+  std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
+  if (coin(globalRNG) && players_[second] > 0) {
+    ++players_[first];
+    --players_[second];
+  } else if (players_[first] > 0) {
+    --players_[first];
+    ++players_[second];
   }
 }
 
@@ -210,6 +225,6 @@ void network::fprintHist(uint8_t nBins) const noexcept {
   fOut.close();
 }
 
-void network::saveMatrix(const char* path) const {
+void network::saveMatrix(const char *path) const {
   adjacencyMatrix_.save(path);
 }
