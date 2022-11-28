@@ -46,10 +46,10 @@ f = h.GetListOfFunctions().FindObject("expo")
 
 plt.plot(x, y ,'bo')
 fitX = np.arange(min(x), max(x), 0.1)
-fitY = abs(f.GetParameter("Slope"))*np.exp(f.GetParameter("Slope")*fitX)
-plt.plot(fitX, fitY)
+fitY = np.exp(f.GetParameter("Constant")+f.GetParameter("Slope")*fitX)
+plt.plot(fitX, fitY, color="red")
 plt.yscale("log")
-plt.title("10^{6} iterations")
+plt.title("One million iterations")
 plt.savefig("prova.pgf")
 
 # canv = ROOT.TCanvas("canv", "canv", 800, 600)
