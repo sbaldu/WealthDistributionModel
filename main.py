@@ -27,36 +27,30 @@ def data(vec):
 # FAIR GAME
 ####################################################################################################
 
-# net = network.network(5,100,100)
-# n = 10**6
-# for i in range(n):
-#     net.evolveUniform()
+net = network.network(5,100,100)
+n = 10**6
+for i in range(n):
+    net.evolveUniform()
 
-# x = data(net.playersMoney())[0][1::].tolist()
-# y = data(net.playersMoney())[1][1::].tolist()
-# y = [i/sum(y) for i in y] # normalization
+x = data(net.playersMoney())[0][1::].tolist()
+y = data(net.playersMoney())[1][1::].tolist()
+y = [i/sum(y) for i in y] # normalization
 
-# h = ROOT.TH1F("h", "Fair Game", len(x), 0, 60)
-# for i in range(len(x)):
-#     h.Fill(x[i], y[i])
+h = ROOT.TH1F("h", "Fair Game", len(x), 0, max(x))
+for i in range(len(x)):
+    h.Fill(x[i], y[i])
 
-# # fitting and extracting fit function
-# h.Fit("expo")
-# f = h.GetListOfFunctions().FindObject("expo")
+# fitting and extracting fit function
+h.Fit("expo")
+f = h.GetListOfFunctions().FindObject("expo")
 
-# plt.plot(x, y ,'bo')
-# fitX = np.arange(min(x), max(x), 0.1)
-# fitY = np.exp(f.GetParameter("Constant")+f.GetParameter("Slope")*fitX)
-# plt.plot(fitX, fitY, color="red")
-# plt.yscale("log")
-# plt.title("One million iterations")
-# plt.savefig("prova.pgf")
-
-
-# canv = ROOT.TCanvas("canv", "canv", 800, 600)
-# canv.SetLogy()
-
-# h.Draw()
+plt.plot(x, y ,'bo')
+fitX = np.arange(min(x), max(x), 0.1)
+fitY = np.exp(f.GetParameter("Constant")+f.GetParameter("Slope")*fitX)
+plt.plot(fitX, fitY, color="red")
+plt.yscale("log")
+plt.title("One million iterations")
+plt.savefig("prova.pgf")
 
 
 
@@ -86,32 +80,32 @@ def data(vec):
 # UNFAIR GAME
 ####################################################################################################
 
-net = network.network(1,100,100)
-n = 10**6
-for i in range(n):
-    net.evolvePrefAtt()
-    if i % 1500 == 0:
-        net.flatTax(10)
-x = data(net.playersMoney())[0][1::].tolist()
-y = data(net.playersMoney())[1][1::].tolist()
-y = [i/sum(y) for i in y] # normalization
+# net = network.network(1,100,100)
+# n = 10**6
+# for i in range(n):
+#     net.evolvePrefAtt()
+#     if i % 1500 == 0:
+#         net.flatTax(10)
+# x = data(net.playersMoney())[0][1::].tolist()
+# y = data(net.playersMoney())[1][1::].tolist()
+# y = [i/sum(y) for i in y] # normalization
 
-h = ROOT.TH1F("h", "Unfair Game", len(x), 0, 60)
-for i in range(len(x)):
-    h.Fill(x[i], y[i])
+# h = ROOT.TH1F("h", "Unfair Game", len(x), 0, max(x))
+# for i in range(len(x)):
+#     h.Fill(x[i], y[i])
 
-f = ROOT.TF1("f", "[0]*x^[1]", min(x), max(x))
-h.Fit("f", "R")
+# f = ROOT.TF1("f", "[0]*x^[1]", min(x), max(x))
+# h.Fit("f", "R")
 
-plt.plot(x, y ,'bo')
-fitX = np.arange(min(x), max(x), 0.1)
-fitY = f.GetParameter(0)*fitX**f.GetParameter(1)
-plt.plot(fitX, fitY, color="red")
+# plt.plot(x, y ,'bo')
+# fitX = np.arange(min(x), max(x), 0.1)
+# fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
+# plt.plot(fitX, fitY, color="red")
 
-plt.yscale("log")
-plt.xscale("log")
-plt.title("10% flat tax every 1500 iterations")
-plt.savefig("prova.pgf")
+# plt.yscale("log")
+# plt.xscale("log")
+# plt.title("10% flat tax every 1500 iterations")
+# plt.savefig("prova.pgf")
 
 
 
@@ -165,3 +159,8 @@ plt.savefig("prova.pgf")
 # plt.yscale("log")
 # plt.xscale("log")
 # plt.show()
+
+# canv = ROOT.TCanvas("canv", "canv", 800, 600)
+# canv.SetLogy()
+
+# h.Draw()
