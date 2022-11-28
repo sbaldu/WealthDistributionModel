@@ -14,6 +14,8 @@ matplotlib.rcParams.update({
     'pgf.rcfonts': False,
 })
 
+# gStyle.SetOptFit(1111)
+
 def data(vec):
     x = np.arange(0, max(vec)+1)
     y = np.zeros(max(vec)+1)
@@ -34,9 +36,7 @@ x = data(net.playersMoney())[0][1::].tolist()
 y = data(net.playersMoney())[1][1::].tolist()
 y = [i/sum(y) for i in y] # normalization
 
-gStyle.SetOptFit(1111)
-
-h = ROOT.TH1F("h", "10^6 iterations", 60, 0, 60)
+h = ROOT.TH1F("h", "Fair Game", 60, 0, 60)
 for i in range(len(x)):
     h.Fill(x[i], y[i])
 
