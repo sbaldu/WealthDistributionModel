@@ -85,7 +85,7 @@ net = network.network(5,100,100)
 n = 10**7
 for i in tqdm(range(n)):
     net.evolvePrefAtt()
-    if i % 10**4 == 0:
+    if i % 5*10**4 == 0:
         net.flatTax(30)
 x = data(net.playersMoney())[0][1::].tolist()
 y = data(net.playersMoney())[1][1::].tolist()

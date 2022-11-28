@@ -178,6 +178,13 @@ void network::flatTax(uint8_t percentage) {
     int tax = i * percentage / 100;
     if (!(i < tax)) {
       i -= tax;
+      cass_ += tax;
+    }
+  }
+  if (cass_ > players_.size()) {
+    for (auto &i : players_) {
+      ++i;
+      --cass_;
     }
   }
 }
