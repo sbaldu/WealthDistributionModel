@@ -1,0 +1,8 @@
+Looking at real data, it can be seen that in real life money is distributed following a power law, instead of an exponential. The power law goes to zero even faster than the exponential, so the real-life distribution for money is more unfair than what we have hypothized in our model. \\
+So, in order to have the model reproduce the real-life distribution we have to introduce some unfairness in the model. The best way to do so is to introduce a preferential attatchment, which means that individuals who have more money have a higher probability of earning more money. So in this case the richer individuals have an attractive property, which allows them to earn more money as they get richer. \\
+To implement this preferential attatchment we can change the probabilities of winning and losing in a way that favours the individuals with more money. If $p_1$ is the probability that the richer individual wins and $p_2$ is the probability that it's the poorer who wins, then we can define them as follows:
+\begin{equation}
+	p_1 = \frac{n_1}{n_1+n_2} \ \ \ \ \ \ \ \  p_2 = \frac{n_2}{n_1+n_2}
+\end{equation}
+Using this probabilities there is the problem that individuals with no money, $n = 0$, lose every opportunity of regaining any wealth, which was one of the assumptions in the main model. To mantain this assumption we need to implement a system of taxing, in order to redistribute the wealth after a certain number of iterations and allow the poor to regain some wealth. \\
+In this model has been implemented a flat tax. This flat tax is of $10\%$ and needs to get played every $1500$ iterations. In this way the wealth distribution is a power law, like the real-life one.
