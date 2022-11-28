@@ -11,3 +11,8 @@ prova*
 *.gz
 *.xml
 *.bcf
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
