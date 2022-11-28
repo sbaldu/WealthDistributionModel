@@ -31,16 +31,15 @@ For simplicity let's take 3 agents with one coin each: we can count the microsta
     \caption{\emph{A 3D simplex where the surface of interest is enlightened.}}
     \label{fig:threeSimplex}
 \end{figure}
-It is clear that, while the surface gives us the number of microstates corresponding to a fixed amount of money, the volume between the origin and a fixed value gives us the cumulative distribution of the microstates.
+It is clear that, while the surface gives us the number of microstates corresponding to a fixed amount of money, the volume between the origin and a fixed value $y$ such that $0 \leq y \leq N$ gives us the cumulative distribution of the microstates, Fig. (\ref{fig:simplexVolume}).
 Defining our simplex as
 \begin{equation*}
-    \Delta^n(N)=\left\{x \in \mathbb{R}^{n+1}\text{ s.t. } \sum_{i = 1}^{n + 1}x_i = N, x_i \geq 0\right\}
+    \Delta^n(N)=\left\{x \in \mathbb{R}^n \text{ s.t. } \sum_{i = 1}^n x_i = N, x_i \geq 0\right\}
 \end{equation*}
 we can use the result of an article \cite{simplexSampling} in which the volume of a simplex is found as
 \begin{equation}
     V_n\left(y, N\right) = \frac{\sqrt{n+1}}{n!}\left[N^n - \left(N - y\right)^n\right]
 \end{equation}
-where $0 \leq y \leq N$.
 \begin{figure}[ht!]
     \centering
     \begin{tikzpicture}[scale = .7]
@@ -48,11 +47,11 @@ where $0 \leq y \leq N$.
 
         \node (o)[label={[label distance=0cm]180:$O$}] at (0,0) {\textbullet};
         \node (a)[label={[label distance=0cm]90:$y$}] at (2,0) {\textbullet};
-        \node (b)[label={[label distance=0cm]0:$y$}] at (0,2) {\textbullet};
+        \node (b)[label={[label distance=0cm]180:$y$}] at (0,2) {\textbullet};
         \node (c)[label={[label distance=0cm]180:$y$}] at (-1.4, -1.4) {\textbullet};
 
         \node (d)[label={[label distance=0cm]90:$N$}] at (4,0) {\textbullet};
-        \node (e)[label={[label distance=0cm]0:$N$}] at (0,4) {\textbullet};    
+        \node (e)[label={[label distance=0cm]180:$N$}] at (0,4) {\textbullet};    
         \node (f)[label={[label distance=0cm]180:$N$}] at (-2.8,-2.8) {\textbullet};  
         
         \draw[dashed, fill=blue, opacity=0.5] (a.center) -- (b.center) -- (c.center) -- cycle;
@@ -76,7 +75,7 @@ We note that in our case $N=\alpha n$ so
 \begin{equation*}
     F(y) =  1 - \left[\left(1 - \frac{y}{\alpha n}\right)^{\alpha n}\right]^\frac{1}{\alpha}
 \end{equation*}
-but $n$ is the dimension of the simplex, i.e. the number of agents of the system.
+but $n$ is the dimension of the simplex, i.e. the number of agents of the system itself.
 For a great amount of agents we can take the previous relation in the limit $n\to\infty$ obtaining
 \begin{equation}
     F(y) = 1 - e^{-\frac{y}{\alpha}}
