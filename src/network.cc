@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <iostream>
 #include <random>
+#include <utility>
 
 std::random_device globalRndDev;
 std::mt19937 globalRNG(globalRndDev());
@@ -14,6 +15,7 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols)
     : adjacencyMatrix_(rows * cols, rows * cols) {
   rows_ = rows;
   cols_ = cols;
+  poorMap_ = {};
   std::vector<uint16_t> vec(rows_ * cols_);
   for (auto &i : vec) {
     i = initialCapital;
@@ -25,6 +27,12 @@ uint16_t const network::getRows() { return rows_; }
 uint16_t const network::getCols() { return cols_; }
 
 std::vector<uint16_t> const &network::getPlayers() { return players_; }
+std::unordered_map<uint16_t, int> const &network::getPoors() {
+  return poorMap_;
+}
+std::unordered_map<int, bool> const &network::getAdjacency() {
+  return adjacencyMatrix_.getMatrix();
+}
 
 std::vector<uint16_t> const network::playersMoney() {
   std::vector<uint16_t> money;
@@ -146,9 +154,22 @@ void network::evolveFixed(int matrix_el) {
   if (coin(globalRNG) && players_[second] > 0) {
     ++players_[first];
     --players_[second];
+    if (players_[second] == 0 and !poorMap_.contains(second)) {
+      poorMap_.insert(
+          std::make_pair(second, 0)); // add the poor to the poor map
+    }
   } else if (players_[first] > 0) {
     --players_[first];
     ++players_[second];
+    if (players_[first] == 0 and !poorMap_.contains(first)) {
+      poorMap_.insert(std::make_pair(first, 0)); // add the poor to the poor map
+    }
+  }
+  for (auto &poor : poorMap_) { // check all the poors and if they are still
+                                // poor, you increase the count
+    if (players_[poor.first] == 0) {
+      ++poor.second;
+    }
   }
 }
 

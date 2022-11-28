@@ -37,6 +37,7 @@ PYBIND11_MODULE(network, m) {
       .def("getRows", &network::getRows)
       .def("getCols", &network::getCols)
       .def("getPlayers", &network::getPlayers)
+      .def("getPoors", &network::getPoors)
       .def("getAdjacency", &network::getAdjacency)
       .def("couples", &network::couples)
       .def("playersMoney", &network::playersMoney)

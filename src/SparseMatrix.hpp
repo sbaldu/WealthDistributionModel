@@ -40,6 +40,8 @@ public:
     this->_matrix = other._matrix;
   };
 
+  std::unordered_map<int,bool> const& getMatrix() { return _matrix; }
+
   void insert(int i, int j, T value) {
     if (i >= _rows || j >= _cols || i < 0 || j < 0) {
       throw std::out_of_range("Index out of range");
