@@ -173,15 +173,36 @@ void network::evolveFixed(int matrix_el) {
   }
 }
 
+bool isPoor(uint8_t money) { return money == 0; }
+
+/* void network::flatTax(uint8_t percentage) { */
+/*   for (auto &i : players_) { */
+/*     int tax = i * percentage / 100; */
+/*     if (!(i < tax)) { */
+/*       i -= tax; */
+/*       cass_ += tax; */
+/*     } */
+/*   } */
+/*   int nPoors = count_if(players_.begin(), players_.end(), isPoor); */
+/*   if (cass_ >= nPoors) { */
+/*     for (auto &i : players_) { */
+/*       if (isPoor(i)) { */
+/*         ++i; */
+/*         --cass_; */
+/*       } */
+/*     } */
+/*   } */
+/* } */
+
 void network::flatTax(uint8_t percentage) {
   for (auto &i : players_) {
     int tax = i * percentage / 100;
-    if (!(i < tax)) {
+    if (!(i < percentage / 100)) {
       i -= tax;
-      cass_ += tax;
+      ++cass_;
     }
   }
-  if (cass_ > players_.size()) {
+  if (!(cass_ < players_.size())) {
     for (auto &i : players_) {
       ++i;
       --cass_;
