@@ -210,6 +210,20 @@ void network::flatTax(uint8_t percentage) {
   }
 }
 
+float network::checkPoor(uint16_t poorPlayer) {
+  std::unordered_map<int, bool> neighbors = adjacencyMatrix_.getRow(poorPlayer);
+  uint8_t n_neighbors = neighbors.size();
+  float poor_neighbors = 0.;
+
+  for (auto &i : neighbors) {
+    if (isPoor(players_[i.first])) {
+      ++poor_neighbors;
+    }
+  }
+  poor_neighbors /= n_neighbors;
+  return poor_neighbors;
+}
+
 void network::print() const noexcept {
   int i = 0;
   for (auto const &player : players_) {
