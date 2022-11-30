@@ -15,6 +15,7 @@ class network {
 	std::vector<uint16_t> players_; // array that contains all the players in the network
 	std::unordered_map<uint16_t,int>	poorMap_;
 	Matrix adjacencyMatrix_;
+	uint16_t cass_ = 0;
 public:
 	network(uint16_t ,uint16_t ,uint16_t);
 	uint16_t const getRows();
