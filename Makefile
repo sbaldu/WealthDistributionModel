@@ -5,3 +5,5 @@ all:
 cpp:
 	clang-format -i ./src/*.cc
 	clear
+root:
+	source ../root/bin/thisroot.sh
