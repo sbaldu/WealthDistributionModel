@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 import network
 import ROOT
@@ -28,30 +27,30 @@ def data(vec):
 # FAIR GAME
 ####################################################################################################
 
-# net = network.network(5,100,100)
-# n = 10**6
-# for i in tqdm(range(n)):
-#     net.evolveUniform()
+net = network.network(5,100,100)
+n = 10**6
+for i in tqdm(range(n)):
+    net.evolveUniform()
 
-# x = data(net.playersMoney())[0][1::].tolist()
-# y = data(net.playersMoney())[1][1::].tolist()
-# y = [i/sum(y) for i in y] # normalization
+x = data(net.playersMoney())[0][1::].tolist()
+y = data(net.playersMoney())[1][1::].tolist()
+y = [i/sum(y) for i in y] # normalization
 
-# h = ROOT.TH1F("h", "Fair Game", len(x), 0, max(x))
-# for i in range(len(x)):
-#     h.Fill(x[i], y[i])
+h = ROOT.TH1F("h", "Fair Game", len(x), 0, max(x))
+for i in range(len(x)):
+    h.Fill(x[i], y[i])
 
-# # fitting and extracting fit function
-# h.Fit("expo")
-# f = h.GetListOfFunctions().FindObject("expo")
+# fitting and extracting fit function
+h.Fit("expo")
+f = h.GetListOfFunctions().FindObject("expo")
 
-# plt.plot(x, y ,'bo')
-# fitX = np.arange(min(x), max(x), 0.1)
-# fitY = np.exp(f.GetParameter("Constant")+f.GetParameter("Slope")*fitX)
-# plt.plot(fitX, fitY, color="red")
-# plt.yscale("log")
+plt.plot(x, y ,'bo')
+fitX = np.arange(min(x), max(x), 0.1)
+fitY = np.exp(f.GetParameter("Constant")+f.GetParameter("Slope")*fitX)
+plt.plot(fitX, fitY, color="red")
+plt.yscale("log")
 # plt.title("One million iterations")
-# plt.savefig("prova.pgf")
+plt.savefig("./tex/img/expo.pgf")
 
 
 
@@ -80,6 +79,7 @@ def data(vec):
 ####################################################################################################
 # UNFAIR GAME
 ####################################################################################################
+
 
 # net = network.network(5,70,70)
 # n = 10**6
