@@ -69,22 +69,23 @@ void network::createLinks(uint8_t avgLinks) {
     for (int j = i + 1; j < rows_ * cols_; ++j) {
       if (dis(globalRNG) < prob) {
         adjacencyMatrix_.insert(i, j, true);
+        adjacencyMatrix_.insert(rows_ * cols_ - j, i, true);
       }
     }
   }
+  nLinks_ = adjacencyMatrix_.getDegreeVector();
 }
 
 void network::importMatrix(const char *filename) {
   adjacencyMatrix_ = Matrix(filename);
-}
-
-bool network::exists(int i, int j) {
-  if (j >= i) {
-    return adjacencyMatrix_.exists(i, j);
-  } else {
-    return adjacencyMatrix_.exists(j, i);
+  std::cout << __LINE__ << std::endl;
+  nLinks_ = adjacencyMatrix_.getDegreeVector();
+  for (auto const &p : nLinks_) {
+    std::cout << p << std::endl;
   }
 }
+
+bool network::exists(int i, int j) { return adjacencyMatrix_.exists(i, j); }
 
 void network::printMatrix() {
   for (int i = 0; i < rows_ * cols_; ++i) {
@@ -109,11 +110,26 @@ void network::evolveUniform() {
   }
 }
 
+// void network::evolvePrefAtt() {
+//   uint16_t first =
+//       std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ -
+//       1)(globalRNG);
+//   uint16_t other = couples(first);
+//   float prob = (float)((players_[first])) / (players_[first] +
+//   players_[other]); if (std::bernoulli_distribution(prob)(globalRNG) &&
+//   players_[other] > 0) {
+//     ++players_[first];
+//     --players_[other];
+//   } else if (players_[first] > 0) {
+//     --players_[first];
+//     ++players_[other];
+//   }
+// }
 void network::evolvePrefAtt() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
   uint16_t other = couples(first);
-  float prob = (float)((players_[first])) / (players_[first] + players_[other]);
+  float prob = (float)((nLinks_[first])) / (nLinks_[first] + nLinks_[other]);
   if (std::bernoulli_distribution(prob)(globalRNG) && players_[other] > 0) {
     ++players_[first];
     --players_[other];
