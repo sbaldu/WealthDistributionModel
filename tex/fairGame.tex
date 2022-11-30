@@ -3,7 +3,7 @@ Let's consider $n$ agents with $\alpha$ coins each and let's define a time step 
 As interaction, we mean a match between two agents in which a cross-head game is played and the loser has to pay one coin to the winner.
 In this case, we consider the probability to win equal to the probability to lose, regardless to the personal capital.
 As boundary condition we assume that an agent will play only if he has at least 1 coin, effectively excluding those who have no money at all.
-It's trivial that the ``0 state'' of this system is an attractor and the dynamics will tend to take all agents to 0 but one to $N = \alpha n$.
+It's trivial that the $n = 0$ state of this system is an attractor and the dynamics will tend to take all players to 0 but one to $N = \alpha n$.
 However, if we study the system at a sufficiently large time (but not so much to end up in the limit) we may find a well-defined trend.
 
 In the fair game hypothesis every microstate has the same probability: our problem reduces to compute how many microstate corresponds to a unique macrostate.
@@ -31,12 +31,12 @@ For simplicity let's take 3 agents with one coin each: we can count the microsta
     \caption{\emph{A 3D simplex where the surface of interest is enlightened.}}
     \label{fig:threeSimplex}
 \end{figure}
-It is clear that, while the surface gives us the number of microstates corresponding to a fixed amount of money, the volume between the origin and a fixed value $y$ such that $0 \leq y \leq N$ gives us the cumulative distribution of the microstates, Fig. (\ref{fig:simplexVolume}).
+It is clear that, while the surface gives us the number of microstates corresponding to a fixed amount of money, the volume between 0 and a fixed value $y$ such that $0 \leq y \leq N$ gives us the cumulative distribution of the microstates, Fig. (\ref{fig:simplexVolume}).
 Defining our simplex as
 \begin{equation*}
     \Delta^n(N)=\left\{x \in \mathbb{R}^n \text{ s.t. } \sum_{i = 1}^n x_i = N, x_i \geq 0\right\}
 \end{equation*}
-we can use the result of an article \cite{simplexSampling} in which the volume of a simplex is found as
+we can use the result of an article \cite{simplexSampling} in which the volume of a simplex between 0 and $y$ is found as
 \begin{equation}
     V_n\left(y, N\right) = \frac{\sqrt{n+1}}{n!}\left[N^n - \left(N - y\right)^n\right]
 \end{equation}
@@ -81,10 +81,22 @@ For a great amount of agents we can take the previous relation in the limit $n\t
     F(y) = 1 - e^{-\frac{y}{\alpha}}
 \end{equation}
 Now that we have the cumulative distribution of the microstate it's trivial to find the pdf applying the definition
-\begin{equation*}
-    f(y) = \frac{d}{dy}F(y) = \frac{1}{\alpha} e^{-\frac{y}{\alpha}}
-\end{equation*}
-Since we are only interested in the trend of the pdf, the result obtained can be synthesized into
 \begin{equation}
-    f(y) \propto e^{-\frac{y}{\alpha}}
+    f(y) = \frac{d}{dy}F(y) = \frac{1}{\alpha} e^{-\frac{y}{\alpha}}
+    \label{eq:expo}
 \end{equation}
+% Since we are only interested in the trend of the pdf, the result obtained can be synthesized into
+% \begin{equation}
+%     f(y) \propto e^{-\frac{y}{\alpha}}
+% \end{equation}
+
+Now let's take $10^4$ players and give 5 coins each, then simulate a million of fair matches.
+At the end of the simulation, let's plot the frequency of agents in respect to their capital and fit \cite{root} this plot with the function $y(x) = Ae^{Bx}$ as shown in Fig. (\ref{fig:expo}).
+From Eq. \ref{eq:expo} we expect $A = -B = \frac{1}{5}$.
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.7}{\input{./img/expo.pgf}}
+    \caption{\emph{Frequency of agents related to their capital.}}
+    \label{fig:expo}
+\end{figure}
+The fit gives the parameters $A = 0.29$ and $B = -0.22$, so they are compatible with the expected value $\frac{1}{5} = 0.20$.
