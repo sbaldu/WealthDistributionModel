@@ -4,16 +4,16 @@ import network
 import ROOT
 from ROOT import gStyle
 from ROOT import gPad
-import matplotlib
+# import matplotlib
 from tqdm import tqdm
 
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
+# matplotlib.use("pgf")
+# matplotlib.rcParams.update({
+#     "pgf.texsystem": "pdflatex",
+#     'font.family': 'serif',
+#     'text.usetex': True,
+#     'pgf.rcfonts': False,
+# })
 
 # gStyle.SetOptFit(1111)
 
@@ -82,33 +82,38 @@ def data(vec):
 ####################################################################################################
 
 
-net = network.network(5,100,100)
-n = 4*10**6
-net.createLinks(4)
-for i in tqdm(range(n)):
-    net.evolvePrefAtt()
-    # if i % 5*10**4 == 0:
-    #     net.flatTax(30)
-x = data(net.playersMoney())[0][1::].tolist()
-y = data(net.playersMoney())[1][1::].tolist()
-y = [i/sum(y) for i in y] # normalization
+# net = network.network(5,100,100)
+# n = 1*10**6
+# net.createLinks(4)
+# for i in tqdm(range(n)):
+#     net.evolvePrefAtt()
+#     if i % 5*10**4 == 0:
+#         net.flatTax(1)
+# x = data(net.playersMoney())[0][1::].tolist()
+# y = data(net.playersMoney())[1][1::].tolist()
+# y = [i/sum(y) for i in y] # normalization
 
-h = ROOT.TH1F("h", "Unfair Game", int(len(x)/2), 0, max(x))
-for i in range(len(x)):
-    h.Fill(x[i], y[i])
+# h = ROOT.TH1F("h", "Unfair Game", int(len(x)/2), 0, max(x))
+# for i in range(len(x)):
+#     h.Fill(x[i], y[i])
 
-f = ROOT.TF1("f", "[0]*x^[1]", min(x), max(x))
-h.Fit("f", "R")
+# f = ROOT.TF1("f", "[0]*x^[1]", min(x), max(x))
+# h.Fit("f", "R")
 
-plt.plot(x, y ,'bo')
-fitX = np.arange(min(x), max(x), 0.1)
-fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
-plt.plot(fitX, fitY, color="red")
+# plt.plot(x, y ,'bo')
+# fitX = np.arange(min(x), max(x), 0.1)
+# fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
+# plt.plot(fitX, fitY, color="red")
 
-plt.yscale("log")
-plt.xscale("log")
-plt.title("patatatatatata")
-plt.savefig("prova.pgf")
+# plt.yscale("log")
+# plt.xscale("log")
+# plt.savefig("prova.pgf")
+
+# canv = ROOT.TCanvas("canv", "canv", 800, 600)
+# canv.SetLogy()
+# canv.SetLogx()
+
+# h.Draw()
 
 # net = network.network(5,50,50)
 # n = 10**6
@@ -176,8 +181,8 @@ plt.savefig("prova.pgf")
 # # UNFAIR GAME WITHOUT REDISTRIBUTION THROUGH FLAT TAX
 # ####################################################################################################
 
-# net = network.network(1,50,50)
-# n = 2*10**4
+# net = network.network(5,50,50)
+# n = 1*10**7
 # for i in range(n):
 #     net.evolvePrefAttNoTax()
 # x = data(net.playersMoney())[0][1::].tolist()
@@ -185,6 +190,7 @@ plt.savefig("prova.pgf")
 # y = [i/sum(y) for i in y] # normalization
 
 # h = ROOT.TH1F("h", "Unfair Game", len(x), 0, max(x))
+# # h = ROOT.TH1F("h", "Unfair Game", len(x), 0, 9)
 # for i in range(len(x)):
 #     h.Fill(x[i], y[i])
 
@@ -198,10 +204,20 @@ plt.savefig("prova.pgf")
 
 # plt.yscale("log")
 # plt.xscale("log")
-# plt.title("patata")
 # plt.savefig("prova.pgf")
 
 # canv = ROOT.TCanvas("canv", "canv", 800, 600)
 # canv.SetLogy()
+# canv.SetLogx()
 
 # h.Draw()
+
+###################################################################################
+### MODEL WITH SAVINGS
+###################################################################################
+net = network.network(20,100,100)
+n = 1*10**5
+for i in range(n):
+    net.evolveSavings()
+plt.hist(net.getPlayers())
+plt.show()

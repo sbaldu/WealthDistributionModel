@@ -12,7 +12,7 @@ for i in range(n):
     net.evolveFixed(matrix_el)
 print(net.getPoors())
 
-plt.hist(net.getPoors(),bins=500)
+plt.hist(net.getPoors(),bins=50)
 plt.show()
 plt.hist(net.getPlayers())
 plt.show()
