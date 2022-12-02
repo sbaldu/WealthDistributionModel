@@ -7,3 +7,6 @@ cpp:
 	clear
 root:
 	source ../root/bin/thisroot.sh
+test:
+	clear
+	python3 ./main.py
