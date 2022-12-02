@@ -210,10 +210,26 @@ bool isPoor(uint8_t money) { return money == 0; }
 /*   } */
 /* } */
 
-void network::flatTax(uint8_t percentage) {
+/* void network::flatTax(uint8_t percentage) { */
+/*   for (auto &i : players_) { */
+/*     int tax = i * percentage / 100; */
+/*     if (!(i < percentage / 100)) { */
+/*       i -= tax; */
+/*       ++cass_; */
+/*     } */
+/*   } */
+/*   if (!(cass_ < players_.size())) { */
+/*     for (auto &i : players_) { */
+/*       ++i; */
+/*       --cass_; */
+/*     } */
+/*   } */
+/* } */
+
+void network::flatTax(uint8_t threshold) {
   for (auto &i : players_) {
-    int tax = i * percentage / 100;
-    if (!(i < percentage / 100)) {
+    int tax = 1;
+    if (!(i < tax)) {
       i -= tax;
       ++cass_;
     }
@@ -223,6 +239,35 @@ void network::flatTax(uint8_t percentage) {
       ++i;
       --cass_;
     }
+  }
+}
+
+void network::evolveSavings() {
+  uint16_t first =
+      std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
+  std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
+  uint16_t other = couples(first);
+
+  // We introduce the lambda parameter, which indicates the saving propensity
+  float lambda_i = std::uniform_real_distribution<float>(0., 1.)(globalRNG);
+  float lambda_j = std::uniform_real_distribution<float>(0., 1.)(globalRNG);
+  // We introduce the fraction of wealth that is exchanged
+  float epsilon = std::uniform_real_distribution<float>(0., 1.)(globalRNG);
+
+  if (coin(globalRNG) && players_[other] > 0) {
+    players_[first] = lambda_i * players_[first] +
+                      epsilon * ((1 - lambda_i) * players_[first] +
+                                 (1 - lambda_j) * players_[other]);
+    players_[other] = lambda_j * players_[other] +
+                      (1 - epsilon) * ((1 - lambda_i) * players_[first] +
+                                       (1 - lambda_j) * players_[other]);
+  } else if (players_[first] > 0) {
+    players_[other] = lambda_j * players_[other] +
+                      epsilon * ((1 - lambda_j) * players_[other] +
+                                 (1 - lambda_i) * players_[first]);
+    players_[first] = lambda_i * players_[first] +
+                      (1 - epsilon) * ((1 - lambda_i) * players_[first] +
+                                       (1 - lambda_j) * players_[other]);
   }
 }
 
