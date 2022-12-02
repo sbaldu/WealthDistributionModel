@@ -170,23 +170,30 @@ void network::evolveFixed(int matrix_el) {
   if (coin(globalRNG) && players_[second] > 0) {
     ++players_[first];
     --players_[second];
-    if (players_[second] == 0 and !poorMap_.contains(second)) {
+    if (players_[second] == 0 && !poorMap_.contains(second)) {
       poorMap_.insert(
           std::make_pair(second, 0)); // add the poor to the poor map
     }
   } else if (players_[first] > 0) {
     --players_[first];
     ++players_[second];
-    if (players_[first] == 0 and !poorMap_.contains(first)) {
+    if (players_[first] == 0 && !poorMap_.contains(first)) {
       poorMap_.insert(std::make_pair(first, 0)); // add the poor to the poor map
     }
   }
   for (auto &poor : poorMap_) { // check all the poors and if they are still
                                 // poor, you increase the count
-    if (players_[poor.first] == 0) {
+    if (players_[poor.first] == 0 && this->checkPoor(poor.first) < 0.3) {
       ++poor.second;
     }
   }
+  // for (auto it = poorMap_.begin(); it != poorMap_.end();) {
+  //   if (this->checkPoor(it->first) < 0.5) {
+  //     it = poorMap_.erase(it);
+  //   } else {
+  //     ++it;
+  //   }
+  // }
 }
 
 bool isPoor(uint8_t money) { return money == 0; }
