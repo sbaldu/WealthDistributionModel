@@ -37,6 +37,7 @@ public:
 	void evolvePrefAttNoTax();
 	void evolveFixed(int);
 	void flatTax(uint8_t);
+	void evolveSavings();
 	float checkPoor(uint16_t);
 	void print() const noexcept;
 	void fprintHist() const noexcept;
