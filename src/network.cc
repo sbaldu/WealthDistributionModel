@@ -129,7 +129,7 @@ void network::evolvePrefAtt() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
   uint16_t other = couples(first);
-  float prob = (float)((nLinks_[first])) / (nLinks_[first] + nLinks_[other]);
+  float prob = ((nLinks_[first]) + 1.) / (nLinks_[first] + nLinks_[other] + 2.);
   if (std::bernoulli_distribution(prob)(globalRNG) && players_[other] > 0) {
     ++players_[first];
     --players_[other];
