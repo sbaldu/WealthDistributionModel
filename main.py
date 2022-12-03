@@ -62,8 +62,6 @@ n = 40*10**5
 net.createLinks(4)
 for i in tqdm(range(n)):
     net.evolvePrefAtt()
-    if i % 5*10**4 == 0:
-        net.flatTax(1)
 x = data(net.playersMoney())[0][1::].tolist()
 y = data(net.playersMoney())[1][1::].tolist()
 y = [i/sum(y) for i in y] # normalization
