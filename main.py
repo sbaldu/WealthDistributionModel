@@ -4,18 +4,18 @@ import network
 import ROOT
 from ROOT import gStyle
 from ROOT import gPad
-# import matplotlib
+import matplotlib
 from tqdm import tqdm
 
-# matplotlib.use("pgf")
-# matplotlib.rcParams.update({
-#     "pgf.texsystem": "pdflatex",
-#     'font.family': 'serif',
-#     'text.usetex': True,
-#     'pgf.rcfonts': False,
-# })
+matplotlib.use("pgf")
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    'font.family': 'serif',
+    'text.usetex': True,
+    'pgf.rcfonts': False,
+})
 
-# gStyle.SetOptFit(1111)
+gStyle.SetOptFit(1111)
 
 def data(vec):
     x = np.arange(0, max(vec)+1)
@@ -57,136 +57,36 @@ def data(vec):
 # UNFAIR GAME
 ####################################################################################################
 
+net = network.network(5,100,100)
+n = 40*10**5
+net.createLinks(4)
+for i in tqdm(range(n)):
+    net.evolvePrefAtt()
+    if i % 5*10**4 == 0:
+        net.flatTax(1)
+x = data(net.playersMoney())[0][1::].tolist()
+y = data(net.playersMoney())[1][1::].tolist()
+y = [i/sum(y) for i in y] # normalization
+nBins = int(len(x)/4)
 
-# net = network.network(5,100,100)
-# n = 1*10**6
-# net.createLinks(4)
-# for i in tqdm(range(n)):
-#     net.evolvePrefAtt()
-#     if i % 5*10**4 == 0:
-#         net.flatTax(1)
-# x = data(net.playersMoney())[0][1::].tolist()
-# y = data(net.playersMoney())[1][1::].tolist()
-# y = [i/sum(y) for i in y] # normalization
+h = ROOT.TH1F("h", "Unfair Game", nBins, 0, max(x))
+for i in range(len(x)):
+    h.Fill(x[i], y[i])
 
-# h = ROOT.TH1F("h", "Unfair Game", int(len(x)/2), 0, max(x))
-# for i in range(len(x)):
-#     h.Fill(x[i], y[i])
-
-# f = ROOT.TF1("f", "[0]*x^[1]", min(x), max(x))
-# h.Fit("f", "R")
-
-# plt.plot(x, y ,'bo')
-# fitX = np.arange(min(x), max(x), 0.1)
-# fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
-# plt.plot(fitX, fitY, color="red")
-
-# plt.yscale("log")
-# plt.xscale("log")
-# plt.savefig("prova.pgf")
-
-# canv = ROOT.TCanvas("canv", "canv", 800, 600)
-# canv.SetLogy()
-# canv.SetLogx()
-
-# h.Draw()
-
-# net = network.network(5,50,50)
-# n = 10**6
-# for i in tqdm(range(n)):
-#     net.evolvePrefAttNoTax()
-# x = data(net.playersMoney())[0][1::].tolist()
-# y = data(net.playersMoney())[1][1::].tolist()
-# y = [i/sum(y) for i in y] # normalization
-
-# h = ROOT.TH1F("h", "Unfair Game", len(x), 0, max(x))
-# for i in range(len(x)):
-#     h.Fill(x[i], y[i])
-
-# f = ROOT.TF1("f", "[0]*x^[1]", min(x), max(x))
-# h.Fit("f", "R")
+f = ROOT.TF1("f", "[0]*x^[1]", min(x), max(x))
+h.Fit("f", "R")
+print("ChiSquare/NDF = " + str(f.GetChisquare()/f.GetNDF()))
+print("p-value = " + str(f.GetProb()))
 
 # plt.plot(x, y ,'bo')
-# fitX = np.arange(min(x), max(x), 0.1)
-# fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
-# plt.plot(fitX, fitY, color="red")
+plt.hist(x, weights=y, bins=nBins, range=(1, max(x)))
+fitX = np.arange(min(x), max(x), 0.1)
+fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
+plt.plot(fitX, fitY, color="red")
 
-# plt.yscale("log")
-# plt.xscale("log")
-# plt.title("10% flat tax every 1500 iterations")
-# plt.savefig("prova.pgf")
-
-# net = network.network(1,100,100)
-# n = 10**6
-# for i in range(n):
-#     net.evolvePrefAtt()
-#     if i % 1000 == 0:
-#         net.flatTax(10)
-# plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
-# plt.yscale("log")
-# plt.xscale("log")
-# plt.title("10% flat tax every 1000 iterations")
-# # plt.savefig("./plots/1000-10.png")
-# plt.show()
-
-# net = network.network(1,100,100)
-# for i in range(n):
-#     net.evolvePrefAtt()
-#     if i % 2000 == 0:
-#         net.flatTax(10)
-# plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
-# plt.yscale("log")
-# plt.xscale("log")
-# plt.title("10% flat tax every 2000 iterations")
-# # plt.savefig("./plots/2000-10.png")
-# plt.show()
-
-# net = network.network(1,100,100)
-# for i in range(n):
-#     net.evolvePrefAtt()
-#     if i % 500 == 0:
-#         net.flatTax(10)
-# plt.plot(data(net.playersMoney())[0],data(net.playersMoney())[1],'bo')
-# plt.yscale("log")
-# plt.xscale("log")
-# plt.title("10% flat tax every 500 iterations")
-# # plt.savefig("./plots/500-10.png")
-# plt.show()
-
-# ####################################################################################################
-# # UNFAIR GAME WITHOUT REDISTRIBUTION THROUGH FLAT TAX
-# ####################################################################################################
-
-# net = network.network(5,50,50)
-# n = 1*10**7
-# for i in range(n):
-#     net.evolvePrefAttNoTax()
-# x = data(net.playersMoney())[0][1::].tolist()
-# y = data(net.playersMoney())[1][1::].tolist()
-# y = [i/sum(y) for i in y] # normalization
-
-# h = ROOT.TH1F("h", "Unfair Game", len(x), 0, max(x))
-# # h = ROOT.TH1F("h", "Unfair Game", len(x), 0, 9)
-# for i in range(len(x)):
-#     h.Fill(x[i], y[i])
-
-# f = ROOT.TF1("f", "[0]*x^[1]", min(x), max(x))
-# h.Fit("f", "R")
-
-# plt.plot(x, y ,'bo')
-# fitX = np.arange(min(x), max(x), 0.1)
-# fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
-# plt.plot(fitX, fitY, color="red")
-
-# plt.yscale("log")
-# plt.xscale("log")
-# plt.savefig("prova.pgf")
-
-# canv = ROOT.TCanvas("canv", "canv", 800, 600)
-# canv.SetLogy()
-# canv.SetLogx()
-
-# h.Draw()
+plt.yscale("log")
+plt.xscale("log")
+plt.savefig("./tex/img/pow.pgf")
 
 ###################################################################################
 ### MODEL WITH SAVINGS
@@ -228,17 +128,23 @@ def data(vec):
 ### MODEL WITH FIXED NETWORK
 ###################################################################################
 
-net = network.network(1,40,40)
-adjacency = net.getAdjacency()
-net.createLinks(9)
+# net = network.network(1,40,40)
+# adjacency = net.getAdjacency()
+# net.createLinks(9)
 
-n = 10**4
-for i in tqdm(range(n)):
-    matrix_el = np.random.choice(list(net.getAdjacency().keys()))
-    net.evolveFixed(matrix_el)
-print(net.getPoors())
+# n = 10**4
+# for i in tqdm(range(n)):
+#     matrix_el = np.random.choice(list(net.getAdjacency().keys()))
+#     net.evolveFixed(matrix_el)
+# print(net.getPoors())
 
-plt.hist(net.getPoors(),bins=50)
-plt.show()
-plt.hist(net.getPlayers())
-plt.show()
+# plt.hist(net.getPoors(),bins=50)
+# plt.show()
+# plt.hist(net.getPlayers())
+# plt.show()
+
+# canv = ROOT.TCanvas("canv", "canv", 800, 600)
+# canv.SetLogy()
+# canv.SetLogx()
+
+# h.Draw()
