@@ -37,9 +37,9 @@ Defining our simplex as
     \Delta^n(N)=\left\{x \in \mathbb{R}^n \text{ s.t. } \sum_{i = 1}^n x_i = N, x_i \geq 0\right\}
 \end{equation*}
 we can use the result of an article \cite{simplexSampling} in which the volume of a simplex between 0 and $y$ is found as
-\begin{equation}
+\begin{equation*}
     V_n\left(y, N\right) = \frac{\sqrt{n+1}}{n!}\left[N^n - \left(N - y\right)^n\right]
-\end{equation}
+\end{equation*}
 \begin{figure}[ht!]
     \centering
     \begin{tikzpicture}[scale = .7]
@@ -68,18 +68,18 @@ we can use the result of an article \cite{simplexSampling} in which the volume o
     \label{fig:simplexVolume}
 \end{figure}
 We want to normalize it all as we are looking for a pdf, so we can divide $V_n\left(y, N\right)$ by $V_n\left(N, N\right)$ finding the cumulative distribution
-\begin{equation}
+\begin{equation*}
     F(y) = \frac{V_n\left(y, N\right)}{V_n\left(N, N\right)} = 1 - \left(1 - \frac{y}{N}\right)^n
-\end{equation}
+\end{equation*}
 We note that in our case $N=\alpha n$ so
 \begin{equation*}
     F(y) =  1 - \left[\left(1 - \frac{y}{\alpha n}\right)^{\alpha n}\right]^\frac{1}{\alpha}
 \end{equation*}
 but $n$ is the dimension of the simplex, i.e. the number of agents of the system itself.
 For a great amount of agents we can take the previous relation in the limit $n\to\infty$ obtaining
-\begin{equation}
+\begin{equation*}
     F(y) = 1 - e^{-\frac{y}{\alpha}}
-\end{equation}
+\end{equation*}
 Now that we have the cumulative distribution of the microstate it's trivial to find the pdf applying the definition
 \begin{equation}
     f(y) = \frac{d}{dy}F(y) = \frac{1}{\alpha} e^{-\frac{y}{\alpha}}
@@ -90,13 +90,14 @@ Now that we have the cumulative distribution of the microstate it's trivial to f
 %     f(y) \propto e^{-\frac{y}{\alpha}}
 % \end{equation}
 
-Now let's take $10^4$ players and give 5 coins each, then simulate a million of fair matches.
-At the end of the simulation, let's plot the frequency of agents in respect to their capital and fit \cite{root} this plot with the function $y(x) = Ae^{Bx}$ as shown in Fig. (\ref{fig:expo}).
-From Eq. \ref{eq:expo} we expect $A = -B = \frac{1}{5}$.
+Now let's take $N = 10^4$ players and give $\alpha = 5$ coins each, then simulate a million of fair matches.
+At the end of the simulation, let's plot the frequency of agents in respect to their capital and fit \cite{root} it with a function $y(x) = Ae^{Bx}$ as proved in Eq. (\ref{eq:expo}).
+We  also expect $A \sim -B \sim \frac{1}{5}$.
 \begin{figure}[ht!]
     \centering
     \scalebox{.7}{\input{./img/expo.pgf}}
     \caption{\emph{Frequency of agents related to their capital.}}
     \label{fig:expo}
 \end{figure}
-The fit gives the parameters $A = 0.29$ and $B = -0.22$, so they are compatible with the expected value $\frac{1}{5} = 0.20$.
+As shown in Fig. (\ref{fig:expo}), the fit seems to be according with the data.
+In particular, it gives the parameters $A = 0.29$ and $B = -0.22$, compatible with the expected value $\frac{1}{5} = 0.20$.
