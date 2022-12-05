@@ -183,7 +183,7 @@ void network::evolveFixed(int matrix_el) {
   }
   for (auto &poor : poorMap_) { // check all the poors and if they are still
                                 // poor, you increase the count
-    if (players_[poor.first] == 0 && this->checkPoor(poor.first) < 0.3) {
+    if (players_[poor.first] == 0) {
       ++poor.second;
     }
   }
