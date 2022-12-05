@@ -1,6 +1,17 @@
-One of the main question for this type of model may be: how long does it take for a poor player to become rich (and vice versa)?
-However, to answer this question the previous model is not ideal.
-The full randomness of interactions does not represent a reality in which every agent has a fixed amount of individual to interact with (like friends, the favorite bar/supermarket etc.).
-To take this limit into account we must reduce the size of our network (that was $N^2$), taking a smaller net in which every agent can interact with few of the others.
-In this type of situation we expect the formation of \emph{clusters}, both of rich and poor.
-Ideally, if a player is poor will tend to impoverish his neighbors and in the same way a rich player will tend to enrich his neighbors.
+Observing the real distributions of wealth shows that poorness in an attractive property, which means that poors tend to make their neighbors poorer, or in other words, they prevent them from getting richer. The result of this is that looking at the network one can observe the formation of clusters of poor individuals. \\
+To observe this we must move from a fully connected network, where everybody can interact with everybody, to a fixed partially connected network, where each individual is linked to a small number of individuals. So, we create the network and randomly distribute the links between all the individuals, and keep those links fixed for the entire evolution of the system. \\
+At this point, if we let the system evolve using the uniform evolution seen before, we expect to see again an exponential distribution of wealth. And this is in fact what we see:
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.7}{\input{./img/fixedExpo.pgf}}
+    \caption{\emph{}}
+    \label{fig:fixedExpo}
+\end{figure}
+At this point, we want to confirm our hypothesis, that poors form clusters. \\
+To do this, we define the null hypothesis, that is that the probability that an individual is poor doesn't depend on the neighbors. So, if that were the case, we should see that the probability that a couple of individuals are poor doesn't change if the two are linked.
+% One of the main question for this type of model may be: how long does it take for a poor player to become rich (and vice versa)?
+% However, to answer this question the previous model is not ideal.
+% The full randomness of interactions does not represent a reality in which every agent has a fixed amount of individual to interact with (like friends, the favorite bar/supermarket etc.).
+% To take this limit into account we must reduce the size of our network (that was $N^2$), taking a smaller net in which every agent can interact with few of the others.
+% In this type of situation we expect the formation of \emph{clusters}, both of rich and poor.
+% Ideally, if a player is poor will tend to impoverish his neighbors and in the same way a rich player will tend to enrich his neighbors.
