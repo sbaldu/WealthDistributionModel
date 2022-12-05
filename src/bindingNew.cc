@@ -7,14 +7,13 @@
 #include <stdint.h>
 #include <vector>
 
-PYBIND11_MODULE(network, m) {
-  m.doc() = "Boltzmann";
+PYBIND11_MODULE(newModel, m) {
+  m.doc() = "New model";
 
   pybind11::class_<newModel>(m, "newModel")
-      .def(pybind11::init<float, uint16_t, uint16_t>())
-      .def("getRows", &newModel::getRows)
-      .def("getCols", &newModel::getCols)
+      .def(pybind11::init<double, int>())
       .def("getPlayers", &newModel::getPlayers)
+      .def("getLambdas", &newModel::getLambdas)
       .def("couples", &newModel::couples)
       .def("evolveUniform", &newModel::evolveUniform)
       .def("evolveSavings", &newModel::evolveSavings);

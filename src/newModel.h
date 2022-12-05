@@ -8,16 +8,13 @@
 #include <vector>
 
 class newModel {
-	uint16_t rows_, cols_;
-	std::vector<float> players_; // array that contains all the players in the network
-	std::vector<float> lambda_;
+	int Nplayers_;
+	std::vector<double> players_; // array that contains all the players in the network
+	std::vector<double> lambda_;
 public:
-	newModel(float, uint16_t ,uint16_t);
-	uint16_t const getRows();
-	uint16_t const getCols();
-	std::vector<float> const& getPlayers();
-	std::vector<float> const& getLambdas();
-	std::vector<float> const playersMoney();
+	newModel(double, int);
+	std::vector<double> const& getPlayers();
+	std::vector<double> const& getLambdas();
 	uint16_t couples(uint16_t); // the couples are chosen
 	
 	void evolveUniform();
