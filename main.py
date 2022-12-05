@@ -50,6 +50,8 @@ def data(vec):
 # fitY = np.exp(f.GetParameter("Constant")+f.GetParameter("Slope")*fitX)
 # plt.plot(fitX, fitY, color="red")
 # plt.yscale("log")
+# plt.xlabel('Wealth')
+# plt.ylabel('Distribution')
 # # plt.show()
 # plt.savefig("./tex/img/expo.pgf")
 
@@ -84,6 +86,8 @@ plt.plot(fitX, fitY, color="red")
 
 plt.yscale("log")
 plt.xscale("log")
+plt.xlabel('Wealth')
+plt.ylabel('Distribution')
 plt.savefig("./tex/img/pow.pgf")
 
 ###################################################################################
