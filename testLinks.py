@@ -30,24 +30,39 @@ n = 2*10**5
 for i in tqdm(range(n)):
     matrix_el = np.random.choice(list(net.getAdjacency().keys()))
     net.evolveFixed(matrix_el)
-print(net.getPoors())
 
 x = data(net.getPlayers())[0][1::].tolist()
 y = data(net.getPlayers())[1][1::].tolist()
 y = [i/sum(y) for i in y] # normalization
 
-h = ROOT.TH1F("h", "Fair Game", len(x), 0, max(x))
+h = ROOT.TH1F("h", "Fair Game", len(x), 0, 32)
 for i in range(len(x)):
     h.Fill(x[i], y[i])
 
 # fitting and extracting fit function
 h.Fit("expo")
 f = h.GetListOfFunctions().FindObject("expo")
+print("ChiSquare/NDF = " + str(f.GetChisquare()/f.GetNDF()))
+print("p-value = " + str(f.GetProb()))
 
 plt.plot(x,y,'.',markersize=12)
 fitX = np.arange(min(x), 32, 0.1)
 fitY = np.exp(f.GetParameter("Constant")+f.GetParameter("Slope")*fitX)
 plt.plot(fitX, fitY, color="red")
 plt.yscale("log")
-# plt.show()
+plt.xlabel('Wealth')
+plt.ylabel('Distribution')
+plt.xlim([0,35])
 plt.savefig("./tex/img/fixedExpo.pgf")
+
+
+poor_map = net.getPoors()
+for poor in poor_map.keys():
+
+
+
+
+
+
+
+
