@@ -39,6 +39,7 @@ public:
 	void flatTax(uint8_t);
 	void evolveSavings();
 	float checkPoor(uint16_t);
+	float calcCondProb(std::unordered_map<uint16_t, int>);
 	void print() const noexcept;
 	void fprintHist() const noexcept;
 	void fprintHist(uint8_t) const noexcept;
