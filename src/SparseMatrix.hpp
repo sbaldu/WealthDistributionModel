@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// SPARSE MATRIX CLASS v 1.0
+// SPARSE MATRIX CLASS v 1.1
 // by Grufoony https://github.com/Grufoony
 ///////////////////////////////////////////////////////////////////////////////
 // This class implements a sparse matrix.  The matrix is stored in a
@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <vector>
 #include <type_traits>
+#include <random>
 
 template <typename T> class SparseMatrix {
   std::unordered_map<int, T> _matrix = {};
@@ -49,8 +50,6 @@ public:
     this->_cols = other._cols;
     this->_matrix = other._matrix;
   };
-
-  std::unordered_map<int,bool> const& getMatrix() { return _matrix; }
 
   void insert(int i, int j, T value) {
     if (i >= _rows || j >= _cols || i < 0 || j < 0) {
@@ -113,6 +112,26 @@ public:
       }
     }
     return col;
+  }
+  T getRNDRowIndex(int index) const {
+    auto row = this->getRow(index);
+    if(row.size() == 0) throw std::runtime_error("SparseMatrix: getRNDRowIndex: row is empty");
+    auto it = row.begin();
+    std::random_device d;
+    std::mt19937 rndGen(d());
+    auto dist = std::uniform_int_distribution<int>(0, row.size() - 1);
+    std::advance(it, dist(rndGen));
+    return it->first;
+  }
+  T getRNDColIndex(int index) const {
+    auto col = this->getCol(index);
+    if(col.size() == 0) throw std::runtime_error("SparseMatrix: getRNDColIndex: col is empty");
+    auto it = col.begin();
+    std::random_device d;
+    std::mt19937 rndGen(d());
+    auto dist = std::uniform_int_distribution<int>(0, col.size() - 1);
+    std::advance(it, dist(rndGen));
+    return it->first;
   }
   int getRowDim() const noexcept { return this->_rows; };
   int getColDim() const noexcept { return this->_cols; };
