@@ -59,5 +59,7 @@ for player in net.getPlayers():
         count_poors += 1
 p_poor = count_poors / (net.getRows()*net.getCols())
 p_poor_cond = net.calcCondProb(net.getPoors())
+print("Contant: ", str(round(np.exp(f.GetParameter("Constant")), 3)))
+print("Slope: ", str(round(f.GetParameter("Slope"), 3)))
 print("Probability to be poor: " + str(round(p_poor*100, 2)) + "%")
 print("Probability conditioned: " + str(round(p_poor_cond*100, 2)) + "%")
