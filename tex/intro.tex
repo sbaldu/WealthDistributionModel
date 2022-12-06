@@ -1,6 +1,18 @@
 One of the main challenge of the study of complex systems is to work out models that simplify real life problems giving likely solutions.
-Purpose of this project is to simulate money exchanges between people, using a very simplified model that only takes into account random interactions.
-First, the study will address a \emph{fair game}, i.e. a game in which every agent has the same probability to win then loose as compared to the other one.
-This analysis will provide an exponential trend that will also will be proved theoretically but very unlikely.
-Second, we'll try to improve the model introducing a so-called \emph{preferential attachment}, that means that the probability to win will be proportional to the amount of money posseded.
-This will provide a power trend that most countries seems to follow.
+For this reason, years ago a new branch of physics was born, the so-called \emph{econophysics}.
+The econophysics name first emerged with Stanley et al. at a conference held in 1995 in Kolkata.
+It is a neologism used for the branch of physics of complex systems that seeks to make a complete survey of the statistical properties of financial markets, using the huge volume of data now available and working methods of statistical physics.
+At the beginning of the twentieth century, Louis Bachelier (1870-1940) in his doctoral thesis in mathematics (\emph{Theory de La Speculation}, published in 1900), admitted that the prices of financial assets followed a random walk, anticipating the ideas from Einstein in five years on the mathematical formalization of a random walk process \cite{history}.
+Years later, another paper signed by Fischer Black and Myron Scholes showed an application of the heat diffusion equation to financial problems. \\
+Mandelbrot \cite{mandelbrot1965} also realized that normal distributions could not explain the high fluctuations in the price of cotton (using data from half a century), given that a distribution using the power law format fits the data better.  
+However, Mandelbrot encountered the problem of infinite standard deviation: all moments of order greater than two were infinite.
+The main problem is that in the financial markets the standard deviation is a measure of the volatility of a variable, so it was difficult to give meaning to this greatness in case it becomes infinite.
+An explanation came when Vilfredo Pareto (1848-1923), who was interested in the distribution of income in Italy in 1906, worked out Pareto's Power Law, justifying the results of Mandelbrot as fluctuations in assets.
+Power laws have the property of being free of scale, so they are ideal for measuring phenomena that are susceptible to extreme events such as financial markets.
+In fact, econophysics was intrinsically linked to seeking extreme events in financial series using power laws to describe them, and those events are not so rare (see 1987 and 2008 crisis).
+
+The idea of this work is to test the ``fairness'' of money exchanges looking at the wealth distribution, using an agent-based model which code is available on GitHub at (NEED LINK).
+We tried to keep the model as simple as possible, making several tests varying the number of parameters according to their compatibility with real data (NEED REAL DATA).
+Therefore, our study will start from a simple money exchange model on a fully connected network (with uniform probability) with an insight on a partial connected random network.
+Then, a \emph{preferential attachment} will be implemented, trying to get better results.
+For last, we introduce an ulterior ``saving parameter'' to see how this will influence the simulation.
