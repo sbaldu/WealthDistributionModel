@@ -174,7 +174,7 @@ void network::evolveFixed() {
   if (row.size() == 0) {
     return;
   }
-  uint16_t second = adjacencyMatrix_.getRNDRowIndex(first);
+  uint16_t second = adjacencyMatrix_.getRndRowElement(first).first;
 
   std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
   if (coin(globalRNG) && players_[second] > 0) {
