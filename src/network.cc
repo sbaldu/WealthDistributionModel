@@ -292,6 +292,25 @@ float network::checkPoor(uint16_t poorPlayer) {
   return poor_neighbors;
 }
 
+float network::calcCondProb(std::unordered_map<uint16_t, int> poorMap) {
+  float conditional_probability = 0.;
+  float count_favorable = 0.;
+  int count_conditional_total = 0;
+  for (auto firstPoor : poorMap) {
+    for (auto secondPoor : adjacencyMatrix_.getCol(firstPoor.first)) {
+      if (players_[secondPoor.first] == 0) {
+        ++count_favorable;
+      }
+    }
+    if (adjacencyMatrix_.getCol(firstPoor.first).size() != 0) {
+      count_conditional_total +=
+          adjacencyMatrix_.getCol(firstPoor.first).size();
+    }
+  }
+  conditional_probability = count_favorable / count_conditional_total;
+  return conditional_probability;
+}
+
 void network::print() const noexcept {
   int i = 0;
   for (auto const &player : players_) {
