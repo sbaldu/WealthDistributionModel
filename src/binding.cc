@@ -38,7 +38,6 @@ PYBIND11_MODULE(network, m) {
       .def("getCols", &network::getCols)
       .def("getPlayers", &network::getPlayers)
       .def("getPoors", &network::getPoors)
-      .def("getAdjacency", &network::getAdjacency)
       .def("couples", &network::couples)
       .def("playersMoney", &network::playersMoney)
       //.def("playersMoney", static_cast<const std::vector<uint16_t>
