@@ -298,7 +298,7 @@ float network::calcCondProb(std::unordered_map<uint16_t, int> poorMap) {
   int count_conditional_total = 0;
   for (auto firstPoor : poorMap) {
     for (auto secondPoor : adjacencyMatrix_.getCol(firstPoor.first)) {
-      if (players_[secondPoor.first] == 0) {
+      if (players_[secondPoor.first] <= 1) {
         ++count_favorable;
       }
     }
