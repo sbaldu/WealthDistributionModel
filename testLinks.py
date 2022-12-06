@@ -22,7 +22,10 @@ def data(vec):
         y[element] += 1
     return x,y
 
-net = n.network(5,50,50)
+nrows = 50
+ncols = 50
+Nplayers = nrows * ncols
+net = n.network(5,nrows,ncols)
 adjacency = net.getAdjacency()
 net.createLinks(4)
 
@@ -55,14 +58,12 @@ plt.ylabel('Distribution')
 plt.xlim([0,35])
 plt.savefig("./tex/img/fixedExpo.pgf")
 
-
 poor_map = net.getPoors()
-for poor in poor_map.keys():
-
-
-
-
-
-
-
-
+count_poors = 0.
+for player in net.getPlayers():
+    if player == 0:
+        count_poors += 1
+p_poor = count_poors / Nplayers 
+p_poor_cond = net.calcCondProb(poor_map)
+print(p_poor)
+print(p_poor_cond)
