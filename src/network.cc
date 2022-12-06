@@ -15,7 +15,7 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols)
     : adjacencyMatrix_(rows * cols, rows * cols) {
   rows_ = rows;
   cols_ = cols;
-  poorMap_ = {};
+  initCap_ = initialCapital;
   std::vector<uint16_t> vec(rows_ * cols_);
   for (auto &i : vec) {
     i = initialCapital;
@@ -27,11 +27,14 @@ uint16_t const network::getRows() { return rows_; }
 uint16_t const network::getCols() { return cols_; }
 
 std::vector<uint16_t> const &network::getPlayers() { return players_; }
-std::unordered_map<uint16_t, int> const &network::getPoors() {
-  return poorMap_;
-}
-std::unordered_map<int, bool> const &network::getAdjacency() {
-  return adjacencyMatrix_.getMatrix();
+std::vector<uint16_t> const &network::getPoors() {
+  poors_.clear();
+  for (int i = 0; i < rows_ * cols_; ++i) {
+    if (isPoor(players_[i])) {
+      poors_.push_back(i);
+    }
+  }
+  return poors_;
 }
 
 std::vector<uint16_t> const network::playersMoney() {
@@ -86,6 +89,8 @@ void network::importMatrix(const char *filename) {
 }
 
 bool network::exists(int i, int j) { return adjacencyMatrix_.exists(i, j); }
+
+bool network::isPoor(uint16_t money) { return money < initCap_ * 15e-2; }
 
 void network::printMatrix() {
   for (int i = 0; i < rows_ * cols_; ++i) {
@@ -162,31 +167,37 @@ void network::evolvePrefAttNoTax() {
   }
 }
 
-void network::evolveFixed(int matrix_el) {
-  uint16_t first = matrix_el / (rows_ * cols_);
-  uint16_t second = matrix_el % (rows_ * cols_);
+void network::evolveFixed() {
+  std::uniform_int_distribution<uint16_t> rnd(0, rows_ * cols_ - 1);
+  uint16_t first = rnd(globalRNG);
+  auto row = adjacencyMatrix_.getRow(first);
+  if (row.size() == 0) {
+    return;
+  }
+  uint16_t second = adjacencyMatrix_.getRNDRowIndex(first);
 
   std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
   if (coin(globalRNG) && players_[second] > 0) {
     ++players_[first];
     --players_[second];
-    if (players_[second] == 0 && !poorMap_.contains(second)) {
-      poorMap_.insert(
-          std::make_pair(second, 0)); // add the poor to the poor map
-    }
+    // if (players_[second] == 0 && !poorMap_.contains(second)) {
+    //   poorMap_.emplace(
+    //       std::make_pair(second, 0)); // add the poor to the poor map
+    // }
   } else if (players_[first] > 0) {
     --players_[first];
     ++players_[second];
-    if (players_[first] == 0 && !poorMap_.contains(first)) {
-      poorMap_.insert(std::make_pair(first, 0)); // add the poor to the poor map
-    }
+    // if (players_[first] == 0 && !poorMap_.contains(first)) {
+    //   poorMap_.emplace(
+    //       std::make_pair(first, 0)); // add the poor to the poor map
+    // }
   }
-  for (auto &poor : poorMap_) { // check all the poors and if they are still
-                                // poor, you increase the count
-    if (players_[poor.first] == 0) {
-      ++poor.second;
-    }
-  }
+  // for (auto &poor : poorMap_) { // check all the poors and if they are still
+  //                               // poor, you increase the count
+  //   if (players_[poor.first] == 0) {
+  //     ++poor.second;
+  //   }
+  // }
   // for (auto it = poorMap_.begin(); it != poorMap_.end();) {
   //   if (this->checkPoor(it->first) < 0.5) {
   //     it = poorMap_.erase(it);
@@ -195,8 +206,6 @@ void network::evolveFixed(int matrix_el) {
   //   }
   // }
 }
-
-bool isPoor(uint8_t money) { return money == 0; }
 
 /* void network::flatTax(uint8_t percentage) { */
 /*   for (auto &i : players_) { */
@@ -292,22 +301,22 @@ float network::checkPoor(uint16_t poorPlayer) {
   return poor_neighbors;
 }
 
-float network::calcCondProb(std::unordered_map<uint16_t, int> poorMap) {
+float network::calcCondProb(std::vector<uint16_t> const &poors) {
   float conditional_probability = 0.;
   float count_favorable = 0.;
-  int count_conditional_total = 0;
-  for (auto firstPoor : poorMap) {
-    for (auto secondPoor : adjacencyMatrix_.getCol(firstPoor.first)) {
-      if (players_[secondPoor.first] <= 1) {
+  // int count_conditional_total = 0;
+  for (auto firstPoor : poors) {
+    for (auto secondPoor : adjacencyMatrix_.getRow(firstPoor)) {
+      if (isPoor(players_[secondPoor.first])) {
         ++count_favorable;
+        break;
       }
     }
-    if (adjacencyMatrix_.getCol(firstPoor.first).size() != 0) {
-      count_conditional_total +=
-          adjacencyMatrix_.getCol(firstPoor.first).size();
-    }
+    // if (adjacencyMatrix_.getRow(firstPoor).size() != 0) {
+    //   count_conditional_total += adjacencyMatrix_.getRow(firstPoor).size();
+    // }
   }
-  conditional_probability = count_favorable / count_conditional_total;
+  conditional_probability = (count_favorable / 2.) / poors.size();
   return conditional_probability;
 }
 
