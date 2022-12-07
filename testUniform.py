@@ -47,7 +47,7 @@ f = h.GetListOfFunctions().FindObject("expo")
 print("ChiSquare/NDF = " + str(round(f.GetChisquare()/f.GetNDF(), 3)))
 print("p-value = " + str(round(f.GetProb(), 3)))
 
-plt.plot(x, y ,'bo')
+plt.plot(x,y,'.',markersize=12)
 fitX = np.arange(min(x), max(x), 0.1)
 fitY = np.exp(f.GetParameter("Constant")+f.GetParameter("Slope")*fitX)
 plt.plot(fitX, fitY, color="red")
