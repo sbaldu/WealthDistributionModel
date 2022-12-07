@@ -8,8 +8,15 @@ At this point, if we let the system evolve using the uniform evolution seen befo
     \label{fig:fixedExpo}
 \end{figure}
 At this point, we want to confirm our hypothesis, that poors form clusters. \\
-To do this, we define the null hypothesis, that is that the probability that an individual is poor doesn't depend on the neighbors. So, if that were the case, we should see that the probability that a couple of individuals are poor doesn't change if the two are linked.
-% The full randomness of interactions does not represent a reality in which every agent has a fixed amount of individual to interact with (like friends, the favorite bar/supermarket etc.).
-% To take this limit into account we must reduce the size of our network (that was $N^2$), taking a smaller net in which every agent can interact with few of the others.
-% In this type of situation we expect the formation of \emph{clusters}, both of rich and poor.
-% Ideally, if a player is poor will tend to impoverish his neighbors and in the same way a rich player will tend to enrich his neighbors.
+To do this, we define the null hypothesis, that is that the probability that an individual is poor doesn't depend on the neighbors. If the null hypothesis was true, that the conditional probability of being poor, knowing that a neighbour is also poor, should be identical to the probability of being poor in general:
+$$
+	p(poor \ | \ neighbour=poor) = p(poor)
+	\label{eq:condition_for_null}
+$$
+We then want to calculate this two probabilities and show that they are indeed different, thus showing that the null hypothesis is false. \\
+During the evolution, when an individual's wealth goes under a certain threshold, which we've set to $0$, we include the individual in the list containing all the poors. At the end of the evolution, then, we can calculate the probability of becoming poor simply using the frequentistic definition of probability:
+$$
+	p(poor) = \frac{\# \ poor \ individuals}{\# \ size \ of \ the \ population}
+$$
+Then, to calculate the conditional probability in equation \ref{eq:condition_for_null} we count the poors, under the condition that they have a poor neighbour. \\
+In this way we find a probability $p(poor) = 11.56 \%$ and a conditional probability $p(poor \ | \ neighbour=poor) = 32.87 \%$. The two probabilities are significantly different, and this suggests that the null hypothesis is false and gives us reason to believe that poorness is indeed an attractive trait.
