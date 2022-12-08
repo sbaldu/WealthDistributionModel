@@ -1,0 +1,31 @@
+A similar but slightly different model for describing the distribution of wealth can be constructed based on kinetic theory. \\
+We consider an ideal gas, containing $N$ particles, each containing a quantity $x_j$ of energy, which represents the wealth. Unlike the previous models, now the wealth is represented by a continuous variable (at least classically). The state of the system is characterized by the vector containing the energies of all the particles, $\{x_j\}_{1..N}$, with the condition 
+\begin{equation}
+	\sum_j x_j = X_0 \ \ \ \ \ \ \forall t	
+\end{equation}
+The particles in the gas, during their motion, can collide one another, and in this collision there is and exchange of kinetical energy. The most basic equations for the exchange of energy are equivalent to the ones seen in the previous models:
+\begin{equation}
+	\begin{split}
+		x'_i = x_i - \Delta x \\
+		x'_j = x_j + \Delta x 
+	\end{split}
+\end{equation}
+where we require both the energies $x_i$ and $x_j$ to be positive. \\
+Here the quantity of energy exchanged is constant. Alternatively, We could define a constant $\varepsilon$ which represents the fraction of a particle's energy which is exchanged in the collision. So the equations become:
+\begin{equation}
+	\begin{split}
+		x'_i = \varepsilon(x_i + x_j)	 \\
+		x'_j = \overline{\varepsilon}(x_i + x_j)
+	\end{split}
+\end{equation}
+where $\overline{\varepsilon}$ is the complementar of $\varepsilon$. \\
+This latter model produces a boltzmann distribution. \\ \\
+In order to reproduce the real wealth distributions we can complicate the model further by introducing a saving propensity. In this scope, we introduce a variable $\la$, that takes values between $0$ and $1$, which represents the fraction of energy which is conserved and not exchanged in the collisions. \\
+Introducing this new component, the equations become:
+\begin{equation}
+	\begin{split}
+		x'_i = \la_ix_i + \varepsilon((1-\la_i)x_i + (1-\la_j)x_j) 	\\
+		x'_j = \la_jx_j + \overline{\varepsilon}((1-\la_i)x_i + (1-\la_j)x_j) 	\\
+	\end{split}
+\end{equation}
+By assigning a value $\la = 0$ to $99 \%$ of the agents, and values of $\la$ uniformly distributed between $0$ and $1$ to the remaining $1\%$, the resulting distribution is the combination of two different trends: for small values of $x$, the distribution is an exponential, whereas at large values of $x$ the distribution is a power law, which is produced by the individuals with values of $\la$ near $1$.
