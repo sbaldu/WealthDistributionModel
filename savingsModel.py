@@ -1,6 +1,7 @@
 import newModel
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 from tqdm import tqdm
 
 def data(vec):
@@ -10,18 +11,16 @@ def data(vec):
         y[int(element)] += 1
     return x,y
 
-net = newModel.newModel(100,10**5)
-
-ntot = sum(net.getPlayers())
-n = 5.5*10**4
+net = newModel.newModel(5,10**5)
+n = 1.0*10**6
 for i in tqdm(range(int(n))):
-    print(i)
     net.evolveSavings()
-    print(sum(net.getPlayers()))
-    assert(sum(net.getPlayers()) == ntot)
-# x = data(net.getPlayers())[0]
-# y = data(net.getPlayers())[1]
-# plt.plot(x,y)
-# plt.plot(x,100/(x**1))
-plt.hist(net.getPlayers(),bins=90)
+
+sns.distplot(net.getPlayers(), hist=False)
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel('Capital')
+plt.ylabel('Frequency (a.u.)')
+plt.ylim([10**(-5),10**(1)])
+plt.savefig("./tex/img/savings.pgf")
 plt.show()
