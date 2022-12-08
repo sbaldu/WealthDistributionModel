@@ -15,7 +15,7 @@ public:
 	newModel(double, int);
 	std::vector<double> const& getPlayers();
 	std::vector<double> const& getLambdas();
-	uint16_t couples(uint16_t); // the couples are chosen
+	int couples(int); // the couples are chosen
 	
 	void evolveUniform();
 	void evolveSavings();

@@ -36,11 +36,11 @@ newModel::newModel(double initialCapital, int Nplayers) {
 std::vector<double> const &newModel::getPlayers() { return players_; }
 std::vector<double> const &newModel::getLambdas() { return lambda_; }
 
-uint16_t newModel::couples(uint16_t first) {
-  auto dist = std::uniform_int_distribution<uint16_t>(
+int newModel::couples(int first) {
+  auto dist = std::uniform_int_distribution<int>(
       0, Nplayers_ - 1); // second player is chosen randomly
-  uint16_t second = 0;
-  uint16_t rnd = dist(globalRNG);
+  int second = 0;
+  int rnd = dist(globalRNG);
   if (rnd != first) {
     second = rnd;
   }
@@ -48,10 +48,9 @@ uint16_t newModel::couples(uint16_t first) {
 }
 
 void newModel::evolveUniform() {
-  uint16_t first =
-      std::uniform_int_distribution<uint16_t>(0, Nplayers_ - 1)(globalRNG);
+  int first = std::uniform_int_distribution<int>(0, Nplayers_ - 1)(globalRNG);
   std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
-  uint16_t other = couples(first);
+  int other = couples(first);
   if (coin(globalRNG) && players_[other] > 0) {
     ++players_[first];
     --players_[other];
@@ -62,9 +61,8 @@ void newModel::evolveUniform() {
 }
 
 void newModel::evolveSavings() {
-  uint16_t first =
-      std::uniform_int_distribution<uint16_t>(0, Nplayers_ - 1)(globalRNG);
-  uint16_t other = couples(first);
+  int first = std::uniform_int_distribution<int>(0, Nplayers_ - 1)(globalRNG);
+  int other = couples(first);
 
   // We introduce the lambda parameter, which indicates the saving propensity
   float lambda_i = lambda_[first];
@@ -81,6 +79,4 @@ void newModel::evolveSavings() {
                       (1 - epsilon) * ((1 - lambda_i) * players_[first] +
                                        (1 - lambda_j) * players_[other]);
   }
-  std::cout << players_[first] << std::endl;
-  std::cout << players_[other] << std::endl;
 }
