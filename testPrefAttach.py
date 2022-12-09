@@ -47,14 +47,16 @@ h.Fit("f", "R")
 print("ChiSquare/NDF = " + str(round(f.GetChisquare()/f.GetNDF(), 3)))
 print("p-value = " + str(round(f.GetProb(), 3)))
 
-# plt.plot(x, y ,'bo')
-plt.hist(x, weights=y, bins=nBins, range=(1, max(x)))
+# "Binned" scatter plot 
+n,bins,patches = plt.hist(x, weights=y, bins=nBins, range=(1, max(x)), alpha=0.)
+plt.scatter(bins[:-1] + 0.5*(bins[1:] - bins[:-1]), n, marker='.', s=30)
 fitX = np.arange(min(x), max(x), 0.1)
 fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
 plt.plot(fitX, fitY, color="red")
 
 plt.yscale("log")
 plt.xscale("log")
+plt.xlim([2,200])
 plt.xlabel('Capital (coins)')
 plt.ylabel('Frequency (a.u.)')
 plt.savefig("./tex/img/pow.pgf")
