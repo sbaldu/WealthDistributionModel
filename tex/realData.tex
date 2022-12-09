@@ -1,0 +1,36 @@
+Finally, we want to analyze some real data of distribution of income and compare the real distribution with the ones obtained in the previous models. \\
+From now on we'll consider the distribution of annual income in the USA, where the data was extracted from the 1994 census. The global distribution of income is the following:
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.7}{\input{./img/global_real_distribution.pgf}}
+    \caption{\emph{}}
+    \label{fig:gloabl_realData}
+\end{figure}
+We see that the trend is what we'd expect it to be: there is a peak for small values of income and then the tren is decreasing as the values get larger. The positive trend near the origin can be attributed to a redistribution system implemented by the state, in order to prevent too many people from becoming poor. \\
+We then see that for intermediate incomes the trendis an exponential decrease
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.7}{\input{./img/real_head.pgf}}
+    \caption{\emph{}}
+    \label{fig:real_head}
+\end{figure}
+ and at the tail of the distribution we have a power law decrease.
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.7}{\input{./img/real_tail.pgf}}
+    \caption{\emph{}}
+    \label{fig:real_tail}
+\end{figure}
+This kind of trend, in particular the exponential behaviour for small incomes and the power law decrease for large incomes is compatible with the model defined in paragraph \ref{savings}, which introduces the concept of savings. 
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.7}{\input{./img/realData_head.pgf}}
+    \caption{\emph{}}
+    \label{fig:gloabl_realData_head}
+\end{figure}
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.7}{\input{./img/realData_tail.pgf}}
+    \caption{\emph{}}
+    \label{fig:gloabl_realData_tail}
+\end{figure}
