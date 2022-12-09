@@ -49,7 +49,7 @@ print("p-value = " + str(round(f.GetProb(), 3)))
 
 # "Binned" scatter plot 
 n,bins,patches = plt.hist(x, weights=y, bins=nBins, range=(1, max(x)), alpha=0.)
-plt.scatter(bins[:-1] + 0.5*(bins[1:] - bins[:-1]), n, marker='.', s=30)
+plt.scatter(bins[:-1] + 0.5*(bins[1:] - bins[:-1]), n, marker='.', s=100)
 fitX = np.arange(min(x), max(x), 0.1)
 fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
 plt.plot(fitX, fitY, color="red")
