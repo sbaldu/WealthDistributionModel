@@ -6,10 +6,9 @@ As boundary condition we assume that an agent will play only if he has at least 
 It's trivial that the $n = 0$ state of this system is an attractor and the dynamics will tend to take all players to 0 but one to $N = \alpha n$.
 However, if we study the system at a sufficiently large time (but not so much to end up in the limit) we may find a well-defined trend.
 
-In the fair game hypothesis every microstate has the same probability: our problem reduces to compute how many microstate corresponds to a unique macrostate.
-How can we count the microstates?
-For simplicity let's take 3 agents with one coin each: we can count the microstates of this system on the external surface of a 3D simplex (so all side surfaces are excluded) with sides of length 3, as shown in Fig. \ref{fig:threeSimplex}.
-\begin{figure}[h]
+In the fair game hypothesis every microstate has the same probability: our problem reduces to count the microstates corresponding to a unique macrostate.
+For simplicity, let's consider 3 agents with one coin each: we can count the microstates of this system on the external surface of a 3D simplex, i.e. the surface with the shape of an equilateral triangle (effectively excluding surfaces living on planes), with sides of length 3, as shown in Fig. \ref{fig:threeSimplex}.
+\begin{figure}[ht!]
     \centering
     \scalebox{.7}{\begin{tikzpicture}
         \tikzstyle{point}=[thick,draw=black,inner sep=0pt,minimum width=4pt,minimum height=4pt]
@@ -17,8 +16,8 @@ For simplicity let's take 3 agents with one coin each: we can count the microsta
         \node (o)[label={[label distance=0cm]135:$O$}] at (0,0) {\textbullet};
         \node (a)[label={[label distance=0cm]0:}] at (3,0) {\textbullet};
         \node (b)[label={[label distance=0cm]0:}] at (0,3) {\textbullet};
-        \node (c)[label={[label distance=0cm]180:$A$}] at (-2.1, -2.1) {\textbullet};
-        \node (d)[label={[label distance=0cm]270:$B$}] at (-0.4, -1.4) {\textbullet};
+        \node (c)[label={[label distance=0cm]180:$P$}] at (-2.1, -2.1) {\textbullet};
+        \node (d)[label={[label distance=0cm]270:$Q$}] at (-0.4, -1.4) {\textbullet};
         \node (e)[label={[label distance=0cm]0:}] at (1.2, -0.7) {\textbullet};
         \node (f)[label={[label distance=0cm]0:}] at (1, 2) {\textbullet};
         \node (g)[label={[label distance=0cm]0:}] at (2, 1) {\textbullet};
@@ -35,12 +34,12 @@ For simplicity let's take 3 agents with one coin each: we can count the microsta
         \draw[thick, ->] (0,3) -- (0,4) node[anchor=west]{$e_k$};
         \draw[thick, ->] (-2.1, -2.1) -- (-2.8, -2.8) node[anchor=north]{$e_i$};
     \end{tikzpicture}}
-    \caption{\emph{A 3D simplex where the surface of interest is enlightened.}}
+    \caption{\emph{A 3D simplex where the surface of interest is enlightened. Every dot on that surface represents a possible microstate.}}
     \label{fig:threeSimplex}
 \end{figure}
-For example, the point A = (3, 0, 0) is part of the surface and represents the state in which the i-agent has 3 coins and the others 0. \\
-Likewise, the point B = (2, 1, 0), also on the surface, represent the state in which the i-agent has 2 coins, the j-agent has 1 and the k-agent has 0, and so on.
-It is now clear that, while the surface gives us the number of microstates corresponding to a fixed amount of money, the volume between 0 and a fixed value $y$ such that $0 \leq y \leq N$ gives us the cumulative distribution of the microstates, Fig. (\ref{fig:simplexVolume}).
+For example, the point P = (3, 0, 0) is part of the surface and represents the state in which the i-agent has 3 coins and the others 0. \\
+Likewise, the point Q = (2, 1, 0), which is also on the surface, represents the state in which the i-agent has 2 coins, the j-agent has 1 and the k-agent has 0, and so on.
+It is now clear that, while the surface gives us the number of microstates corresponding to a macrostate (fixed amount of money), the volume between 0 and a fixed value $y$ such that $0 \leq y \leq N$ drawn in Fig. \ref{fig:simplexVolume} gives us the cumulative distribution of the microstates.
 Defining our simplex as
 \begin{equation*}
     \Delta^n(N)=\left\{x \in \mathbb{R}^n \text{ s.t. } \sum_{i = 1}^n x_i = N, x_i \geq 0\right\}
@@ -102,7 +101,7 @@ Now that we have the cumulative distribution of the microstate it's trivial to f
     \label{fig:expo}
 \end{figure}
 Now let's take $N = 10^4$ players and give $\alpha = 5$ coins each, then simulate a million of fair matches.
-At the end of the simulation, let's plot the frequency of agents in respect to their capital and fit \cite{root} it with a function $y(x) = Ae^{Bx}$ as proved in Eq. (\ref{eq:expo}).
+At the end of the simulation, let's plot the frequency of agents in respect of their capital and fit \cite{root} it with a function $y(x) = Ae^{Bx}$ as proved in Eq. (\ref{eq:expo}).
 We  also expect $A \sim -B \sim \frac{1}{5}$.
-As shown in Fig. (\ref{fig:expo}), the fit seems to be according to the data.
+As shown in Fig. \ref{fig:expo}, the fit seems to be according to the data.
 In particular, it gives the parameters $A = 0.29$ and $B = -0.22$, compatible with the expected value $\frac{1}{5} = 0.20$.
