@@ -9,15 +9,22 @@ However, if we study the system at a sufficiently large time (but not so much to
 In the fair game hypothesis every microstate has the same probability: our problem reduces to compute how many microstate corresponds to a unique macrostate.
 How can we count the microstates?
 For simplicity let's take 3 agents with one coin each: we can count the microstates of this system on the external surface of a 3D simplex (so all side surfaces are excluded) with sides of length 3, as shown in Fig. \ref{fig:threeSimplex}.
-\begin{figure}[ht!]
+\begin{figure}[h]
     \centering
-    \begin{tikzpicture}[scale = .5]
+    \scalebox{.7}{\begin{tikzpicture}
         \tikzstyle{point}=[thick,draw=black,inner sep=0pt,minimum width=4pt,minimum height=4pt]
 
-        \node (o)[label={[label distance=0cm]180:$O$}] at (0,0) {\textbullet};
+        \node (o)[label={[label distance=0cm]135:$O$}] at (0,0) {\textbullet};
         \node (a)[label={[label distance=0cm]0:}] at (3,0) {\textbullet};
         \node (b)[label={[label distance=0cm]0:}] at (0,3) {\textbullet};
-        \node (c)[label={[label distance=0cm]270:}] at (-2.1, -2.1) {\textbullet};
+        \node (c)[label={[label distance=0cm]180:$A$}] at (-2.1, -2.1) {\textbullet};
+        \node (d)[label={[label distance=0cm]270:$B$}] at (-0.4, -1.4) {\textbullet};
+        \node (e)[label={[label distance=0cm]0:}] at (1.2, -0.7) {\textbullet};
+        \node (f)[label={[label distance=0cm]0:}] at (1, 2) {\textbullet};
+        \node (g)[label={[label distance=0cm]0:}] at (2, 1) {\textbullet};
+        \node (h)[label={[label distance=0cm]0:}] at (-0.6, 1.6) {\textbullet};
+        \node (i)[label={[label distance=0cm]0:}] at (-1.3, -0.2) {\textbullet};
+        \node (j)[label={[label distance=0cm]0:}] at (0.3, 0.3) {\textbullet};
         
         \draw[fill=blue, opacity=0.5] (a.center) -- (b.center) -- (c.center) -- cycle;
         \draw[dashed] (o.center) -- (a.center);
@@ -27,12 +34,12 @@ For simplicity let's take 3 agents with one coin each: we can count the microsta
         \draw[thick, ->] (3,0) -- (4,0) node[anchor=west]{$e_j$};
         \draw[thick, ->] (0,3) -- (0,4) node[anchor=west]{$e_k$};
         \draw[thick, ->] (-2.1, -2.1) -- (-2.8, -2.8) node[anchor=north]{$e_i$};
-    \end{tikzpicture}
+    \end{tikzpicture}}
     \caption{\emph{A 3D simplex where the surface of interest is enlightened.}}
     \label{fig:threeSimplex}
 \end{figure}
-For example, the point (3, 0, 0) is part of the surface and represents the state in which the i-agent has 3 coins and the others 0. \\
-Likewise, the point (2, 1, 0), also on the surface, represent the state in which the i-agent has 2 coins, the j-agent has 1 and the k-agent has 0, and so on.
+For example, the point A = (3, 0, 0) is part of the surface and represents the state in which the i-agent has 3 coins and the others 0. \\
+Likewise, the point B = (2, 1, 0), also on the surface, represent the state in which the i-agent has 2 coins, the j-agent has 1 and the k-agent has 0, and so on.
 It is now clear that, while the surface gives us the number of microstates corresponding to a fixed amount of money, the volume between 0 and a fixed value $y$ such that $0 \leq y \leq N$ gives us the cumulative distribution of the microstates, Fig. (\ref{fig:simplexVolume}).
 Defining our simplex as
 \begin{equation*}
@@ -44,7 +51,7 @@ we can use the result of an article \cite{simplexSampling} in which the volume o
 \end{equation*}
 \begin{figure}[ht!]
     \centering
-    \begin{tikzpicture}[scale = .5]
+    \scalebox{.7}{\begin{tikzpicture}
         \tikzstyle{point}=[thick,draw=black,inner sep=0pt,minimum width=4pt,minimum height=4pt]
 
         \node (o)[label={[label distance=0cm]180:$O$}] at (0,0) {\textbullet};
@@ -65,7 +72,7 @@ we can use the result of an article \cite{simplexSampling} in which the volume o
         \draw[thick, ->] (4,0) -- (5,0) node[anchor=west]{$e_j$};
         \draw[thick, ->] (0,4) -- (0,5) node[anchor=west]{$e_k$};
         \draw[thick, ->] (-2.8, -2.8) -- (-3.5, -3.5) node[anchor=north]{$e_i$};
-    \end{tikzpicture}
+    \end{tikzpicture}}
     \caption{\emph{Fraction of volume of the simplex we are interested.}}
     \label{fig:simplexVolume}
 \end{figure}
