@@ -88,7 +88,7 @@ For a great amount of agents we can take the previous relation in the limit $n\t
 \begin{equation*}
     F(y) = 1 - e^{-\frac{y}{\alpha}}
 \end{equation*}
-Now that we have the cumulative distribution of the microstate it's trivial to find the pdf applying the definition
+Once that we have the cumulative distribution of the microstate it's trivial to find the pdf applying the definition
 \begin{equation}
     f(y) = \frac{d}{dy}F(y) = \frac{1}{\alpha} e^{-\frac{y}{\alpha}}
     \label{eq:expo}
@@ -102,6 +102,6 @@ Now that we have the cumulative distribution of the microstate it's trivial to f
 \end{figure}
 Now let's take $N = 10^4$ players and give $\alpha = 5$ coins each, then simulate a million of fair matches.
 At the end of the simulation, let's plot the frequency of agents in respect of their capital and fit \cite{root} it with a function $y(x) = Ae^{Bx}$ as proved in Eq. (\ref{eq:expo}).
-We  also expect $A \sim -B \sim \frac{1}{5}$.
+We  also expect $A \simeq -B \simeq \frac{1}{5}$.
 As shown in Fig. \ref{fig:expo}, the fit seems to be according to the data.
 In particular, it gives the parameters $A = 0.29$ and $B = -0.22$, compatible with the expected value $\frac{1}{5} = 0.20$.
