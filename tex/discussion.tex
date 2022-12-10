@@ -1,0 +1,39 @@
+The basic model, which implements a completely connected network, where any agent can interact with any other and both agents have the same probability of winning, produces a distribution of income which follows an exponential decay:
+$$
+	f(x) = A\exp(-\la x)
+$$
+By fitting the simulated data with this model we have found for the first parameter an estimate $A = 0.29$, and for the second $\la = 0.22$. \\ \\
+Then we introduced a preferential attatchment, giving to the richer agents a higher probability of winning a single encounter with a poorer one. We expected this type of evolution to slow down the decrease of the distribution, hence increasing the number of very rich individuals. In particular, we were expecting the distribution to become a power law:
+$$
+	f(x) = Bx^{-\al}
+$$
+This is in fact what we've found. By fitting the data with this model we have found the estimates for the parameters $A = 1.65$ and $\al = -1.82$. We expected the exponen's value to be compatible with Zipf law, since it is very typical for preferential attatchment phenomenons. In fact, Zipf law predicts a cumulative distribution that goes like $1/x$, which is fully compatible with the pdf that we've found, that goes like $1/x^{1.82} \approx 1/x^{2}$. \\ \\
+In social models, usually there network isn't ever completely connected, on the other hand, each individual can only interact with a limited number of other individuals. In these types of models, the number of links that an individual makes is an important parameter, because it determines how much and how quickly that individual can change its state. \\
+For this reason we've implemented a fixed network, where each agent has a random number of links, an average of $12$, and can only interact with those. In this case we expect again to see an exponential distribution of income, because we haven't implemented any kind of preferential attatchment. \\
+This is actually what we see, and by fitting the data we find the estimates for the parameters $A = 0.24$ and $\la = 0.22$. \\
+Another thing that we wanted to prove for this model was that poorness is an attractive property, so when an individual becomes poor it tends to impoverish its neighbors too (the individuals to whom it's linked). This statement is equivalent to saying that the probability of being poor $p(poor)$ is not equal to the conditional probability of being poor, given that a neighbour is also poor, $p(poor \ | \ neighbour=poor)$. \\
+We've calculated the two probabilities, finding $p(poor) = 11.72 \%$ and $p(poor \ | \ neighbour=poor) = 31.57 \%$, and since the two are significantly different we can safely accept our hypothesis. \\ \\
+Finally, we've implemented a model that allows the agents save a portion of their capital. We expect this to be the model that best describes the real distribution of income. By giving to $99 \%$ of the agents a null saving propensity $\la$ and to the remaining $1 \%$ values of $\la$ which are uniformly distributed between $0$ and $1$, what we find is a distribution which is exponential for small capitals and turns into a power law towards the highest values. \\
+If we compare this trend with some real data, we can see that the two are actually compatible. \\ \\
+We consider the distribution of annual income in the USA, where the data was extracted from the 1994 census. The global distribution of income is the following:
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.7}{\input{./img/global_real_distribution.pgf}}
+    \caption{\emph{Distribution of income in the USA from the 1994 census.}}
+    \label{fig:gloabl_realData}
+\end{figure}
+We see that the trend is what we'd expect it to be: there is a peak for small values of income and then the tren is decreasing as the values get larger. The positive trend near the origin can be attributed to a redistribution system implemented by the state, in order to prevent too many people from becoming poor. \\
+We then see that for intermediate incomes the trend is an exponential decrease
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.7}{\input{./img/real_head.pgf}}
+    \caption{\emph{Distribution of income in a logarithmic scale to show the exponential trend at small values of capital.}}
+    \label{fig:real_head}
+\end{figure}
+ and at the tail of the distribution we have a power law decrease.
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.7}{\input{./img/real_tail.pgf}}
+    \caption{\emph{Distribution of income in a log-log scale to show the power law behaviour in the tail of the distribution.}}
+    \label{fig:real_tail}
+\end{figure}
