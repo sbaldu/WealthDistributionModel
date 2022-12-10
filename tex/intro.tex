@@ -2,17 +2,18 @@ One of the main challenge of the study of complex systems is to work out models 
 For this reason, years ago a new branch of physics was born, the so-called \emph{econophysics}.
 The econophysics name first emerged with Stanley et al. at a conference held in 1995 in Kolkata.
 It is a neologism used for the branch of physics of complex systems that seeks to make a complete survey of the statistical properties of financial markets, using the huge volume of data now available and working methods of statistical physics.
+The goal is to understand economic phenomena through the application of physical models. \\
 At the beginning of the twentieth century, Louis Bachelier (1870-1940) in his doctoral thesis in mathematics (\emph{Theory de La Speculation}, published in 1900), admitted that the prices of financial assets followed a random walk, anticipating the ideas from Einstein in five years on the mathematical formalization of a random walk process \cite{history}.
 Years later, another paper signed by Fischer Black and Myron Scholes showed an application of the heat diffusion equation to financial problems. \\
 Mandelbrot \cite{mandelbrot1965} also realized that normal distributions could not explain the high fluctuations in the price of cotton (using data from half a century), given that a distribution using the power law format fits the data better.  
-However, Mandelbrot encountered the problem of infinite standard deviation: all moments of order greater than two were infinite.
+However, he encountered the problem of infinite standard deviation: all moments of order greater than two were infinite.
 The main problem is that in the financial markets the standard deviation is a measure of the volatility of a variable, i.e. its degree of variation over time, so it was difficult to give meaning to this greatness in case it becomes infinite.
 An explanation came when Vilfredo Pareto (1848-1923), who was interested in the distribution of income in Italy in 1906, worked out Pareto's Power Law, justifying the results of Mandelbrot as fluctuations in assets.
 Power laws have the property of being free of scale, so they are ideal for measuring phenomena that are susceptible to extreme events such as financial markets.
 In fact, econophysics was intrinsically linked to seeking extreme events in financial series using power laws to describe them, and those events are not so rare (see 1987 and 2008 crisis).
 
 The idea of this work is to test the ``fairness'' of money exchanges looking at the wealth distribution, using an agent-based model which code is available on GitHub at (NEED LINK).
-We tried to keep the model as simple as possible, making several tests varying the number of parameters according to their compatibility with real data (NEED REAL DATA).
+We tried to keep the model as simple as possible, making several tests varying the number of parameters according to their compatibility with real data.
 Therefore, our study will start from a simple money exchange model on a fully connected network (with uniform probability) with an insight on a partial connected random network.
 Then, a \emph{preferential attachment} will be implemented, trying to get better results.
 For last, we introduce an ulterior ``saving parameter'' to see how this will influence the simulation.
