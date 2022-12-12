@@ -1,4 +1,4 @@
-Looking at real data (CITATION NEEDED), it can be seen that in real life money is distributed following a power law, instead of an exponential.
+Looking at real data, it can be seen that in real life money is distributed following a power law, instead of an exponential.
 The power law goes to zero slower than the exponential, so the real-life distribution for money is more fair than what we have hypothesized in our model. \\
 So, in order to have the model reproduce the real-life distribution we have to introduce some unfairness in the model.
 The best way to do so is to introduce a preferential attachment, which means that individuals who have more money have a higher probability of earning more money.
@@ -22,11 +22,24 @@ In this case, as shown in Fig. \ref{fig:prefAttach}, the distribution is not exp
 We expected this: considering a dependence on the actual capital to the probability means that we actually added \emph{memory} to the dynamics.
 In fact, in a system with memory each time step is not independent of the previous ones.
 In this case, data are fitted with a law of the type $f(x) = Ax^B$ where we expect $A > 0$ and $B < 0$.
-The fit gives us the values $A = 1.65$ and $B = -1.82 \sim -2$, compatible with the hypothesis.
-The value $B \sim -2$ is actually good because we expect an interaction of this kind to follow the Zipf's law, typical of preferential attachments phenomena.
-However, Zipf's law represents a ranking distribution, i.e. a cumulative distribution, while we found a pdf.
-Nevertheless, we can easily demonstrate that both laws are mutually compatible using the definition of cumulative distribution:
+The fit gives us the values $A = 1.65$ and $B = -1.82$, compatible with the hypothesis.
+
+Moreover, we expect this distribution to obey the Zipf's law, which is typical of preferential attachment phenomena.
+Zipf's law states that the income $n$ of people with rank $r$ has a power behavior:
 \begin{equation}
-	F(x) = \int_{-\infty}^x f(x') dx' \propto \int_{-\infty}^x \frac{1}{{x'}^2} dx' = \frac{1}{x}
+    n(r) \sim r^b \ \ \ \ \ \ \ \ \ b \simeq -1
+    \label{eq:zipf}
 \end{equation}
-which is the Zipf's law.
+We can now reverse the previous relationship \cite{zipf} obtaining that the number $r$ of people whose income is $n$ or higher is given by
+\begin{equation}
+    r(n) \sim n^{\frac{1}{b}}
+    \label{eq:pareto}
+\end{equation}
+We notice that Eq. (\ref{eq:pareto}) is a cumulative distribution.
+By deriving and normalizing it we can obtain the distribution that tells us the frequency of people whose income is exactly $n$
+\begin{equation}
+    f(n) \sim n^{\frac{1}{b} - 1}
+    \label{eq:paretoPDF}
+\end{equation}
+
+If we compare the results of Eq. (\ref{eq:paretoPDF}) with those of the fit Eq. (\ref{eq:prefAttach}) we notice that the Zipf's behavior is well reproduced with $b = -1.22 \simeq -1$.
