@@ -48,6 +48,7 @@ we can use the result of an article \cite{simplexSampling} in which the volume o
 \begin{equation*}
     V_n\left(y, N\right) = \frac{\sqrt{n+1}}{n!}\left[N^n - \left(N - y\right)^n\right]
 \end{equation*}
+This is, however, the result of an integral and turns out in an overestimate of the volume.
 \begin{figure}[ht!]
     \centering
     \scalebox{.7}{\begin{tikzpicture}
@@ -75,7 +76,7 @@ we can use the result of an article \cite{simplexSampling} in which the volume o
     \caption{\emph{Fraction of volume of the simplex we are interested.}}
     \label{fig:simplexVolume}
 \end{figure}
-We want to normalize it all as we are looking for a pdf, so we can divide $V_n\left(y, N\right)$ by $V_n\left(N, N\right)$ finding the cumulative distribution
+We want to normalize it all as we are looking for a pdf, so we can divide $V_n\left(y, N\right)$ by $V_n\left(N, N\right)$ and neglect the overestimation, finding the cumulative distribution
 \begin{equation*}
     F(y) = \frac{V_n\left(y, N\right)}{V_n\left(N, N\right)} = 1 - \left(1 - \frac{y}{N}\right)^n
 \end{equation*}
