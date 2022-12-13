@@ -37,9 +37,11 @@ For simplicity, let's consider 3 agents with one coin each: we can count the mic
     \caption{\emph{A 3D simplex where the surface of interest is enlightened. Every dot on that surface represents a possible microstate.}}
     \label{fig:threeSimplex}
 \end{figure}
-For example, the point P = (3, 0, 0) is part of the surface and represents the state in which the i-agent has 3 coins and the others 0. \\
+For example, the point P = (3, 0, 0) is part of the surface and represents the state in which the i-agent has 3 coins and the others 0.
 Likewise, the point Q = (2, 1, 0), which is also on the surface, represents the state in which the i-agent has 2 coins, the j-agent has 1 and the k-agent has 0, and so on.
-It is now clear that, while the surface gives us the number of microstates corresponding to a macrostate (fixed amount of money), the volume between 0 and a fixed value $y$ such that $0 \leq y \leq N$ drawn in Fig. \ref{fig:simplexVolume} gives us the cumulative distribution of the microstates.
+\\It is now clear that, while the surface gives us the number of microstates corresponding to a macrostate (fixed amount of money), the volume between 0 and a fixed value $y$ such that $0 \leq y \leq N$ drawn in Fig. \ref{fig:simplexVolume} gives us the cumulative distribution of the microstates.
+To simplify the computations, we consider from now on the continuum limit in which the number of coins is a real value.
+This assumption is actually strong but will be justified by comparison with simulated data. 
 Defining our simplex as
 \begin{equation*}
     \Delta^n(N)=\left\{x \in \mathbb{R}^n \text{ s.t. } \sum_{i = 1}^n x_i = N, x_i \geq 0\right\}
@@ -109,4 +111,4 @@ At the end of the simulation, let's plot the frequency of agents in respect of t
 as proved in Eq. (\ref{eq:expo}).
 We  also expect $C \simeq -\gamma \simeq \alpha^{-1}$.
 As shown in Fig. \ref{fig:expo}, the fit seems to be according to the data.
-In particular, it gives the parameters $C = 0.29$ and $\gamma = -0.22$, compatible with the expected value $\frac{1}{5} = 0.20$.
+In particular, it gives the parameters $C = 0.29$ and $\gamma = -0.22$, compatible with the expected value $\alpha^{-1} = 0.20$.

@@ -1,8 +1,8 @@
-Looking at real data, it can be seen that in real life money is distributed following a power law, instead of an exponential.
-The power law goes to zero slower than the exponential, so the real-life distribution for money is more fair than what we have hypothesized in our model. \\
-So, in order to have the model reproduce the real-life distribution we have to introduce some unfairness in the model.
-The best way to do so is to introduce a preferential attachment, which means that individuals who have more money have a higher probability of earning more money.
-So in this case the richer individuals have an attractive property, which allows them to earn more money as they get richer. \\
+Looking at real data, it can be seen that in real life higher capitals are distributed following a power law, instead of an exponential.
+The power law goes to zero slower than the exponential, so this distribution seems more fair than what we have hypothesized in our previous model.
+In order to reproduce this behavior we have to introduce some unfairness in the model.
+The best way to do so is to introduce a preferential attachment, which means that individuals who have more money have a higher probability of earning more.
+In this case, the richer (poorer) individuals have an attractive property, which allows them to earn (lose) more money as they get richer (poorer). \\
 To implement this preferential attachment we can change the probabilities of winning and losing in a way that favors the individuals with more money.
 If $\epsilon$ is the probability that the richer individual wins then $\bar{\epsilon} = 1 - \epsilon$ is the probability that it's the poorer who wins, we can define them as follows:
 \begin{equation}
@@ -27,19 +27,20 @@ Zipf's law states that the frequency of an event with rank $r$ has a power behav
     f(r) \sim r^b \ \ \ \ \ \ \ \ \ b \simeq -1
     \label{eq:zipf}
 \end{equation}
-The expected value of the $r$th ranked value $x_r$ is
+The expected value of the $r$th ranked capital value $n_r$ is
 \begin{equation*}
-    \mathbb{E}(x_r)\sim r^b
+    \mathbb{E}(n_r)\sim r^b
 \end{equation*}
-This means there are $r$ variables with expected value greater or equal to $\mathbb{E}(x_r)$, so $\mathbb{P}(x \geq \mathbb{E}(x_r)) \sim r$.
-Making the variable change $n=r^b$, which represents the income, we obtain the cumulative distribution
+This means there are $r$ variables with expected value greater or equal to $\mathbb{E}(n_r)$, so $\mathbb{P}(n \geq \mathbb{E}(n_r)) \sim r$.
+Making the variable change $y=r^b$, which represents the income, we obtain the cumulative distribution
 \begin{equation*}
-    \mathbb{P}(x \geq n) \sim n^{\frac{1}{b}}
+    \mathbb{P}(n \geq y) \sim y^{\frac{1}{b}}
 \end{equation*}
 In order to get the pdf, we take the derivative with respect to $n$
 \begin{equation}
-    \mathbb{P}(x = n) \equiv f(n) \sim n^{\frac{1}{b} - 1}
+    \mathbb{P}(n = y) \equiv f(y) \sim y^{\frac{1}{b} - 1}
     \label{eq:paretoPDF}
 \end{equation}
 \\Fitting the data with a law of the type in Eq. (\ref{eq:paretoPDF}) we expect the total exponent $a \equiv \frac{1}{b} - 1$ to be $\simeq -2$.
 The fit gives us the value $a = -1.82$, compatible with the hypothesis, that also confirms that the Zipf's behavior is well reproduced with $b = -1.22 \simeq -1$.
+However, this model fits well only on the tail of the real distribution and does not well reproduce the lower capitals.
