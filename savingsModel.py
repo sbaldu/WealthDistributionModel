@@ -21,7 +21,7 @@ def data(vec):
     return x,y
 
 net = newModel.newModel(5,10**5)
-n = 1.0*10**6
+n = 1*10**6
 for i in tqdm(range(int(n))):
     net.evolvePreferential()
 
@@ -30,6 +30,6 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('Capital (a. currency)')
 plt.ylabel('Frequency (a.u.)')
-plt.ylim([10**(-5),10**(1)])
+plt.ylim([10**(-6),10**(1)])
 plt.savefig("./tex/img/savingsPref.pgf")
 plt.show()

@@ -47,7 +47,7 @@ fitY = [shift_ampl*y for y in fitY]
 plt.plot(fitX, fitY, color="red")
 plt.yscale("log")
 plt.xlabel('Capital (US dollars)')
-plt.ylabel('Frequency')
+plt.ylabel('Frequency (a.u.)')
 plt.savefig("./tex/img/realData_head.pgf")
 print("Contant: ", str(round(np.exp(f.GetParameter("Constant")), 3)))
 print("Slope: ", str(round(f.GetParameter("Slope"), 3)))
