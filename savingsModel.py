@@ -19,7 +19,7 @@ for i in tqdm(range(int(n))):
 sns.distplot(net.getPlayers(), hist=False)
 plt.xscale('log')
 plt.yscale('log')
-plt.xlabel('Capital')
+plt.xlabel('Capital (a. currency)')
 plt.ylabel('Frequency (a.u.)')
 plt.ylim([10**(-5),10**(1)])
 plt.savefig("./tex/img/savings.pgf")
