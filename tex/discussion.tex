@@ -1,29 +1,24 @@
-The basic model, which implements a fully connected network, where any agent can interact with any other and both agents have the same winning chance, produces an income distribution which follows an exponential decay:
-$$
-	f(x) = Ae^{\la x}
-$$
-By fitting the simulated data with this model we have found for the first parameter an estimate $A = 0.29$, and for the second $\la = -0.22$.
-Given that the expected value for both was $\simeq 0.20$, the model is well representing the theory.
+The basic model, which implements a fully connected network, where any agent can interact with any other and both agents have the same winning chance, produces an income distribution which follows an exponential decay, given by Eq. (\ref{eq:generalExpo}).
+By fitting the simulated data with this model we have found for the constant an estimate $C = 0.29$, and for the exponent $\gamma = -0.22$.
+Given that the expected value for both was $\alpha^{-1} = 0.20$, the model is well representing the theory.
 
 However, in social models we rarely see fully connected networks but partially connected ones: that means that each individual can only interact with few others.
 The number of links that an individual makes is so an important parameter, because it determines how much and how quickly that individual can change its state. \\
 For this reason we've implemented a fixed network, where each agent has a uniformly distributed number of links with mean $12$.
 In this case we expect again to see an exponential distribution of income, because we haven't implemented any kind of preferential attachment. \\
-This is actually what we see, and by fitting the data we find the estimates for the parameters $A = 0.24$ and $\la = 0.22$, better than the previous ones.
-
-
-Then we introduced a preferential attachment behavior, giving to the richer agents a higher probability of winning a single encounter with a poorer one. We expected this type of evolution to slow down the decrease of the distribution, hence increasing the number of very rich individuals. In particular, we were expecting the distribution to become a power law:
-$$
-	f(x) = Bx^{\al}
-$$
-This is in fact what we've found. By fitting the data with this model we have found the estimates for the parameters $B = 1.65$ and $\al = -1.82$.
-We expected the exponent's value to be compatible with Zipf's law, since it is very typical for preferential attachment phenomena.
-In fact, Zipf's law predicts a cumulative distribution that goes like $x^{-1}$, which is fully compatible with the pdf that we've found, that goes like $x^{-1.82} \approx x^{-2}$.
-
+This is actually what we see, and by fitting the data with the same Eq. (\ref{eq:generalExpo}) we find the estimates for the parameters $C = 0.24$ and $\gamma = -0.22$, better than the previous ones.
 
 Another thing that we wanted to prove for this model was that poorness is an attractive property, so when an individual becomes poor it tends to impoverish its neighbors too (the individuals to whom it's linked).
 This statement is equivalent to saying that the probability of being poor $\mathbb{P}(poor)$ is not equal to the conditional probability of being poor, given that a neighbor is also poor, $\mathbb{P}(poor \ | \ neighbour=poor)$. \\
-Computing the two probabilities, we've found that $\mathbb{P}(poor) = 11.72 \%$ and \\ $\mathbb{P}(poor \ | \ neighbour=poor) = 31.57 \%$, so due to the significant difference we can safely accept our hypothesis. \\ \\
+Computing the two probabilities, we've found that $\mathbb{P}(poor) = 11.72 \%$ and \\ $\mathbb{P}(poor \ | \ neighbour=poor) = 31.57 \%$, so due to the significant difference we can safely accept our hypothesis.
+
+We then introduced a preferential attachment behavior, giving to the richer agents a higher probability of winning a single encounter with a poorer one.
+We expected this type of evolution to slow down the decrease of the distribution, hence increasing the number of very rich individuals.
+In particular, we were expecting the distribution to become a power law, as described in Eq. (\ref{eq:paretoPDF}).
+By fitting the data with this model we have found the estimates for the parameter $\al = -1.82$.
+We expected the exponent's value to be compatible with Zipf's law, since it is very typical for preferential attachment phenomena.
+In fact, Zipf's law predicts a ranking distribution described in Eq. (\ref{eq:zipf}), which is fully compatible with the pdf that we've found with the exponent $b = 1.22 \simeq -2$.
+
 Finally, we've implemented a model that allows the agents save a portion of their capital.
 We expect this to be the model that best describes the real distribution of income, due to the fact that it takes into account both preferential attachment and saving parameter.
 By giving to $99 \%$ of the agents a null saving propensity $\la$ and to the remaining $1 \%$ values of $\la$ which are uniformly distributed between $0$ and $1$, we find a distribution which is exponential for small capitals and turns into a power law towards the highest values. \\
