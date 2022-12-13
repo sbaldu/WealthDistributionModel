@@ -5,7 +5,7 @@ df = pd.read_csv("./data/adult_cleaned.csv")
 data = df['fnlwgt'].values.tolist()
 
 nBins = 200
-plt.hist(data, bins=nBins)
+n, Bins, patches = plt.hist(data, bins=nBins,density=True)
 plt.xlabel('Capital (US dollars)')
 plt.ylabel('Frequency')
 plt.savefig("./tex/img/global_real_distribution.pgf")
