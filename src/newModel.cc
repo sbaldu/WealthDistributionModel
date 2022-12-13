@@ -89,7 +89,8 @@ void newModel::evolvePreferential() {
   float lambda_j = lambda_[other];
 
   // We introduce the fraction of wealth that is exchanged
-  float epsilon = players_[first] / (players_[first] + players_[other]);
+  float epsilon =
+      (players_[first] + 1) / (players_[first] + players_[other] + 2);
 
   if (players_[first] > 0. && players_[other] > 0.) {
     players_[first] = lambda_i * players_[first] +
