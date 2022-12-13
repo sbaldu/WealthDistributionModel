@@ -16,5 +16,6 @@ PYBIND11_MODULE(newModel, m) {
       .def("getLambdas", &newModel::getLambdas)
       .def("couples", &newModel::couples)
       .def("evolveUniform", &newModel::evolveUniform)
-      .def("evolveSavings", &newModel::evolveSavings);
+      .def("evolveSavings", &newModel::evolveSavings)
+      .def("evolvePreferential", &newModel::evolveSavings);
 }
