@@ -19,6 +19,7 @@ public:
 	
 	void evolveUniform();
 	void evolveSavings();
+	void evolvePreferential();
 };
 
 #endif
