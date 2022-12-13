@@ -1,5 +1,5 @@
 We want our model to be initially as simple as possible and then complicate it if necessary.
-Let's consider $n$ agents with $\alpha$ coins (a. currency) each and let's define a time step as an interaction between two of them.
+Let's consider $n$ agents with $\alpha$ coins (arbitrary currency) each and let's define a time step as an interaction between two of them.
 As interaction, we mean a match between two agents in which a cross-head game is played and the loser has to pay one coin to the winner.
 In this case, we consider the probability to win equal to the probability to lose, regardless to the personal capital.
 As boundary condition we assume that an agent will play only if he has at least 1 coin, effectively excluding those who have no money at all.
@@ -75,7 +75,7 @@ we can use the result of an article \cite{simplexSampling} in which the volume o
     \caption{\emph{Fraction of volume of the simplex we are interested.}}
     \label{fig:simplexVolume}
 \end{figure}
-We want to normalize it all as we are looking for a pdf, so we can divide $V_n\left(y, N\right)$ by $V_n\left(N, N\right)$ finding the cumulative distribution
+We want to normalize it all as we are looking for a pdf, so we can divide $V_n\left(y, N\right)$ by $V_n\left(N, N\right)$, finding the cumulative distribution
 \begin{equation*}
     F(y) = \frac{V_n\left(y, N\right)}{V_n\left(N, N\right)} = 1 - \left(1 - \frac{y}{N}\right)^n
 \end{equation*}
@@ -101,7 +101,12 @@ Once that we have the cumulative distribution of the microstate it's trivial to 
     \label{fig:expo}
 \end{figure}
 Now let's take $N = 10^4$ players and give $\alpha = 5$ coins each, then simulate a million of fair matches.
-At the end of the simulation, let's plot the frequency of agents in respect of their capital and fit \cite{root} it with a function $y(x) = Ae^{Bx}$ as proved in Eq. (\ref{eq:expo}).
-We  also expect $A \simeq -B \simeq \frac{1}{5}$.
+At the end of the simulation, let's plot the frequency of agents in respect of their capital and fit \cite{root} it with a general function 
+\begin{equation}
+    f(y) = Ce^{\la y}
+    \label{eq:generalExpo}
+\end{equation}
+as proved in Eq. (\ref{eq:expo}).
+We  also expect $C \simeq -\gamma \simeq \alpha^{-1}$.
 As shown in Fig. \ref{fig:expo}, the fit seems to be according to the data.
-In particular, it gives the parameters $A = 0.29$ and $B = -0.22$, compatible with the expected value $\frac{1}{5} = 0.20$.
+In particular, it gives the parameters $C = 0.29$ and $\gamma = -0.22$, compatible with the expected value $\frac{1}{5} = 0.20$.
