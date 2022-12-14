@@ -23,7 +23,6 @@ def data(vec):
 net = newModel.newModel(5,10**5)
 n = 1*10**6
 for i in tqdm(range(int(n))):
-    # net.evolvePreferential()
     net.evolveSavings()
 
 sns.distplot(net.getPlayers(), hist=False)
@@ -32,6 +31,5 @@ plt.yscale('log')
 plt.xlabel('Capital (a. currency)')
 plt.ylabel('Frequency (a.u.)')
 plt.ylim([10**(-6),10**(1)])
-# plt.savefig("./tex/img/savingsPref.pgf")
 plt.savefig("./tex/img/savings.pgf")
 # plt.show()
