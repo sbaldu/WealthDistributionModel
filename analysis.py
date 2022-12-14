@@ -30,18 +30,19 @@ plt.yscale('log')
 plt.savefig("./tex/img/real_head.pgf")
 plt.clf()
 
-min_ = 3
+min_ = 3*10**5
+max_ = 10**6
 nBins = 100 
 data_fit = [x for x in data if x >= min_]
 
-h = ROOT.TH1F("h", "savings preferential", nBins, min_, max(data))
+h = ROOT.TH1F("h", "savings preferential", nBins, min_, max_)
 for x in data_fit:
     h.Fill(x)
 
-f = ROOT.TF1("f", "[0]*x^[1]", min_, max(data))
+f = ROOT.TF1("f", "[0]*x^[1]", min_, max_)
 h.Fit("f", "R")
 
-fitX = np.arange(min_, max(data), 1)
+fitX = np.arange(min_, max_, 1)
 fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
 
 # fitY = [y/20000 for y in fitY]
