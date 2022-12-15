@@ -51,7 +51,7 @@ plt.yscale("log")
 plt.xlabel('Capital (a. currency)')
 plt.ylabel('Frequency (a.u.)')
 plt.xlim([0,35])
-plt.savefig("./tex/img/fixedExpo.pgf")
+# plt.savefig("./tex/img/fixedExpo.pgf")
 
 count_poors = 0.
 for player in net.getPlayers():
