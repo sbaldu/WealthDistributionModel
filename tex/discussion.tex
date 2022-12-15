@@ -1,5 +1,5 @@
 The basic model, which implements a fully connected network, where any agent can interact with any other and both agents have the same winning chance, produces a wealth distribution which follows an exponential decay, given by Eq. (\ref{eq:generalExpo}).
-By fitting the simulated data with this model we have found for the constant an estimate $C = 0.29$, and for the exponent $\gamma = -0.22$.
+By fitting the simulated data with this model we have found for the constant an estimate $C = 0.27$, and for the exponent $\gamma = -0.21 \pm 0.01$.
 Given that the expected value for both was $\alpha^{-1} = 0.20$, the model is well representing the theory.
 
 However, in social models we rarely see fully connected networks but partially connected ones: that means that each individual can only interact with few others.
@@ -15,7 +15,7 @@ Computing the two probabilities, we've found that $\mathbb{P}(poor) = 11.72 \%$ 
 We then introduced a preferential attachment behavior, giving to the richer agents a higher probability of winning a single encounter with a poorer one.
 We expected this type of evolution to slow down the decrease of the distribution, hence increasing the number of very rich individuals.
 In particular, we were expecting the distribution to become a power law, as described in Eq. (\ref{eq:paretoPDF}).
-By fitting the data with this model we have found the estimates for the parameter $\al = -1.82$.
+By fitting the data with this model we have found the estimates for the parameter $\al = -1.83 \pm 0.08$.
 We expected the exponent's value to be compatible with Zipf's law, since it is very typical for preferential attachment phenomena.
 In fact, Zipf's law predicts a ranking distribution described in Eq. (\ref{eq:zipf}), which is fully compatible with the pdf that we've found with the exponent $b = 1.22 \simeq -2$.
 
@@ -36,7 +36,7 @@ The positive trend near the origin can be attributed to a redistribution system 
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/realData_head.pgf}}
-	 \caption{\emph{Wealth distribution in a logarithmic scale to show the exponential trend at small values of capital. From the fit we obtain an estimate for the exponent of $\la = -1.2 \times 10^{-5}$.}}
+	 \caption{\emph{Wealth distribution in a logarithmic scale to show the exponential trend at small values of capital. From the fit we obtain an estimate for the exponent of $\la = (-1.17 \pm 0.01)\times 10^{-5}$.}}
     \label{fig:real_head}
 \end{figure}
 \begin{figure}[H]
