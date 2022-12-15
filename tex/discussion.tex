@@ -6,7 +6,7 @@ However, in social models we rarely see fully connected networks but partially c
 The number of links that an individual makes is so an important parameter, because it determines how much and how quickly that individual can change its state. \\
 For this reason we've implemented a fixed network, where each agent has a uniformly distributed number of links with mean $12$.
 In this case we expect again to see an exponential wealth distribution, because we haven't implemented any kind of preferential attachment. \\
-This is actually what we see, and by fitting the data with the same Eq. (\ref{eq:generalExpo}) we find the estimates for the parameters $C = 0.24$ and $\gamma = -0.22$, better than the previous ones.
+This is actually what we see, and by fitting the data with the same Eq. (\ref{eq:generalExpo}) we find the estimates for the parameters $C = 0.24$ and $\gamma = -0.22$, slightly better than the previous ones.
 
 Another thing that we wanted to prove for this model was that poorness is an attractive property, so when an individual becomes poor it tends to impoverish its neighbors too (the individuals to whom it's linked).
 This statement is equivalent to saying that the probability of being poor $\mathbb{P}(poor)$ is not equal to the conditional probability of being poor, given that a neighbor is also poor, $\mathbb{P}(poor \ | \ neighbour=poor)$. \\
@@ -36,13 +36,13 @@ The positive trend near the origin can be attributed to a redistribution system 
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/realData_head.pgf}}
-	 \caption{\emph{Wealth distribution in a logarithmic scale to show the exponential trend at small values of capital. From the fit we obtain an estimate for the exponent of $\la = (-1.17 \pm 0.01)\times 10^{-5}$.}}
+	 \caption{\emph{Wealth distribution in a logarithmic scale to show the exponential trend at small values of capital. From the fit with Eq. (\ref{eq:generalExpo}) we obtain an estimate for the exponent of $\la = (-1.17 \pm 0.01)\times 10^{-5}$.}}
     \label{fig:real_head}
 \end{figure}
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/realData_tail.pgf}}
-    \caption{\emph{Wealth distribution in a log-log scale to show the power law behavior in the tail of the distribution. The fit gives an estimate for the exponent of approximately $-5$. This value is quite different from the expected $-2$, but that's not enough to disprove the model, because the range of fit is too short to observe the power law.}}
+    \caption{\emph{Wealth distribution in a log-log scale to show the power law behavior in the tail of the distribution. The fit with Eq. (\ref{eq:paretoPDF}) gives an estimate $a \simeq -5$. This value is quite different from the expected $-2$, but that's not enough to disprove the model, because the range of fit is too short to observe the power law.}}
     \label{fig:real_tail}
 \end{figure}
 We then see in Fig. \ref{fig:real_head} that for intermediate wealth the trend is an exponential.
