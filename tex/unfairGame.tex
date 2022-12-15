@@ -31,14 +31,17 @@ The expected value of the $r$th ranked capital value $n_r$ is
 \begin{equation*}
     \mathbb{E}(n_r)\sim r^b
 \end{equation*}
-This means there are $r$ variables with expected value greater or equal to $\mathbb{E}(n_r)$, so $\mathbb{P}(n \geq \mathbb{E}(n_r)) \sim r$.
-Making the variable change $y=r^b$, which represents the wealth, we obtain the cumulative distribution
+This means there are $r - 1$ variables with expected value greater than $\mathbb{E}(n_r)$, so $\mathbb{P}(n > \mathbb{E}(n_r)) \sim r$.
+Making the variable change $y=r^b$, which represents the wealth, we obtain the cumulative distribution $F(n \leq y)$ by
 \begin{equation*}
-    \mathbb{P}(n \geq y) \sim y^{\frac{1}{b}}
+    \begin{split}
+        Q(n > y) &\equiv 1 - F(n \leq y) \sim y^{\frac{1}{b}} \\
+        F(n \leq y) &\sim 1 - y^{\frac{1}{b}} \sim -y^{\frac{1}{b}}
+    \end{split}
 \end{equation*}
-In order to get the pdf, we take the derivative with respect to $n$
+In order to get the pdf, we take the derivative with respect to $y$
 \begin{equation}
-    \mathbb{P}(n = y) \equiv f(y) \sim y^{\frac{1}{b} - 1}
+    \frac{d}{dy}F(y) \equiv f(y) \sim y^{\frac{1}{b} - 1}
     \label{eq:paretoPDF}
 \end{equation}
 \\Fitting the data with a law of the type in Eq. (\ref{eq:paretoPDF}) we expect the total exponent $a \equiv \frac{1}{b} - 1$ to be $\simeq -2$.
