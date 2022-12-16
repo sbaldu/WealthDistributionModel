@@ -47,32 +47,3 @@ In order to get the pdf, we take the derivative with respect to $y$
 \\Fitting the data with a law of the type in Eq. (\ref{eq:paretoPDF}) we expect the total exponent $a \equiv \frac{1}{b} - 1$ to be $\simeq -2$.
 The fit gives us the value $a = -1.83 \pm 0.08$, compatible with the hypothesis, that also confirms that the Zipf's behavior is well reproduced with $b = -1.22 \pm 0.11 \simeq -1$.
 However, this model fits well only on the tail of the real distribution and does not well reproduce the lower capitals. \\ \\
-% conti di Bazzani
-To derive the expression of Zipf's law, let's consider the ordered values of richness of the population, $\{x_i\}$. At this point we define a ranking distribution, which is the function that, given the position in the ordered data, gives the corresponding data value:
-\begin{equation}
-	f(i) = x_i	
-\end{equation}
-It's easy to understand that $i/N$ gives an estimate for the probability $\mathbb{P}\{x > x_i\}$. The cumulative distribution, which is defined as
-$$
-	p(x) = \mathbb{P}\{y \leq x\}
-$$
-can be written in terms of the inverse of the ranking distribution:
-\begin{equation}
-	1 - p(x) = \frac{i}{N} = \frac{f^{-1}(x)}{N} \ \rita \ p(x) = 1 - \frac{f^{-1}(x)}{N}	
-\end{equation}
-Recalling that the probability density function is defined as 
-$$
-	\frac{dp}{dx} = \rho(x)
-$$
-we find the following expression for the pdf:
-\begin{equation}
-	\rho(x) = -\frac{d}{dx} \left(\frac{f^{-1}(x)}{N}\right)	
-\end{equation}
-If now we take a ranking distribution of the type
-$$
-	f(i) = \frac{x_1}{i} \ \rita \ f^{-1}(x) = \frac{x_1}{x}	
-$$
-we find that the pdf is a power law with exponent $-2$:
-\begin{equation}
-	\rho(x) = -\frac{1}{N}\frac{d}{dx}\left(\frac{x_1}{x}\right) = \frac{x_1}{N}\frac{1}{x^2}	
-\end{equation}
