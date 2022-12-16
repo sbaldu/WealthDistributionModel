@@ -1,4 +1,4 @@
-The basic model, which implements a fully connected network, where any agent can interact with any other and both agents have the same winning chance, produces a wealth distribution which follows an exponential decay, given by Eq. (\ref{eq:generalExpo}).
+The basic model, which implements a fully connected network, where any agent can interact with any other and both have the same winning chance, produces a wealth distribution which follows an exponential decay, given by Eq. (\ref{eq:generalExpo}).
 By fitting the simulated data with this model we have found for the constant an estimate $C = 0.27$, and for the exponent $\gamma = -0.21 \pm 0.01$.
 Given that the expected value for both was $\alpha^{-1} = 0.20$, the model is well representing the theory.
 
@@ -33,6 +33,8 @@ For example, let's consider the distribution of annual wealth in the USA, where 
 \end{figure}
 We see that the trend is what we'd expect it to be: there is a peak for small values of wealth and then the trend is decreasing as the values get larger.
 The positive trend near the origin can be attributed to a redistribution system implemented by the state, e.g. the welfare, in order to prevent too many people from becoming poor. \\
+We then see in Fig. \ref{fig:real_head} that for intermediate wealth the trend is an exponential.
+For higher values of wealth there is a hint of a power law behavior visible in Fig. \ref{fig:real_tail}, but it's not enough to say that the distribution follows a power law, because the values span over less than one order of magnitude.
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/realData_head.pgf}}
@@ -45,5 +47,3 @@ The positive trend near the origin can be attributed to a redistribution system 
     \caption{\emph{Wealth distribution in a log-log scale to show the power law behavior in the tail of the distribution. The fit with Eq. (\ref{eq:paretoPDF}) gives an estimate $a \simeq -5$. This value is quite different from the expected $-2$, but that's not enough to disprove the model, because the range of fit is too short to observe the power law.}}
     \label{fig:real_tail}
 \end{figure}
-We then see in Fig. \ref{fig:real_head} that for intermediate wealth the trend is an exponential.
-For higher values of wealth there is a hint of a power law behavior visible in Fig. \ref{fig:real_tail}, but it's not enough to say that the distribution follows a power law, because the values span over less than one order of magnitude.
