@@ -6,7 +6,7 @@ However, in social models we rarely see fully connected networks but partially c
 The number of links that an individual makes is so an important parameter, because it determines how much and how quickly that individual can change its state. \\
 For this reason we've implemented a fixed network, where each agent has a uniformly distributed number of links with mean $12$.
 In this case we expect again to see an exponential wealth distribution, because we haven't implemented any kind of preferential attachment. \\
-This is actually what we see, and by fitting the data with the same Eq. (\ref{eq:generalExpo}) we find the estimates for the parameters $C = 0.24$ and $\gamma = -0.22$, slightly better than the previous ones.
+This is actually what we see, and by fitting the data with the same Eq. (\ref{eq:generalExpo}) we find the estimates for the parameters $C = 0.24 \pm 0.02$ and $\gamma = -0.22 \pm 0.02$, slightly better than the previous ones.
 
 Another thing that we wanted to prove for this model was that poorness is an attractive property, so when an individual becomes poor it tends to impoverish its neighbors too (the individuals to whom it's linked).
 This statement is equivalent to saying that the probability of being poor $\mathbb{P}(poor)$ is not equal to the conditional probability of being poor, given that a neighbor is also poor, $\mathbb{P}(poor \ | \ neighbour=poor)$. \\
