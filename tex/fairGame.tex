@@ -54,23 +54,23 @@ we can use the result of an article \cite{simplexSampling} in which the area of 
 \begin{equation*}
     A_n\left(y, N\right) = \frac{\sqrt{n}}{\left(n-1\right)!}\left[N^{n-1} - \left(N - y\right)^{n-1}\right]
 \end{equation*}
-We want to know what's the probability that the k-agent has a number of coins greater or equal to a fixed value $y$.
-Looking at Fig. \ref{fig:simplexVolume} we can see that this probability is represented by the hypersurface with $e_k \geq y$. 
+We want to know what's the probability that the k-agent has a number of coins less or equal to a fixed value $y$.
+Looking at Fig. \ref{fig:simplexVolume} we can see that this probability is represented by the hypersurface with $e_k \leq y$. 
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\begin{tikzpicture}
         \tikzstyle{point}=[thick,draw=black,inner sep=0pt,minimum width=4pt,minimum height=4pt]
 
         \node (o)[label={[label distance=0cm]180:$O$}] at (0,0) {\textbullet};
-        \node (a)[label={[label distance=0cm]45:$y$}] at (2,0) {\textbullet};
+        % \node (a)[label={[label distance=0cm]45:$y$}] at (2,0) {\textbullet};
         \node (b)[label={[label distance=0cm]180:$y$}] at (0,2) {\textbullet};
-        \node (c)[label={[label distance=0cm]180:$y$}] at (-1.4, -1.4) {\textbullet};
+        % \node (c)[label={[label distance=0cm]180:$y$}] at (-1.4, -1.4) {\textbullet};
 
         \node (d)[label={[label distance=0cm]90:$N$}] at (4,0) {\textbullet};
         \node (e)[label={[label distance=0cm]180:$N$}] at (0,4) {\textbullet};    
         \node (f)[label={[label distance=0cm]180:$N$}] at (-2.8,-2.8) {\textbullet};  
         
-        \draw[dashed, fill=blue, opacity=0.5] (a.center) -- (o.center) -- (c.center) -- cycle;
+        % \draw[dashed, fill=blue, opacity=0.5] (a.center) -- (o.center) -- (c.center) -- cycle;
         \draw[dashed] (o.center) -- (d.center);
         \draw[dashed] (o.center) -- (e.center);
         \draw[dashed] (o.center) -- (f.center);
@@ -78,7 +78,8 @@ Looking at Fig. \ref{fig:simplexVolume} we can see that this probability is repr
 
         \draw[dashed] (-1.4, 0.6) -- (b.center) -- (2, 2);
         \draw (-1.4, 0.6) -- (2, 2);
-        \draw[fill=blue, opacity=0.5] (-1.4, 0.6) -- (e.center) -- (2, 2) -- cycle;
+        \draw[fill=blue, opacity=0.5] (d.center) -- (2, 2) -- (-1.4, 0.6) -- (f.center) -- cycle;
+        % \draw[fill=blue, opacity=0.5] (-1.4, 0.6) -- (e.center) -- (2, 2) -- cycle;
         % \draw[dashed] (a.center) -- (2, 2);
         % \draw[dashed] (c.center) -- (-1.4, 0.6);
 
@@ -91,7 +92,7 @@ Looking at Fig. \ref{fig:simplexVolume} we can see that this probability is repr
 \end{figure}
 We want to normalize it all as we are looking for a pdf, so we can divide $V_n\left(y, N\right)$ by $V_n\left(N, N\right)$, finding the cumulative distribution
 \begin{equation*}
-    F(y) = 1 - \frac{V_n\left(y, N\right)}{V_n\left(N, N\right)} = \left(1 - \frac{y}{N}\right)^{n-1}
+    F(y) = \frac{V_n\left(y, N\right)}{V_n\left(N, N\right)} = 1 - \left(1 - \frac{y}{N}\right)^{n-1}
 \end{equation*}
 We note that in our case $N=\alpha n$ so
 \begin{equation*}
