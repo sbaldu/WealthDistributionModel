@@ -16,7 +16,6 @@ PYBIND11_MODULE(network, m) {
       .def(pybind11::init<int, int>())
       .def(pybind11::init<const char *>())
       .def(pybind11::init<SparseMatrix<bool> const &>())
-      .def("getMatrix", &SparseMatrix<bool>::getMatrix)
       .def("insert", static_cast<void (SparseMatrix<bool>::*)(int, int, bool)>(
                          &SparseMatrix<bool>::insert))
       .def("insert", static_cast<void (SparseMatrix<bool>::*)(int, bool)>(
@@ -41,11 +40,6 @@ PYBIND11_MODULE(network, m) {
       .def("getPoors", &network::getPoors)
       .def("couples", &network::couples)
       .def("playersMoney", &network::playersMoney)
-      .def("getLinkedPlayers", &network::getLinkedPlayers)
-      //.def("playersMoney", static_cast<const std::vector<uint16_t>
-      //   (network::*)()>(&network::playersMoney)
-      //.def("playersMoney", static_cast<const std::vector<uint16_t>
-      //   (network::*)(std::vector<uint16_t> const&)>(&network::playersMoney))
       .def("createLinks", &network::createLinks)
       .def("exists", &network::exists)
       .def("printMatrix", &network::printMatrix)

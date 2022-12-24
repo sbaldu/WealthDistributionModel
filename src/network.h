@@ -22,8 +22,6 @@ public:
 	std::vector<uint16_t> const& getPlayers();
 	std::vector<uint16_t> const& getPoors();
 	std::vector<uint16_t> const playersMoney();
-	/* std::vector<uint16_t> const playersMoney(std::vector<uint16_t> const&); */
-	int getLinkedPlayers();
 	uint16_t couples(uint16_t); // the couples are chosen
 	
 	void createLinks(uint8_t);

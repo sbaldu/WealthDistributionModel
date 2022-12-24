@@ -46,25 +46,6 @@ std::vector<uint16_t> const network::playersMoney() {
   return money;
 }
 
-int network::getLinkedPlayers() {
-  int count = 0;
-  for (auto const &element : this->adjacencyMatrix_.getMatrix()) {
-    if (element.second) {
-      ++count;
-    }
-  }
-
-  return count;
-}
-/* std::vector<uint16_t> const */
-/* network::playersMoney(std::vector<uint16_t> const &vec) { */
-/*   std::vector<uint16_t> money; */
-/*   for (auto const &p : vec) { */
-/*     money.push_back(p); */
-/*   } */
-/*   return money; */
-/* } */
-
 uint16_t network::couples(uint16_t first) {
   auto dist = std::uniform_int_distribution<uint16_t>(
       0, rows_ * cols_ - 1); // second player is chosen randomly
