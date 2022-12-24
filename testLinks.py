@@ -53,13 +53,11 @@ plt.ylabel('Frequency (a.u.)')
 plt.xlim([0,35])
 # plt.savefig("./tex/img/fixedExpo.pgf")
 
-count_poors = 0.
-for player in net.getPlayers():
-    if player == 0:
-        count_poors += 1
-p_poor = count_poors / (net.getRows()*net.getCols())
-p_poor_cond = net.calcCondProb(net.getPoors())
+probabilities = net.calcProb(net.getPoors())
+prob_linked_and_poor = probabilities[0]
+prob_linked = probabilities[1]
+print(net.getLinkedPlayers())
 print("Contant: ", str(round(np.exp(f.GetParameter("Constant")), 3)))
 print("Slope: ", str(round(f.GetParameter("Slope"), 3)))
-print("Probability to be poor: " + str(round(p_poor*100, 2)) + "%")
-print("Probability conditioned: " + str(round(p_poor_cond*100, 2)) + "%")
+print("Probability of having a link given their poorness: " + str(round(prob_linked_and_poor*100, 2)) + "%")
+print("Probability of having a link in general: " + str(round(prob_linked*100, 2)) + "%")
