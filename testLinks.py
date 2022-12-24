@@ -56,7 +56,6 @@ plt.xlim([0,35])
 probabilities = net.calcProb(net.getPoors())
 prob_linked_and_poor = probabilities[0]
 prob_linked = probabilities[1]
-print(net.getLinkedPlayers())
 print("Contant: ", str(round(np.exp(f.GetParameter("Constant")), 3)))
 print("Slope: ", str(round(f.GetParameter("Slope"), 3)))
 print("Probability of having a link given their poorness: " + str(round(prob_linked_and_poor*100, 2)) + "%")
