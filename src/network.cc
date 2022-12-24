@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <iostream>
 #include <random>
+#include <unordered_map>
 #include <utility>
 
 std::random_device globalRndDev;
@@ -43,6 +44,17 @@ std::vector<uint16_t> const network::playersMoney() {
     money.push_back(p);
   }
   return money;
+}
+
+int network::getLinkedPlayers() {
+  int count = 0;
+  for (auto const &element : this->adjacencyMatrix_.getMatrix()) {
+    if (element.second) {
+      ++count;
+    }
+  }
+
+  return count;
 }
 /* std::vector<uint16_t> const */
 /* network::playersMoney(std::vector<uint16_t> const &vec) { */
@@ -301,23 +313,40 @@ float network::checkPoor(uint16_t poorPlayer) {
   return poor_neighbors;
 }
 
-float network::calcCondProb(std::vector<uint16_t> const &poors) {
-  float conditional_probability = 0.;
-  float count_favorable = 0.;
-  // int count_conditional_total = 0;
-  for (auto firstPoor : poors) {
-    for (auto secondPoor : adjacencyMatrix_.getRow(firstPoor)) {
-      if (isPoor(players_[secondPoor.first])) {
-        ++count_favorable;
-        break;
+std::vector<float> network::calcProb(std::vector<uint16_t> const &poors) {
+  // calculate all the possible couples of poors
+  int linked_and_poor = 0;
+  int pairs_of_poors = 0;
+  for (int i = 0; i < (int)(poors.size()) - 1; ++i) {
+    for (int j = i + 1; j < (int)(poors.size()) - 1; ++j) {
+      ++pairs_of_poors;
+
+      if (adjacencyMatrix_.exists(i, j)) {
+        ++linked_and_poor;
       }
     }
-    // if (adjacencyMatrix_.getRow(firstPoor).size() != 0) {
-    //   count_conditional_total += adjacencyMatrix_.getRow(firstPoor).size();
-    // }
   }
-  conditional_probability = (count_favorable / 2.) / poors.size();
-  return conditional_probability;
+  // calculate the probability that the two poors in a couple are linked
+  float prob_linked_and_poor = (float)(linked_and_poor) / pairs_of_poors;
+
+  // calculate all the possible couples of agents
+  int linked = 0;
+  int pairs_of_agents = 0;
+  for (int i = 0; i < (int)(players_.size()) - 1; ++i) {
+    for (int j = i + 1; j < (int)(players_.size()) - 1; ++j) {
+      ++pairs_of_agents;
+
+      if (adjacencyMatrix_.exists(i, j)) {
+        ++linked;
+      }
+    }
+  }
+  // calculate the probability that two agents at random are linked
+  std::cout << "Pairs of agents linked = " << linked << std::endl;
+  std::cout << "Pairs of agents = " << pairs_of_agents << std::endl;
+  float prob_linked = (float)(linked) / pairs_of_agents;
+
+  return {prob_linked_and_poor, prob_linked};
 }
 
 void network::print() const noexcept {

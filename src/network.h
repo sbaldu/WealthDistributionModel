@@ -23,6 +23,7 @@ public:
 	std::vector<uint16_t> const& getPoors();
 	std::vector<uint16_t> const playersMoney();
 	/* std::vector<uint16_t> const playersMoney(std::vector<uint16_t> const&); */
+	int getLinkedPlayers();
 	uint16_t couples(uint16_t); // the couples are chosen
 	
 	void createLinks(uint8_t);
@@ -37,7 +38,7 @@ public:
 	void flatTax(uint8_t);
 	void evolveSavings();
 	float checkPoor(uint16_t);
-	float calcCondProb(std::vector<uint16_t> const&);
+	std::vector<float> calcProb(std::vector<uint16_t> const&);
 	void print() const noexcept;
 	void fprintHist() const noexcept;
 	void fprintHist(uint8_t) const noexcept;
