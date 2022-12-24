@@ -6,7 +6,7 @@ At this point, if we let the system evolve, we expect to see again an exponentia
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/fixedExpo.pgf}}
-    \caption{\emph{Simulation of $10^6$ fair matches between $n = 10^5$ agents on a partially connected network with $\alpha = 5$ initial coins each. 
+    \caption{\emph{Simulation of $10^6$ fair matches between $n = 10^4$ agents on a partially connected network with $\alpha = 5$ initial coins each. 
                     An exponential fit results in an exponent $\gamma = -0.22 \pm 0.02$ and a constant $C = 0.24 \pm 0.02$.}}
     \label{fig:fixedExpo}
 \end{figure}
@@ -20,9 +20,9 @@ If the null hypothesis is true, then the conditional probability of being poor g
 We then want to calculate these two probabilities and show that they are indeed different, thus showing that the null hypothesis is false. \\
 During the evolution, when an agent's wealth goes under a certain threshold, which we've set to $15 \%$ of the initial capital $\alpha$, we include him in the list containing all the poor.
 At the end of the evolution we can calculate the probability of becoming poor simply using the frequentist definition of probability:
-$$
-	\mathbb{P}(poor) = \frac{\# \ poor \ individuals}{\# \ size \ of \ the \ population}
-$$
+\begin{equation*}
+	\mathbb{P}(poor) = \frac{\# \ poor \ individuals}{\# \ size \ of \ the \ population}   
+\end{equation*}
 Then, to calculate the conditional probability in Eq. (\ref{eq:nullHypothesis}) we count the poor, under the condition that they have a poor neighbor. \\
 In this way we find a probability $\mathbb{P}(poor) = 11.72 \%$ and a conditional probability $\mathbb{P}(poor \ | \ neighbor=poor) = 31.57 \%$.
 The two probabilities are significantly different, and this suggests that the null hypothesis is false and gives us reason to believe that poorness is indeed an attractive trait.
