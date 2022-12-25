@@ -10,29 +10,29 @@ At this point, if we let the system evolve, we expect to see again an exponentia
                     An exponential fit results in an exponent $\gamma = -0.22 \pm 0.02$ and a constant $C = 0.24 \pm 0.02$.}}
     \label{fig:fixedExpo}
 \end{figure}
-We want now to confirm our hypothesis, i.e. that poor form clusters. \\
-The fact that poor form clusters means that the probability that an agent is poor is larger if one or more of its neighbors (individuals linked to it in the network) are also poor. Another way to look at this is to take a random couple of agents and considering the probability that the two are linked. \\
-We are asking that both agents are poor, and also that they are linked, so we are considering the probability of the intersection:
-$$
-	\mathbb{P}(x \ poor \cap y \ poor \cap linked)
-$$
+We want now to confirm our hypothesis, i.e. that poor form clusters.
+This would mean that the probability that an agent is poor would be larger if one or more of its neighbors (individuals linked to it in the network) were also poor. Another way to look at this is considering that the probability that two agents taken randomly in the network are linked increases if we know that both of them are poor. \\
+If we consider the probability that both the agents are poor and they are also linked, we have:
+\begin{equation*}
+    \mathbb{P}(x \ poor \cap y \ poor \cap linked)
+\end{equation*}
 This can be written in terms of the conditional probability:
-$$
-	\mathbb{P}(x \ poor \cap y \ poor \cap linked) = \mathbb{P}(linked \ \vert \ x \ poor \cap y \ poor) \mathbb{P}(x \ poor \cap y \ poor) 
-$$
-$$
-	= \mathbb{P}(linked \ \vert \ x \ poor \cap y \ poor) \mathbb{P}(x \ poor)\mathbb{P}(y \ poor) 
-$$
+\begin{equation*}
+    \begin{split}
+        \mathbb{P}(x \ poor \cap y \ poor \cap linked) =& \mathbb{P}(linked \ \vert \ x \ poor \cap y \ poor) \mathbb{P}(x \ poor \cap y \ poor)\\
+	                                                   =& \mathbb{P}(linked \ \vert \ x \ poor \cap y \ poor) \mathbb{P}(x \ poor)\mathbb{P}(y \ poor)
+    \end{split}
+\end{equation*}
 Where we considered the fact that the two random agents $x$ and $y$ are poor to be indipendent events. \\
 At this point, to test our hypothesis, we want to compare the conditional probability $\mathbb{P}(linked \vert x poor \cap y poor)$ with the generic probability that a two agents in a random couple are linked, $\mathbb{P}(linked)$. We define the null hypothesis, which is that poorness is not an attractive property, so the probability of having a linked couple of agents doesn't change if we know that they are both poor. \\
 If the null hypothesis was true, we would expect the two probabilities to be identical, because then the poorness of two individuals and the fact that they are linked or not would be completely unrelated. \\
 To compute the conditional probability we take a list of all the poor individuals and compute all the possible combinations of them. Then, we scan through them and and count in how many of this couples the two agents are linked. \\
 To calculate the probability $\mathbb{P}(linked)$ we take all the agents in the network and compute all the possible combinations of them, and then count in how many of them the couple is linked. \\
 Through the simulation we find for these two probabilities the values:
-$$
+\begin{equation*}
 	\mathbb{P}(linked \ \vert \ x \ poor \cap y \ poor) = 0.72\%
-$$
-$$
+\end{equation*}
+\begin{equation*}
 	\mathbb{P}(linked) = 0.98\%
-$$
+\end{equation*}
 The two probabilities show a difference significant enough to suggest that the null hypothesis is false, and we can thus say that poorness is indeed an attractive trait.
