@@ -24,7 +24,8 @@ $$
 	= \mathbb{P}(linked \ \vert \ x \ poor \cap y \ poor) \mathbb{P}(x \ poor)\mathbb{P}(y \ poor) 
 $$
 Where we considered the fact that the two random agents $x$ and $y$ are poor to be indipendent events. \\
-At this point, to test our hypothesis, we want to compare the conditional probability $\mathbb{P}(linked \vert x poor \cap y poor)$ with the generic probability that a two agents in a random couple are linked, $\mathbb{P}(linked)$. If our hypothesis was incorrect, we would expect the two probabilities to be identical, because then the poorness of two individuals and the fact that they are linked or not would be completely unrelated. \\
+At this point, to test our hypothesis, we want to compare the conditional probability $\mathbb{P}(linked \vert x poor \cap y poor)$ with the generic probability that a two agents in a random couple are linked, $\mathbb{P}(linked)$. We define the null hypothesis, which is that poorness is not an attractive property, so the probability of having a linked couple of agents doesn't change if we know that they are both poor. \\
+If the null hypothesis was true, we would expect the two probabilities to be identical, because then the poorness of two individuals and the fact that they are linked or not would be completely unrelated. \\
 To compute the conditional probability we take a list of all the poor individuals and compute all the possible combinations of them. Then, we scan through them and and count in how many of this couples the two agents are linked. \\
 To calculate the probability $\mathbb{P}(linked)$ we take all the agents in the network and compute all the possible combinations of them, and then count in how many of them the couple is linked. \\
 Through the simulation we find for these two probabilities the values:
@@ -34,4 +35,4 @@ $$
 $$
 	\mathbb{P}(linked) = 0.98\%
 $$
-The two probabilities show a difference significant enough to suggest that the hypothesis is true, i.e. that poorness is indeed an attractive trait.
+The two probabilities show a difference significant enough to suggest that the null hypothesis is false, and we can thus say that poorness is indeed an attractive trait.
