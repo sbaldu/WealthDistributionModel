@@ -4,6 +4,7 @@ import numpy as np
 import seaborn as sns
 from tqdm import tqdm
 import matplotlib
+import pandas as pd
 
 matplotlib.use("pgf")
 matplotlib.rcParams.update({
@@ -33,3 +34,20 @@ plt.ylabel('Frequency (a.u.)')
 plt.ylim([10**(-6),10**(1)])
 plt.savefig("./tex/img/savings.pgf")
 # plt.show()
+
+plt.clf()
+
+df = pd.read_csv("./data/adult_cleaned.csv")
+data = df['fnlwgt'].values.tolist()
+
+data = [x/(10**5) for x in data]
+
+sns.distplot(data, hist=False)
+sns.distplot(net.getPlayers(), hist=False)
+plt.xlabel('Capital (US dollars)')
+plt.ylabel('Frequency (a.u.)')
+plt.yscale('log')
+plt.xscale('log')
+plt.xlim([10**(-1),2*10**1])
+plt.ylim([10**(-8),10])
+plt.savefig("./tex/img/real_overlay_savings.pgf")

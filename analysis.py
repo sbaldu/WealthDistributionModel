@@ -52,9 +52,12 @@ plt.plot(fitX, fitY, color="red")
 print("Contant: ", str(round(f.GetParameter(0), 3)))
 print("Slope: ", str(round(f.GetParameter(1), 3)))
 
+data = [x/(10**5) for x in data]
+
 sns.distplot(data, hist=False)
 plt.xlabel('Capital (US dollars)')
 plt.ylabel('Frequency (a.u.)')
 plt.yscale('log')
 plt.xscale('log')
+plt.xlim([10**(-1),2*10**1])
 plt.savefig("./tex/img/real_tail.pgf")
