@@ -40,14 +40,17 @@ The distribution obtained in this way is drawn in Fig. \ref{fig:savings}, and we
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/savings.pgf}}
-    \caption{\emph{Wealth distribution obtained in a simulation of the saving model with $10^6$ iterations and $10^5$ agents, each starting with $5$ units of energy. The parameters $\varepsilon$ and $\bar{\varepsilon}$ were randomly generated. By fitting the data with Eq. (\ref{eq:paretoPDF}) we obtain an estimate for the exponent of $a = -4.4 \pm 0.1$.}}
+    \caption{\emph{Wealth distribution obtained in a simulation of the saving model with $10^6$ iterations and $10^5$ agents, each starting with $5$ units of energy.
+					The parameters $\varepsilon$ and $\bar{\varepsilon}$ were randomly generated.
+					A power fit results in an exponent $a = -4.4 \pm 0.1$.}}
     \label{fig:savings}
 \end{figure}
 If we take the parameters $\varepsilon$ and $\bar{\varepsilon}$ as we did in Eq. (\ref{eq:prefAttach}) instead of generating them randomly, we obtain the trend drawn in Fig. \ref{fig:savingsPref}, with a ``smooth peak'' just before the exponential trend.
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/savingPreferential.pgf}}
-    \caption{\emph{Wealth distribution for the saving model with the parameters $\varepsilon$ and $\bar{\varepsilon}$ taken as described in the relation (\ref{eq:prefAttach}). By fitting the data with Eq. (\ref{eq:paretoPDF}) we obtain an estimate for the exponent of $a = -4.2 \pm 0.1$.}}
+    \caption{\emph{Wealth distribution for the saving model with the parameters $\varepsilon$ and $\bar{\varepsilon}$ taken as described in the relation (\ref{eq:prefAttach}).
+					A power fit results in an exponent $a = -4.2 \pm 0.1$.}}
     \label{fig:savingsPref}
 \end{figure}
 We can compare this plot with the distribution of real data.
@@ -55,6 +58,8 @@ For example, in Fig. \ref{fig:savingsLog} is reported the distribution of wealth
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/real_overlay_savings.pgf}}
-    \caption{\emph{Wealth distribution in the USA from 1994 census, in log-log scale. The income values from the data have been rescaled in order to compare the distribution with the one obtained in the model. We see that the two distributions have similar trends.}}
+    \caption{\emph{Wealth distribution in the USA from 1994 census, in log-log scale.
+					The income values from the data have been rescaled in order to compare the distribution with the one obtained in the model.
+					We see that the two distributions have similar trends.}}
     \label{fig:savingsLog}
 \end{figure}
