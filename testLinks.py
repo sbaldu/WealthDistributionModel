@@ -50,8 +50,9 @@ plt.plot(fitX, fitY, color="red")
 plt.yscale("log")
 plt.xlabel('Capital (a. currency)')
 plt.ylabel('Frequency (a.u.)')
+plt.legend(['Simulated data','Fit line'], fontsize=12)
 plt.xlim([0,35])
-# plt.savefig("./tex/img/fixedExpo.pgf")
+plt.savefig("./tex/img/fixedExpo.pgf")
 
 probabilities = net.calcProb(net.getPoors())
 prob_linked_and_poor = probabilities[0]
