@@ -1,46 +1,48 @@
 To improve further our mode, we can adopt a slightly different approach based on kinetic theory \cite{econophysics}. \\
 Let's consider an ideal gas, containing $N$ particles, each of which has $x_j$ energy, representing their capital.
 Unlike the previous models, now the wealth is represented by a continuous variable (at least classically).
-The state of the system is characterized by the vector containing the energies of all the particles, $\{x_j\}_{1,\ldots,N}$, with the constraint that the total energy is preserved
-\begin{equation}
+The state of the system is characterized by the vector containing the energies of all the particles $\{x_j\}_{1,\ldots,N}$ with the constraint that the total energy is preserved
+\begin{equation*}
 	\sum_j x_j = X_0
-\end{equation}
+\end{equation*}
 The particles in the gas, during their motion, can collide each other and in these collisions there is and exchange of kinetic energy.
 The most basic equations for the exchange of energy are equivalent to the ones seen in the previous models:
-\begin{equation}
+\begin{equation*}
 	\begin{split}
 		x'_i = x_i - \Delta x \\
 		x'_j = x_j + \Delta x 
 	\end{split}
-\end{equation}
+\end{equation*}
 where we require both the energies $x_i$ and $x_j$ to be positive. \\
 Here the quantity of energy exchanged is constant.
 Alternatively, we can define a factor which is generated randomly at each iteration and represents a random fluctuation in the fraction of energy exchanged in the collision.
 So the equations become:
-\begin{equation}
+\begin{equation*}
 	\begin{split}
 		x'_i = \varepsilon(x_i + x_j)	 \\
 		x'_j = \bar{\varepsilon}(x_i + x_j)
 	\end{split}
-\end{equation}
+\end{equation*}
 where $\bar{\epsilon} = 1 - \epsilon$.\\
 
 In order to reproduce the real wealth distributions we can complicate the model further by introducing a saving propensity.
 In this scope, we introduce a parameter $\la$ which takes real values between $0$ and $1$ and represents the fraction of energy conserved (and not exchanged) in the collisions. \\
 Introducing this new component, the equations become:
-\begin{equation}
+\begin{equation*}
 	\begin{split}
 		x'_i = \la_ix_i + \varepsilon((1-\la_i)x_i + (1-\la_j)x_j) 	\\
 		x'_j = \la_jx_j + \bar{\varepsilon}((1-\la_i)x_i + (1-\la_j)x_j) 	\\
 	\end{split}
-\end{equation}
+\end{equation*}
 Let's now consider $N = 10^5$ agents with $\alpha = 5$ money each. \\
-We decide to distribute the values $\la_j$ in the following way: we assign $\la = 0$ to $99 \%$ of the agents, and $\la$ uniformly distributed between $0$ and $1$ to the remaining $1 \%$. In this way we are reproducing the fact that in real life a small minority of people are very good at business, whereas the vast majority are not. \\
+We decide to distribute the values $\la_j$ in the following way: we assign $\la = 0$ to $99 \%$ of the agents, and $\la$ uniformly distributed between 0 and 1 to the remaining $1 \%$.
+In this way we are reproducing the fact that in real life only a small minority of people are good businessmen. \\
 The distribution obtained in this way is drawn in Fig. \ref{fig:savings}, and we see that it results in the combination of two different trends: for small capitals, the behavior is exponential, whereas at large values of $x$ it follows a power law distribution, which is produced by the individuals with values of $\la$ near $1$.
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/savings.pgf}}
     \caption{\emph{Wealth distribution obtained in a simulation of the saving model with $10^6$ iterations and $10^5$ agents, each starting with $5$ units of energy.
+					$99\%$ of the agents have $\la = 0$ and the remaining $1\%$ has $\la$ uniformly distributed between 0 and 1.
 					The parameters $\varepsilon$ and $\bar{\varepsilon}$ were randomly generated.
 					A power fit results in an exponent $a = -4.4 \pm 0.1$.}}
     \label{fig:savings}
@@ -49,17 +51,19 @@ If we take the parameters $\varepsilon$ and $\bar{\varepsilon}$ as we did in Eq.
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/savingPreferential.pgf}}
-    \caption{\emph{Wealth distribution for the saving model with the parameters $\varepsilon$ and $\bar{\varepsilon}$ taken as described in the relation (\ref{eq:prefAttach}).
+    \caption{\emph{Wealth distribution obtained in a simulation of the saving model with $10^6$ iterations and $10^5$ agents, each starting with $5$ units of energy.
+					$99\%$ of the agents have $\la = 0$ and the remaining $1\%$ has $\la$ uniformly distributed between 0 and 1.
+					The parameters $\varepsilon$ and $\bar{\varepsilon}$ were taken introducing a preferential attachment.
 					A power fit results in an exponent $a = -4.2 \pm 0.1$.}}
     \label{fig:savingsPref}
 \end{figure}
 We can compare this plot with the distribution of real data.
-For example, in Fig. \ref{fig:savingsLog} is reported the distribution of wealth in the USA from the 1994 census in log-log scale (this dataset will be discussed more in detail in the next section).
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/real_overlay_savings.pgf}}
-    \caption{\emph{Wealth distribution in the USA from 1994 census, in log-log scale.
-					The income values from the data have been rescaled in order to compare the distribution with the one obtained in the model.
-					We see that the two distributions have similar trends.}}
+    \caption{\emph{Wealth distribution in the USA from 1994 census, in blue, plotted in log-log scale.
+					Real data have been rescaled in order to compare them with the ones obtained in the model, in orange.}}
     \label{fig:savingsLog}
 \end{figure}
+For example, in Fig. \ref{fig:savingsLog} is reported the distribution of wealth in the USA from the 1994 census in log-log scale (this dataset will be discussed more in detail in the next section).
+We notice that the last model gives us a good approximation for the real trend.

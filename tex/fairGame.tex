@@ -4,7 +4,7 @@ As interaction, we mean a match between two agents in which a cross-head game is
 In this case, we consider the probability to win equal to the probability to lose, regardless to the personal capital.
 As boundary condition we assume that an agent will play regardless of his capital without being able to make debts. 
 With this dynamics, every state has the same probability as the others but the zero one: the zero state is affected by the boundary condition and has a slightly different probability due to the fact that an agent could remain in that state after a match.
-However, we can neglect this effect because the zero state is a null measure set.
+However, we can neglect this effect because the zero state corresponds to a null measure set.
 If we study the system at a sufficiently large time we expect to find a well-defined trend.
 
 In general, we can define our simplex as
@@ -50,10 +50,10 @@ For example, let's consider $n = 3$ agents with one coin each: the dynamics of t
 \end{figure}
 We have $N=3$ total coins, so the surface of this 2D simplex is given by $\mathcal{V}_{2}\left(3\right) = \frac{9\sqrt{3}}{2}$ which is exactly the area of the equilateral triangle.
 Furthermore, the point $P = (3, 0, 0)$ is part of the surface and represents the state in which the \emph{i}-agent has 3 coins and the others 0.
-Suppose now the \emph{i}-agents loses a game with the \emph{j}-agent: the system goes from the point P to the point $Q = (2, 1, 0)$, which is also on the surface, which represents the state in which the \emph{i}-agent has 2 coins, the \emph{j}-agent has 1 and the \emph{k}-agent has 0.
+Suppose now the \emph{i}-agent loses a game with the \emph{j}-agent: the system goes from the point P to the point $Q = (2, 1, 0)$, which is also on the surface, which represents the state in which the \emph{i}-agent has 2 coins, the \emph{j}-agent has 1 and the \emph{k}-agent has 0.
 It is now clear that our problem is actually a random walk on a simplex which volume gives us the number of all possible states.
 Thus, the surface between 0 and a fixed value $y$ taken on the $e_k$ axis will give us all the possible states in which the \emph{k}-agent has a capital less or equal to $y$, i.e. something like to the cumulative distribution.
-Let's suppose we want to find the probability that the \emph{k}-agent has a capital $y=2$.
+Let's suppose we want to find the probability that the \emph{k}-agent has a capital less or equal to $y=2$.
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\begin{tikzpicture}
@@ -91,8 +91,8 @@ Let's suppose we want to find the probability that the \emph{k}-agent has a capi
 \end{figure}
 As we can see from Fig. \ref{fig:threeSimplexCut}, that probability is nothing but the surface $\mathcal{V}_{2}\left(3\right) - \mathcal{V}_{2}\left(1 = 3-2\right)$, i.e. the total surface of the simplex minus the surface of a same dimensional simplex with $N \to N-y$, normalized to the total surface $\mathcal{V}_{2}\left(3\right)$. 
 In this very particular case, we obtain that the probability to have a capital $z \leq y$ is $\mathbb{P}(z \leq 2) = \frac{8}{9}$.
-That is close to the real one, i.e. $\frac{9}{10}$: this error is due to the fact that we are calculating the surface area of the whole symplex, whereas the microstates are discrete. \\
-Nonetheless, in the limit where the number or agents gets very large, the number of microstates also gets large and they get very dense. In this limit the error vanishes, thus making it correct to use the surface area of the symplex in the calculation.
+That is close to the real one, i.e. $\frac{9}{10}$: this error is due to the fact that we are computing the surface of the simplex with an exact formula, whereas the microstates are discrete.
+Nonetheless, the error vanishes in the limit where the number of agents gets very large because also the number of microstates gets large.
 
 Let's now generalize the problem to $n$ dimensions, which corresponds to one dimension for each agent in the system.
 In this case, the hypervolume between 0 and a fixed value $y$ such that $0 \leq y \leq N$, is found as
@@ -140,16 +140,15 @@ The probability that an agent has a capital $z \leq y$ is nothing but the ratio 
     \mathbb{P}\left(z \leq y\right) \equiv F(y) = \frac{\Delta\mathcal{V}_{n-1}\left(y, N\right)}{\mathcal{V}_{n-1}\left(N\right)} = 1 - \left(1 - \frac{y}{N}\right)^{n-1}
 \end{equation*}
 where $F(y)$ is the cumulative distribution.
-We note that in our case $N=\alpha n$ so
+We notice that in our case $N=\alpha n$ so
 \begin{equation*}
     F(y) =  1 - \left[\left(1 - \frac{y}{\alpha n}\right)^{\alpha\left(n - 1\right)}\right]^\frac{1}{\alpha}
 \end{equation*}
-but $n$ is related to the dimension of the simplex, i.e. the number of agents of the system itself.
 For a great amount of agents we can take the previous relation in the limit $n\to\infty$ obtaining
 \begin{equation*}
     F(y) = 1 - e^{-\frac{y}{\alpha}}
 \end{equation*}
-Once that we have the cumulative distribution of the microstate it's trivial to find the pdf applying the definition
+Once we have the cumulative distribution it is trivial to find the pdf applying the definition
 \begin{equation}
     f(y) = \frac{d}{dy}F(y) = \frac{1}{\alpha} e^{-\frac{y}{\alpha}}
     \label{eq:expo}

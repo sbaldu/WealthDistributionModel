@@ -1,5 +1,5 @@
 Looking at real data, it can be seen that in real life higher capitals are distributed following a power law, instead of an exponential.
-The power law goes to zero slower than the exponential, so this distribution seems more fair than what we have hypothesized in our previous model.
+The power law goes to zero slower than the exponential, so this distribution seems more fair than what we have hypothesized in our previous model because it admits many rich individuals.
 In order to reproduce this behavior we have to introduce some unfairness in the model.
 The best way to do so is to introduce a preferential attachment, which means that individuals who have more money have a higher probability of earning more.
 In this case, the richer (poorer) individuals have an attractive property, which allows them to earn (lose) more money as they get richer (poorer). \\
@@ -15,13 +15,13 @@ Using the same values of $N$ and $\alpha$ as before, we now let the system evolv
 \begin{figure}[H]
     \centering
     \scalebox{.7}{\input{./img/pow.pgf}}
-    \caption{\emph{Simulation of $4 \times 10^5$ fair matches between $n = 10^5$ agents on a fully connected network with $\alpha = 5$ initial coins each. 
+    \caption{\emph{Simulation of $4 \times 10^5$ unfair matches between $n = 10^5$ agents on a fully connected network with $\alpha = 5$ initial coins each. 
                     A power fit results in an exponent $a = -1.83 \pm 0.08$.}}
     \label{fig:prefAttach}
 \end{figure}
 In this case, as shown in Fig. \ref{fig:prefAttach}, the distribution is not exponential anymore but a power law.
 We expected this: considering a dependence on the actual capital to the probability means that we actually added \emph{memory} to the dynamics.
-In fact, in a system with memory each time step is not independent of the previous ones.
+In fact, in a system with memory each time step depends on the previous ones.
 \\Moreover, we expect this distribution to obey the Zipf's law, which is typical of preferential attachment phenomena.
 Zipf's law states that the frequency of an event $x_r$ with rank $r$ has a power behavior \cite{zipf}:
 \begin{equation}
