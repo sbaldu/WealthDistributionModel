@@ -1,7 +1,7 @@
 We want our model to be initially as simple as possible and then complicate it if necessary.
 Let's consider $n$ agents with $\alpha$ coins (arbitrary currency) each and let's define a time step as an interaction between two of them.
 As interaction, we mean a match between two agents in which a cross-head game is played and the loser has to pay one coin to the winner.
-In this case, we consider the probability to win equal to the probability to lose, regardless to the personal capital.
+In this case, we consider the probability to win equal to the probability to lose, regardless of the personal capital.
 As boundary condition we assume that an agent will play regardless of his capital without being able to make debts. 
 With this dynamics, every state has the same probability as the others but the zero one: the zero state is affected by the boundary condition and has a slightly different probability due to the fact that an agent could remain in that state after a match.
 However, we can neglect this effect because the zero state corresponds to a null measure set.
@@ -161,7 +161,7 @@ Once we have the cumulative distribution it is trivial to find the pdf applying 
                     An exponential fit results in an exponent $\gamma = -0.21 \pm 0.01$ and a constant $C = 0.27 \pm 0.03$.}}
     \label{fig:expo}
 \end{figure}
-Now let's take $N = 10^4$ players and give $\alpha = 5$ coins each, then simulate a million of fair matches..
+Now let's take $N = 10^4$ players and give $\alpha = 5$ coins each, then simulate a million matches.
 At the end of the simulation, we plot the frequency of agents in respect of their capital and fit \cite{root} it with a general function 
 \begin{equation}
     f(y) = Ce^{\gamma y}
