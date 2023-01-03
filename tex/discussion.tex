@@ -9,8 +9,8 @@ In this case we expect again to see an exponential wealth distribution, because 
 This is actually what we see, and by fitting the data with the same Eq. (\ref{eq:generalExpo}) we find the estimates for the parameters $C = 0.24 \pm 0.02$ and $\gamma = -0.22 \pm 0.02$, slightly better than the previous ones.
 
 Another thing that we wanted to prove for this model was that poorness is an attractive property, so when an individual becomes poor it tends to impoverish its neighbors too (the individuals to whom it's linked).
-This statement is equivalent to saying that the probability of being poor $\mathbb{P}(poor)$ is not equal to the conditional probability of being poor, given that a neighbor is also poor, $\mathbb{P}(poor \ | \ neighbour=poor)$. \\
-Computing the two probabilities, we've found that $\mathbb{P}(poor) = 11.72 \%$ and \\ $\mathbb{P}(poor \ | \ neighbour=poor) = 31.57 \%$, so due to the significant difference we can safely accept our hypothesis.
+This statement is equivalent to say that the probability that two agents randomly chosen among the network are linked increases if we know that both of them are poor. \\
+Computing the two probabilities, we've found that $\mathbb{P}(linked) = 0.72\%$ and \\ $\mathbb{P}(linked \ \vert \ x \ poor \cap y \ poor) = 0.98\%$, so due to the significant difference we can safely accept our hypothesis.
 
 We then introduced a preferential attachment behavior, giving to the richer agents a higher probability of winning a single encounter with a poorer one.
 We expected this type of evolution to slow down the decrease of the distribution, hence increasing the number of very rich individuals.
@@ -21,7 +21,7 @@ In fact, Zipf's law predicts a ranking distribution described in Eq. (\ref{eq:zi
 
 Finally, we've implemented a model that allows the agents save a portion of their capital.
 We expect this to be the model that best describes the real distribution of wealth, due to the fact that it takes into account both preferential attachment and saving parameter.
-By giving to $99 \%$ of the agents a null saving propensity $\la$ and to the remaining $1 \%$ values of $\la$ which are uniformly distributed between $0$ and $1$, we find a distribution which is exponential for small capitals and turns into a power law towards the highest values. \\
+Pretending to insert a small amount of businessmen by giving to $99 \%$ of the agents a null saving propensity $\la$ and to the remaining $1 \%$ values of $\la$ which are uniformly distributed between $0$ and $1$, we find a distribution which is exponential for small capitals and turns into a power law towards the highest values. \\
 If we compare this trend with some real data, we can see that the two are actually compatible.
 
 For example, let's consider the distribution of annual wealth in the USA, where data were extracted from the 1994 census and drawn in Fig. \ref{fig:gloabl_realData}.
