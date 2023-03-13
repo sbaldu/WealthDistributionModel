@@ -5,6 +5,7 @@ import ROOT
 from ROOT import gStyle
 from ROOT import gPad
 import matplotlib
+matplotlib.use('TkAgg')
 from tqdm import tqdm
 
 matplotlib.use("pgf")
@@ -63,3 +64,4 @@ plt.legend(['Simulated data','Fit line'], fontsize=12)
 plt.savefig("./tex/img/pow.pgf")
 print("Contant: ", str(round(f.GetParameter(0), 3)))
 print("Slope: ", str(round(f.GetParameter(1), 3)))
+plt.show()

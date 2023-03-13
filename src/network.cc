@@ -64,24 +64,27 @@ void network::createLinks(uint8_t avgLinks) {
   for (int i = 0; i < rows_ * cols_ - 1; ++i) {
     for (int j = i + 1; j < rows_ * cols_; ++j) {
       if (dis(globalRNG) < prob) {
-        adjacencyMatrix_.insert(i, j, true);
-        adjacencyMatrix_.insert(rows_ * cols_ - j, i, true);
+        adjacencyMatrix_.insert_or_assign(i, j, true);
+        // adjacencyMatrix_.insert(rows_ * cols_ - j, i, true);
       }
     }
   }
+  adjacencyMatrix_ += (++adjacencyMatrix_); // symmetrize the matrix
   nLinks_ = adjacencyMatrix_.getDegreeVector();
 }
 
-void network::importMatrix(const char *filename) {
-  adjacencyMatrix_ = Matrix(filename);
+void network::importMatrix(std::string filename) {
+  std::ifstream input;
+  input.open(filename);
+  input >> adjacencyMatrix_;
   std::cout << __LINE__ << std::endl;
   nLinks_ = adjacencyMatrix_.getDegreeVector();
   for (auto const &p : nLinks_) {
-    std::cout << p << std::endl;
+    std::cout << p.second << std::endl;
   }
 }
 
-bool network::exists(int i, int j) { return adjacencyMatrix_.exists(i, j); }
+bool network::exists(int i, int j) { return adjacencyMatrix_.contains(i, j); }
 
 bool network::isPoor(uint16_t money) { return money < initCap_ * 15e-2; }
 
@@ -127,7 +130,7 @@ void network::evolvePrefAtt() {
   uint16_t first =
       std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
   uint16_t other = couples(first);
-  float prob = ((nLinks_[first]) + 1.) / (nLinks_[first] + nLinks_[other] + 2.);
+  float prob = ((nLinks_(first)) + 1.) / (nLinks_(first) + nLinks_(other) + 2.);
   if (std::bernoulli_distribution(prob)(globalRNG) && players_[other] > 0) {
     ++players_[first];
     --players_[other];
@@ -167,7 +170,7 @@ void network::evolveFixed() {
   if (row.size() == 0) {
     return;
   }
-  uint16_t second = adjacencyMatrix_.getRndRowElement(first).first;
+  uint16_t second = row.getRndElement().first;
 
   std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
   if (coin(globalRNG) && players_[second] > 0) {
@@ -281,7 +284,7 @@ void network::evolveSavings() {
 }
 
 float network::checkPoor(uint16_t poorPlayer) {
-  std::unordered_map<int, bool> neighbors = adjacencyMatrix_.getRow(poorPlayer);
+  auto neighbors = adjacencyMatrix_.getRow(poorPlayer);
   uint8_t n_neighbors = neighbors.size();
   float poor_neighbors = 0.;
 
@@ -302,7 +305,7 @@ std::vector<float> network::calcProb(std::vector<uint16_t> const &poors) {
     for (int j = i + 1; j < (int)(poors.size()) - 1; ++j) {
       ++pairs_of_poors;
 
-      if (adjacencyMatrix_.exists(i, j)) {
+      if (adjacencyMatrix_.contains(i, j)) {
         ++linked_and_poor;
       }
     }
@@ -317,7 +320,7 @@ std::vector<float> network::calcProb(std::vector<uint16_t> const &poors) {
     for (int j = i + 1; j < (int)(players_.size()) - 1; ++j) {
       ++pairs_of_agents;
 
-      if (adjacencyMatrix_.exists(i, j)) {
+      if (adjacencyMatrix_.contains(i, j)) {
         ++linked;
       }
     }
@@ -391,6 +394,8 @@ void network::fprintHist(uint8_t nBins) const noexcept {
   fOut.close();
 }
 
-void network::saveMatrix(const char *path) const {
-  adjacencyMatrix_.save(path);
+void network::saveMatrix(std::string path) const {
+  std::ofstream output;
+  output.open(path);
+  output << adjacencyMatrix_;
 }
