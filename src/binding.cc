@@ -59,6 +59,7 @@ PYBIND11_MODULE(network, m) {
       .def("evolvePrefAtt", &network::evolvePrefAtt)
       .def("evolvePrefAttNoTax", &network::evolvePrefAttNoTax)
       .def("evolveFixed", &network::evolveFixed)
+      .def("evolvebyLink", &network::evolvebyLink)
       .def("flatTax", &network::flatTax)
       .def("evolveSavings", &network::evolveSavings)
       .def("checkPoor", &network::checkPoor)

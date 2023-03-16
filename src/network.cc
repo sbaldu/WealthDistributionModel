@@ -166,7 +166,7 @@ void network::evolvePrefAttNoTax() {
 void network::evolveFixed() {
   std::uniform_int_distribution<uint16_t> rnd(0, rows_ * cols_ - 1);
   uint16_t first = rnd(globalRNG);
-  auto row = adjacencyMatrix_.getRow(first);
+  SparseMatrix<bool> row = adjacencyMatrix_.getRow(first);
   if (row.size() == 0) {
     return;
   }
@@ -201,6 +201,30 @@ void network::evolveFixed() {
   //     ++it;
   //   }
   // }
+}
+
+void network::evolvebyLink() {
+  std::cout << __LINE__ << std::endl;
+  auto random_iterator = adjacencyMatrix_.begin();
+  std::advance(random_iterator, std::uniform_int_distribution<uint16_t>(
+                                    0, adjacencyMatrix_.size() - 1)(globalRNG));
+  auto link = *random_iterator;
+  std::cout << link.first << std::endl;
+  uint16_t first = link.first / cols_;
+  uint16_t second = link.first % cols_;
+  if (first == second) {
+    return;
+  }
+  std::cout << __LINE__ << std::endl;
+  std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
+  std::cout << __LINE__ << std::endl;
+  if (coin(globalRNG) && players_[second] > 0) {
+    ++players_[first];
+    --players_[second];
+  } else if (players_[first] > 0) {
+    --players_[first];
+    ++players_[second];
+  }
 }
 
 /* void network::flatTax(uint8_t percentage) { */
@@ -284,7 +308,7 @@ void network::evolveSavings() {
 }
 
 float network::checkPoor(uint16_t poorPlayer) {
-  auto neighbors = adjacencyMatrix_.getRow(poorPlayer);
+  SparseMatrix<bool> neighbors = adjacencyMatrix_.getRow(poorPlayer);
   uint8_t n_neighbors = neighbors.size();
   float poor_neighbors = 0.;
 
