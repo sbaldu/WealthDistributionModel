@@ -1,4 +1,4 @@
-//! SparseMatrix class v1.6 by Grufoony
+//! SparseMatrix class v1.7 by Grufoony
 
 //!  This class implements a sparse matrix. The matrix is stored in a compressed
 //!  row format. ++ 20 requiered.
@@ -164,7 +164,7 @@ public:
     std::unordered_map<int, T> new_matrix = {};
     for (auto const &[key, value] : _matrix) {
       if (key % _cols < index) {
-        new_matrix.emplace(std::make_pair(key - key / _rows, value));
+        new_matrix.emplace(std::make_pair(key - key / _cols, value));
       } else {
         new_matrix.emplace(
             std::make_pair(key / _cols * (_cols - 1) + key % _cols - 1, value));
@@ -252,6 +252,18 @@ public:
     }
     return col;
   }
+  /// @brief get a random element from the matrix
+  /// @return a pair containing the row index and the value
+  std::pair<int, T> getRndElement() const {
+    if (_matrix.size() == 0)
+      throw std::runtime_error("SparseMatrix: matrix is empty");
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    auto rnd_it = std::next(
+        std::begin(_matrix),
+        std::uniform_int_distribution<int>(0, _matrix.size() - 1)(rng));
+    return *rnd_it;
+  }
   /// @brief get a random element from a row
   /// @param index row index
   /// @return a pair containing the column index and the value
@@ -261,12 +273,7 @@ public:
     auto row = this->getRow(index);
     if (row.size() == 0)
       throw std::runtime_error("SparseMatrix: row is empty");
-    auto it = row.begin();
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    auto dist = std::uniform_int_distribution<int>(0, row.size() - 1);
-    std::advance(it, dist(rng));
-    return *it;
+    return row.getRndElement();
   }
   /// @brief get a random element from a column
   /// @param index column index
@@ -277,22 +284,7 @@ public:
     auto col = this->getCol(index);
     if (col.size() == 0)
       throw std::runtime_error("SparseMatrix: col is empty");
-    auto it = col.begin();
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    auto dist = std::uniform_int_distribution<int>(0, col.size() - 1);
-    std::advance(it, dist(rng));
-    return *it;
-  }
-  /// @brief get a random element from the matrix
-  /// @return a pair containing the row index and the value
-  std::pair<int, T> getRndElement() const {
-    auto it = _matrix.begin();
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    auto dist = std::uniform_int_distribution<int>(0, _matrix.size() - 1);
-    std::advance(it, dist(rng));
-    return *it;
+    return col.getRndElement();
   }
   /// @brief get a matrix of double with every row normalized to 1
   /// @return a matrix of double
