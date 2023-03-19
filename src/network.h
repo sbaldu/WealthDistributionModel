@@ -34,6 +34,7 @@ public:
   void evolvePrefAtt();
   void evolvePrefAttNoTax();
   void evolveFixed();
+  void evolvebyLink();
   void flatTax(uint8_t);
   void evolveSavings();
   float checkPoor(uint16_t);
