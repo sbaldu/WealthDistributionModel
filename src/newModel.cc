@@ -37,8 +37,7 @@ std::vector<double> const &newModel::getPlayers() { return players_; }
 std::vector<double> const &newModel::getLambdas() { return lambda_; }
 
 int newModel::couples(int first) {
-  auto dist = std::uniform_int_distribution<int>(
-      0, Nplayers_ - 1); // second player is chosen randomly
+  auto dist = std::uniform_int_distribution<int>(0, Nplayers_ - 1);  // second player is chosen randomly
   int second = 0;
   int rnd = dist(globalRNG);
   if (rnd != first) {
@@ -72,12 +71,10 @@ void newModel::evolveSavings() {
   float epsilon = std::uniform_real_distribution<float>(0., 1.)(globalRNG);
 
   if (players_[first] > 0. && players_[other] > 0.) {
-    players_[first] = lambda_i * players_[first] +
-                      epsilon * ((1 - lambda_i) * players_[first] +
-                                 (1 - lambda_j) * players_[other]);
+    players_[first] =
+        lambda_i * players_[first] + epsilon * ((1 - lambda_i) * players_[first] + (1 - lambda_j) * players_[other]);
     players_[other] = lambda_j * players_[other] +
-                      (1 - epsilon) * ((1 - lambda_i) * players_[first] +
-                                       (1 - lambda_j) * players_[other]);
+                      (1 - epsilon) * ((1 - lambda_i) * players_[first] + (1 - lambda_j) * players_[other]);
   }
 }
 void newModel::evolvePreferential() {
@@ -89,15 +86,12 @@ void newModel::evolvePreferential() {
   float lambda_j = lambda_[other];
 
   // We introduce the fraction of wealth that is exchanged
-  float epsilon =
-      (players_[first] + 1) / (players_[first] + players_[other] + 2);
+  float epsilon = (players_[first] + 1) / (players_[first] + players_[other] + 2);
 
   if (players_[first] > 0. && players_[other] > 0.) {
-    players_[first] = lambda_i * players_[first] +
-                      epsilon * ((1 - lambda_i) * players_[first] +
-                                 (1 - lambda_j) * players_[other]);
+    players_[first] =
+        lambda_i * players_[first] + epsilon * ((1 - lambda_i) * players_[first] + (1 - lambda_j) * players_[other]);
     players_[other] = lambda_j * players_[other] +
-                      (1 - epsilon) * ((1 - lambda_i) * players_[first] +
-                                       (1 - lambda_j) * players_[other]);
+                      (1 - epsilon) * ((1 - lambda_i) * players_[first] + (1 - lambda_j) * players_[other]);
   }
 }

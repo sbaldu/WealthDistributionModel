@@ -12,7 +12,7 @@
 class network {
   uint16_t rows_, cols_, cass_ = 0, initCap_;
   std::vector<uint16_t> players_,
-      poors_; // array that contains all the players in the network
+      poors_;  // array that contains all the players in the network
   SparseMatrix<bool> adjacencyMatrix_;
   SparseMatrix<int> nLinks_;
 
@@ -23,14 +23,14 @@ public:
   std::vector<uint16_t> const &getPlayers();
   std::vector<uint16_t> const &getPoors();
   std::vector<uint16_t> const playersMoney();
-  uint16_t couples(uint16_t); // the couples are chosen
+  uint16_t couples(uint16_t);  // the couples are chosen
 
   void createLinks(uint8_t);
   void importMatrix(std::string);
   bool exists(int, int);
   bool isPoor(uint16_t);
   void printMatrix();
-  void evolveUniform(); // the couples play
+  void evolveUniform();  // the couples play
   void evolvePrefAtt();
   void evolvePrefAttNoTax();
   void evolveFixed();

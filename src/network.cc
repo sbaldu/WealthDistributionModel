@@ -12,8 +12,7 @@
 std::random_device globalRndDev;
 std::mt19937 globalRNG(globalRndDev());
 
-network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols)
-    : adjacencyMatrix_(rows * cols, rows * cols) {
+network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols) : adjacencyMatrix_(rows * cols, rows * cols) {
   rows_ = rows;
   cols_ = cols;
   initCap_ = initialCapital;
@@ -47,8 +46,7 @@ std::vector<uint16_t> const network::playersMoney() {
 }
 
 uint16_t network::couples(uint16_t first) {
-  auto dist = std::uniform_int_distribution<uint16_t>(
-      0, rows_ * cols_ - 1); // second player is chosen randomly
+  auto dist = std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1);  // second player is chosen randomly
   uint16_t second = 0;
   uint16_t rnd = dist(globalRNG);
   if (rnd != first) {
@@ -68,7 +66,7 @@ void network::createLinks(uint8_t avgLinks) {
       }
     }
   }
-  adjacencyMatrix_ += (++adjacencyMatrix_); // symmetrize the matrix
+  adjacencyMatrix_ += (++adjacencyMatrix_);  // symmetrize the matrix
   nLinks_ = adjacencyMatrix_.getDegreeVector();
 }
 
@@ -96,8 +94,7 @@ void network::printMatrix() {
 }
 
 void network::evolveUniform() {
-  uint16_t first =
-      std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
+  uint16_t first = std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
   std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
   uint16_t other = couples(first);
   if (coin(globalRNG) && players_[other] > 0) {
@@ -110,8 +107,7 @@ void network::evolveUniform() {
 }
 
 void network::evolvePrefAtt() {
-  uint16_t first =
-      std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
+  uint16_t first = std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
   uint16_t other = couples(first);
   float prob = ((nLinks_(first)) + 1.) / (nLinks_(first) + nLinks_(other) + 2.);
   if (std::bernoulli_distribution(prob)(globalRNG) && players_[other] > 0) {
@@ -124,8 +120,7 @@ void network::evolvePrefAtt() {
 }
 
 void network::evolvePrefAttNoTax() {
-  uint16_t first =
-      std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
+  uint16_t first = std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
   uint16_t other = couples(first);
   uint16_t poor, rich;
   if (players_[first] >= players_[other]) {
@@ -135,8 +130,7 @@ void network::evolvePrefAttNoTax() {
     poor = first;
     rich = other;
   }
-  float prob =
-      (float)(players_[poor] + 1) / (players_[poor] + players_[rich] + 1);
+  float prob = (float)(players_[poor] + 1) / (players_[poor] + players_[rich] + 1);
   if (std::bernoulli_distribution(prob)(globalRNG) && players_[rich] > 0) {
     ++players_[poor];
     --players_[rich];
@@ -167,8 +161,8 @@ void network::evolveFixed() {
 
 void network::evolvebyLink() {
   auto random_iterator = adjacencyMatrix_.begin();
-  std::advance(random_iterator, std::uniform_int_distribution<uint16_t>(
-                                    0, adjacencyMatrix_.getNonZeroElements() - 1)(globalRNG));
+  std::advance(random_iterator,
+               std::uniform_int_distribution<uint16_t>(0, adjacencyMatrix_.getNonZeroElements() - 1)(globalRNG));
   auto link = *random_iterator;
   uint16_t first = link.first / cols_;
   uint16_t second = link.first % cols_;
@@ -202,8 +196,7 @@ void network::flatTax(uint8_t threshold) {
 }
 
 void network::evolveSavings() {
-  uint16_t first =
-      std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
+  uint16_t first = std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
   std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
   uint16_t other = couples(first);
 
@@ -214,19 +207,15 @@ void network::evolveSavings() {
   float epsilon = std::uniform_real_distribution<float>(0., 1.)(globalRNG);
 
   if (coin(globalRNG) && players_[other] > 0) {
-    players_[first] = lambda_i * players_[first] +
-                      epsilon * ((1 - lambda_i) * players_[first] +
-                                 (1 - lambda_j) * players_[other]);
+    players_[first] =
+        lambda_i * players_[first] + epsilon * ((1 - lambda_i) * players_[first] + (1 - lambda_j) * players_[other]);
     players_[other] = lambda_j * players_[other] +
-                      (1 - epsilon) * ((1 - lambda_i) * players_[first] +
-                                       (1 - lambda_j) * players_[other]);
+                      (1 - epsilon) * ((1 - lambda_i) * players_[first] + (1 - lambda_j) * players_[other]);
   } else if (players_[first] > 0) {
-    players_[other] = lambda_j * players_[other] +
-                      epsilon * ((1 - lambda_j) * players_[other] +
-                                 (1 - lambda_i) * players_[first]);
+    players_[other] =
+        lambda_j * players_[other] + epsilon * ((1 - lambda_j) * players_[other] + (1 - lambda_i) * players_[first]);
     players_[first] = lambda_i * players_[first] +
-                      (1 - epsilon) * ((1 - lambda_i) * players_[first] +
-                                       (1 - lambda_j) * players_[other]);
+                      (1 - epsilon) * ((1 - lambda_i) * players_[first] + (1 - lambda_j) * players_[other]);
   }
 }
 
@@ -293,49 +282,39 @@ void network::print() const noexcept {
 }
 
 void network::fprintHist() const noexcept {
-  double maxValue = *std::max_element(
-      players_.begin(), players_.end(),
-      [](uint16_t const &a, uint16_t const &b) { return a < b; });
+  double maxValue =
+      *std::max_element(players_.begin(), players_.end(), [](uint16_t const &a, uint16_t const &b) { return a < b; });
   uint8_t nBins = maxValue + 1;
   auto playerSum = std::accumulate(
-      players_.begin(), players_.end(), 0,
-      [](int currentSum, uint16_t const &a) { return currentSum + a; });
+      players_.begin(), players_.end(), 0, [](int currentSum, uint16_t const &a) { return currentSum + a; });
   int n;
   std::ofstream fOut;
   fOut.open("histogram.dat");
   for (int i = 0; i < nBins + 1; ++i) {
-    n = std::count_if(players_.begin(), players_.end(),
-                      [i, nBins, maxValue](uint16_t const &player) {
-                        return player / maxValue >= i * (1. / nBins) &&
-                               player / maxValue < (i + 1) * (1. / nBins);
-                      });
+    n = std::count_if(players_.begin(), players_.end(), [i, nBins, maxValue](uint16_t const &player) {
+      return player / maxValue >= i * (1. / nBins) && player / maxValue < (i + 1) * (1. / nBins);
+    });
     std::cout << n << '\n';
-    fOut << std::setprecision(3) << i * (1. / nBins) << '\t'
-         << static_cast<double>(n) / playerSum << '\n';
+    fOut << std::setprecision(3) << i * (1. / nBins) << '\t' << static_cast<double>(n) / playerSum << '\n';
   }
   fOut.close();
 }
 
 void network::fprintHist(uint8_t nBins) const noexcept {
-  double maxValue = *std::max_element(
-      players_.begin(), players_.end(),
-      [](uint16_t const &a, uint16_t const &b) { return a < b; });
+  double maxValue =
+      *std::max_element(players_.begin(), players_.end(), [](uint16_t const &a, uint16_t const &b) { return a < b; });
   // double dBin = maxValue / nBins;
   auto playerSum = std::accumulate(
-      players_.begin(), players_.end(), 0,
-      [](int currentSum, uint16_t const &a) { return currentSum + a; });
+      players_.begin(), players_.end(), 0, [](int currentSum, uint16_t const &a) { return currentSum + a; });
   int n;
   std::ofstream fOut;
   fOut.open("histogram.dat");
   for (int i = 0; i < nBins + 1; ++i) {
-    n = std::count_if(players_.begin(), players_.end(),
-                      [i, nBins, maxValue](uint16_t const &player) {
-                        return player / maxValue >= i * (1. / nBins) &&
-                               player / maxValue < (i + 1) * (1. / nBins);
-                      });
+    n = std::count_if(players_.begin(), players_.end(), [i, nBins, maxValue](uint16_t const &player) {
+      return player / maxValue >= i * (1. / nBins) && player / maxValue < (i + 1) * (1. / nBins);
+    });
     std::cout << n << '\n';
-    fOut << std::setprecision(3) << i * (1. / nBins) << '\t'
-         << static_cast<double>(n) / playerSum << '\n';
+    fOut << std::setprecision(3) << i * (1. / nBins) << '\t' << static_cast<double>(n) / playerSum << '\n';
   }
   fOut.close();
 }
