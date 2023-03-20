@@ -164,8 +164,8 @@ void network::evolvebyLink() {
   std::advance(random_iterator,
                std::uniform_int_distribution<uint16_t>(0, adjacencyMatrix_.getNonZeroElements() - 1)(globalRNG));
   auto link = *random_iterator;
-  uint16_t first = link.first / (cols_*rows_);
-  uint16_t second = link.first % (cols_*rows_);
+  uint16_t first = link.first / (cols_ * rows_);
+  uint16_t second = link.first % (cols_ * rows_);
   if (first == second) {
     return;
   }
