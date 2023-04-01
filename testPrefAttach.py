@@ -1,22 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import network
-import ROOT
-from ROOT import gStyle
-from ROOT import gPad
-import matplotlib
-matplotlib.use('TkAgg')
 from tqdm import tqdm
+from scipy.optimize import curve_fit
 
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
-
-gStyle.SetOptFit(1111)
+def power(x, A, a):
+    return A*pow(x, -a)
 
 def data(vec):
     x = np.arange(0, max(vec)+1)
@@ -34,34 +23,33 @@ n = 40*10**5
 net.createLinks(4)
 for i in tqdm(range(n)):
     net.evolvePrefAtt()
-x = data(net.playersMoney())[0][1::].tolist()
-y = data(net.playersMoney())[1][1::].tolist()
-y = [i/sum(y) for i in y] # normalization
+x = data(net.playersMoney())[0][1::]
+y = data(net.playersMoney())[1][1::]
+y = y/sum(y)
 nBins = int(len(x)/4)
 
-h = ROOT.TH1F("h", "Unfair Game", nBins, 0, max(x))
-for i in range(len(x)):
-    h.Fill(x[i], y[i])
-
-f = ROOT.TF1("f", "[0]*x^[1]", min(x), max(x))
-h.Fit("f", "R")
-print("ChiSquare/NDF = " + str(round(f.GetChisquare()/f.GetNDF(), 3)))
-print("p-value = " + str(round(f.GetProb(), 3)))
-
 # "Binned" scatter plot 
-n,bins,patches = plt.hist(x, weights=y, bins=nBins, range=(1, max(x)), alpha=0.)
-plt.scatter(bins[:-1] + 0.5*(bins[1:] - bins[:-1]), n, marker='.', s=100)
-fitX = np.arange(min(x), max(x), 0.1)
-fitY = f.GetParameter(0)*(fitX**f.GetParameter(1))
-plt.plot(fitX, fitY, color="red")
+n, bins, patches = plt.hist(x, weights=y, bins=nBins, range=(1, max(x)), alpha=0.)
+x = bins[:-1] + 0.5*(bins[1:] - bins[:-1])
+y = n
 
+# fitting and extracting fit function
+parameters, covariance = curve_fit(power, x, y)
+fit_A = parameters[0]
+fit_a = parameters[1]
+std_A = np.sqrt(covariance[0][0])
+std_a = np.sqrt(covariance[1][1])
+
+plt.plot(x, y, '.', markersize=12, color='C0')
+fitY = [power(x_val, fit_A, fit_a) for x_val in x]
+plt.plot(x, fitY, 'red')
 plt.yscale("log")
 plt.xscale("log")
 plt.xlim([2,200])
 plt.xlabel('Capital (a. currency)')
 plt.ylabel('Frequency (a.u.)')
 plt.legend(['Simulated data','Fit line'], fontsize=12)
-plt.savefig("./tex/img/pow.pgf")
-print("Contant: ", str(round(f.GetParameter(0), 3)))
-print("Slope: ", str(round(f.GetParameter(1), 3)))
+plt.grid(linestyle='--', linewidth=0.2)
+print(f"Contant: {fit_A} +- {std_A}")
+print(f"Slope: {fit_a} +- {std_a}")
 plt.show()

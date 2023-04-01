@@ -2,17 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import network as n
 from tqdm import tqdm
-# import ROOT
-import matplotlib
-matplotlib.use('TkAgg')
+from scipy.optimize import curve_fit
 
-# matplotlib.use("pgf")
-# matplotlib.rcParams.update({
-#     "pgf.texsystem": "pdflatex",
-#     'font.family': 'serif',
-#     'text.usetex': True,
-#     'pgf.rcfonts': False,
-# })
+def exponential(x, A, a):
+    return A*np.exp(-a*x)
 
 def data(vec):
     x = np.arange(0, max(vec)+1)
@@ -26,39 +19,35 @@ net.createLinks(12)
 
 n = 2*10**5
 for i in tqdm(range(n)):
-    # net.evolveFixed()
     net.evolvebyLink()
 
-x = data(net.getPlayers())[0][1::].tolist()
-y = data(net.getPlayers())[1][1::].tolist()
+x = data(net.getPlayers())[0][1::]
+y = data(net.getPlayers())[1][1::]
 y = [i/sum(y) for i in y] # normalization
 
-# h = ROOT.TH1F("h", "Fair Game", len(x), 0, 32)
-# for i in range(len(x)):
-#     h.Fill(x[i], y[i])
+# fitting and extracting fit function
+parameters, covariance = curve_fit(exponential, x, y)
+fit_A = parameters[0]
+fit_a = parameters[1]
+std_A = np.sqrt(covariance[0][0])
+std_a = np.sqrt(covariance[1][1])
 
-# # fitting and extracting fit function
-# h.Fit("expo")
-# f = h.GetListOfFunctions().FindObject("expo")
-# print("ChiSquare/NDF = " + str(round(f.GetChisquare()/f.GetNDF(), 3)))
-# print("p-value = " + str(round(f.GetProb(), 3)))
-
-# plt.plot(x,y,'.',markersize=12)
-# fitX = np.arange(min(x), 32, 0.1)
-# fitY = np.exp(f.GetParameter("Constant")+f.GetParameter("Slope")*fitX)
-# plt.plot(fitX, fitY, color="red")
-# plt.yscale("log")
-# plt.xlabel('Capital (a. currency)')
-# plt.ylabel('Frequency (a.u.)')
-# plt.legend(['Simulated data','Fit line'], fontsize=12)
-# plt.xlim([0,35])
-# plt.savefig("./tex/img/fixedExpo.pgf")
+fitY = [exponential(x_val, fit_A, fit_a) for x_val in x]
+plt.plot(x, fitY, 'red')
+plt.plot(x, y, '.', markersize=12)
+plt.yscale("log")
+plt.xlabel('Capital (a. currency)')
+plt.ylabel('Frequency (a.u.)')
+plt.legend(['Fit line', 'Simulated data'], fontsize=12)
+plt.grid(linestyle='--', linewidth=0.2)
+print(f"Constant: {fit_A} +- {std_A}")
+print(f"Slope: {fit_a} +- {std_a}")
 plt.show()
 
+# calculating the probabilities of having links, in general and given 
+# that the two individuals are poor
 probabilities = net.calcProb(net.getPoors())
 prob_linked_and_poor = probabilities[0]
 prob_linked = probabilities[1]
-# print("Contant: ", str(round(np.exp(f.GetParameter("Constant")), 3)))
-# print("Slope: ", str(round(f.GetParameter("Slope"), 3)))
 print("Probability of having a link given their poorness: " + str(round(prob_linked_and_poor*100, 2)) + "%")
 print("Probability of having a link in general: " + str(round(prob_linked*100, 2)) + "%")
