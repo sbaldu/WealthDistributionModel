@@ -21,8 +21,8 @@ n = 2*10**5
 for i in tqdm(range(n)):
     net.evolvebyLink()
 
-x = data(net.getPlayers())[0][1::]
-y = data(net.getPlayers())[1][1::]
+x = data(net.players())[0][1::]
+y = data(net.players())[1][1::]
 y = [i/sum(y) for i in y] # normalization
 
 # fitting and extracting fit function

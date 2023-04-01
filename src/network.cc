@@ -16,33 +16,21 @@ network::network(uint16_t initialCapital, uint16_t rows, uint16_t cols) : adjace
   rows_ = rows;
   cols_ = cols;
   initCap_ = initialCapital;
-  std::vector<uint16_t> vec(rows_ * cols_);
-  for (auto &i : vec) {
-    i = initialCapital;
-  }
-  players_ = vec;
+  players_.resize(rows_ * cols_, initialCapital);
 }
 
-uint16_t const network::getRows() { return rows_; }
-uint16_t const network::getCols() { return cols_; }
+uint16_t network::getRows() const { return rows_; }
+uint16_t network::getCols() const { return cols_; }
 
-std::vector<uint16_t> const &network::getPlayers() { return players_; }
+std::vector<uint16_t> const &network::players() { return players_; }
 std::vector<uint16_t> const &network::getPoors() {
   poors_.clear();
-  for (int i = 0; i < rows_ * cols_; ++i) {
+  for (int i{}; i < rows_ * cols_; ++i) {
     if (isPoor(players_[i])) {
       poors_.push_back(i);
     }
   }
   return poors_;
-}
-
-std::vector<uint16_t> const network::playersMoney() {
-  std::vector<uint16_t> money;
-  for (auto const &p : players_) {
-    money.push_back(p);
-  }
-  return money;
 }
 
 uint16_t network::couples(uint16_t first) {
@@ -59,8 +47,8 @@ void network::createLinks(uint8_t avgLinks) {
   float prob = (float)(avgLinks) / (cols_ * rows_);
   std::uniform_real_distribution<float> dis(0, 1);
 
-  for (int i = 0; i < rows_ * cols_ - 1; ++i) {
-    for (int j = i + 1; j < rows_ * cols_; ++j) {
+  for (int i{}; i < rows_ * cols_ - 1; ++i) {
+    for (int j{i + 1}; j < rows_ * cols_; ++j) {
       if (dis(globalRNG) < prob) {
         adjacencyMatrix_.insert_or_assign(i, j, true);
       }
@@ -70,7 +58,7 @@ void network::createLinks(uint8_t avgLinks) {
   nLinks_ = adjacencyMatrix_.getDegreeVector();
 }
 
-void network::importMatrix(std::string filename) {
+void network::importMatrix(std::string const &filename) {
   std::ifstream input;
   input.open(filename);
   input >> adjacencyMatrix_;
@@ -85,8 +73,8 @@ bool network::exists(int i, int j) { return adjacencyMatrix_.contains(i, j); }
 bool network::isPoor(uint16_t money) { return money < initCap_ * 15e-2; }
 
 void network::printMatrix() {
-  for (int i = 0; i < rows_ * cols_; ++i) {
-    for (int j = 0; j < rows_ * cols_; ++j) {
+  for (int i{}; i < rows_ * cols_; ++i) {
+    for (int j{}; j < rows_ * cols_; ++j) {
       std::cout << this->exists(i, j) << "  ";
     }
     std::cout << '\n';
@@ -195,30 +183,6 @@ void network::flatTax(uint8_t threshold) {
   }
 }
 
-void network::evolveSavings() {
-  uint16_t first = std::uniform_int_distribution<uint16_t>(0, rows_ * cols_ - 1)(globalRNG);
-  std::uniform_int_distribution<std::mt19937::result_type> coin(0, 1);
-  uint16_t other = couples(first);
-
-  // We introduce the lambda parameter, which indicates the saving propensity
-  float lambda_i = std::uniform_real_distribution<float>(0., 1.)(globalRNG);
-  float lambda_j = std::uniform_real_distribution<float>(0., 1.)(globalRNG);
-  // We introduce the fraction of wealth that is exchanged
-  float epsilon = std::uniform_real_distribution<float>(0., 1.)(globalRNG);
-
-  if (coin(globalRNG) && players_[other] > 0) {
-    players_[first] =
-        lambda_i * players_[first] + epsilon * ((1 - lambda_i) * players_[first] + (1 - lambda_j) * players_[other]);
-    players_[other] = lambda_j * players_[other] +
-                      (1 - epsilon) * ((1 - lambda_i) * players_[first] + (1 - lambda_j) * players_[other]);
-  } else if (players_[first] > 0) {
-    players_[other] =
-        lambda_j * players_[other] + epsilon * ((1 - lambda_j) * players_[other] + (1 - lambda_i) * players_[first]);
-    players_[first] = lambda_i * players_[first] +
-                      (1 - epsilon) * ((1 - lambda_i) * players_[first] + (1 - lambda_j) * players_[other]);
-  }
-}
-
 float network::checkPoor(uint16_t poorPlayer) {
   SparseMatrix<bool> neighbors = adjacencyMatrix_.getRow(poorPlayer);
   uint8_t n_neighbors = neighbors.size();
@@ -233,14 +197,13 @@ float network::checkPoor(uint16_t poorPlayer) {
   return poor_neighbors;
 }
 
-std::vector<float> network::calcProb(std::vector<uint16_t> const &poors) {
+std::pair<float, float> network::calcProb(std::vector<uint16_t> const &poors) {
   // calculate all the possible couples of poors
-  int linked_and_poor = 0;
-  int pairs_of_poors = 0;
-  for (int i = 0; i < (int)(poors.size()) - 1; ++i) {
-    for (int j = i + 1; j < (int)(poors.size()) - 1; ++j) {
+  int linked_and_poor{};
+  int pairs_of_poors{};
+  for (int i{}; i < (int)(poors.size()) - 1; ++i) {
+    for (int j{i + 1}; j < (int)(poors.size()) - 1; ++j) {
       ++pairs_of_poors;
-
       if (adjacencyMatrix_.contains(i, j)) {
         ++linked_and_poor;
       }
@@ -250,12 +213,11 @@ std::vector<float> network::calcProb(std::vector<uint16_t> const &poors) {
   float prob_linked_and_poor = (float)(linked_and_poor) / pairs_of_poors;
 
   // calculate all the possible couples of agents
-  int linked = 0;
-  int pairs_of_agents = 0;
-  for (int i = 0; i < (int)(players_.size()) - 1; ++i) {
-    for (int j = i + 1; j < (int)(players_.size()) - 1; ++j) {
+  int linked{};
+  int pairs_of_agents{};
+  for (int i{}; i < (int)(players_.size()) - 1; ++i) {
+    for (int j{i + 1}; j < (int)(players_.size()) - 1; ++j) {
       ++pairs_of_agents;
-
       if (adjacencyMatrix_.contains(i, j)) {
         ++linked;
       }
@@ -269,8 +231,8 @@ std::vector<float> network::calcProb(std::vector<uint16_t> const &poors) {
   return {prob_linked_and_poor, prob_linked};
 }
 
-void network::print() const noexcept {
-  int i = 0;
+void network::print() const {
+  int i{};
   for (auto const &player : players_) {
     std::cout << player << '\t';
     ++i;
@@ -290,7 +252,7 @@ void network::fprintHist() const noexcept {
   int n;
   std::ofstream fOut;
   fOut.open("histogram.dat");
-  for (int i = 0; i < nBins + 1; ++i) {
+  for (int i{}; i < nBins + 1; ++i) {
     n = std::count_if(players_.begin(), players_.end(), [i, nBins, maxValue](uint16_t const &player) {
       return player / maxValue >= i * (1. / nBins) && player / maxValue < (i + 1) * (1. / nBins);
     });
@@ -309,7 +271,7 @@ void network::fprintHist(uint8_t nBins) const noexcept {
   int n;
   std::ofstream fOut;
   fOut.open("histogram.dat");
-  for (int i = 0; i < nBins + 1; ++i) {
+  for (int i{}; i < nBins + 1; ++i) {
     n = std::count_if(players_.begin(), players_.end(), [i, nBins, maxValue](uint16_t const &player) {
       return player / maxValue >= i * (1. / nBins) && player / maxValue < (i + 1) * (1. / nBins);
     });
@@ -319,7 +281,7 @@ void network::fprintHist(uint8_t nBins) const noexcept {
   fOut.close();
 }
 
-void network::saveMatrix(std::string path) const {
+void network::saveMatrix(std::string const &path) const {
   std::ofstream output;
   output.open(path);
   output << adjacencyMatrix_;

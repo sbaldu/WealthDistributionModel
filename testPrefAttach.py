@@ -23,8 +23,8 @@ n = 40*10**5
 net.createLinks(4)
 for i in tqdm(range(n)):
     net.evolvePrefAtt()
-x = data(net.playersMoney())[0][1::]
-y = data(net.playersMoney())[1][1::]
+x = data(net.players())[0][1::]
+y = data(net.players())[1][1::]
 y = y/sum(y)
 nBins = int(len(x)/4)
 
