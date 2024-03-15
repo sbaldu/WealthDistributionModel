@@ -1,0 +1,3 @@
+[submodule "external/CXXGraph"]
+	path = external/CXXGraph
+	url = https://github.com/ZigRazor/CXXGraph.git
